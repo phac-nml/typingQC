@@ -90,8 +90,8 @@ workflow IRIDANEXT {
     ch_versions = ch_versions.mix(SAMPLES_INFO.out.versions.first())
 
     IRIDA_NEXT_OUTPUT (
-        samples_data=SAMPLES_INFO.info_out.collect()
-    }
+        samples_data=SAMPLES_INFO.out.info_out.collect()
+    )
     ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions.first())
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
