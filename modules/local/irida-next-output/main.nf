@@ -23,16 +23,10 @@ process IRIDA_NEXT_OUTPUT {
         rm -rf ${samples_data_dir}
     fi
 
-    mkdir ${samples_data_dir}
-    echo ${samples_data}
-
-    #cp ${samples_data} ${samples_data_dir}
-
-    #irida-next-output.py \\
-    #    $args \\
-    #    --samples-data-dir ${samples_data_dir} \\
-    #    --json-output output.json
-    echo ${samples_data} > output.json
+    irida-next-output.py \\
+        $args \\
+        --json-output output.json \\
+        ${samples_data}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
