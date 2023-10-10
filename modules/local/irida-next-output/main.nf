@@ -1,5 +1,4 @@
 process IRIDA_NEXT_OUTPUT {
-    tag "$meta.id"
     label 'process_single'
 
     container 'docker.io/python:3.9.17'
@@ -16,7 +15,6 @@ process IRIDA_NEXT_OUTPUT {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
     def samples_data_dir = "samples_data"
     """
     # Copy all input data files into a single directory
@@ -26,16 +24,15 @@ process IRIDA_NEXT_OUTPUT {
     fi
 
     mkdir ${samples_data_dir}
+    echo ${samples_data}
 
-    for file in ${samples_data}
-    do
-        ln -s ../${file} ${samples_data_dir}
-    done
+    #cp ${samples_data} ${samples_data_dir}
 
-    irida-next-output.py \\
-        $args \\
-        --samples-data-dir ${samples_data_dir} \\
-        --json-output output.json
+    #irida-next-output.py \\
+    #    $args \\
+    #    --samples-data-dir ${samples_data_dir} \\
+    #    --json-output output.json
+    echo ${samples_data} > output.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
