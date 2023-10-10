@@ -35,7 +35,9 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK } from '../subworkflows/local/input_check'
+include { INPUT_CHECK       } from '../subworkflows/local/input_check'
+include { IRIDA_NEXT_OUTPUT } from '../modules/local/irida-next-output/main'
+include { SAMPLES_INFO      } from '../modules/local/samples_info/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,6 +83,16 @@ workflow IRIDANEXT {
         INPUT_CHECK.out.reads
     )
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+
+    SAMPLES_INFO (
+        INPUT_CHECK.out.reads
+    )
+    ch_versions = ch_versions.mix(SAMPLES_INFO.out.versions.first())
+
+    IRIDA_NEXT_OUTPUT (
+        samples_data=SAMPLES_INFO.info_out.collect()
+    }
+    ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions.first())
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
