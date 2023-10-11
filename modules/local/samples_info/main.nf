@@ -22,7 +22,7 @@ process SAMPLES_INFO {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-       irida-next-output : 0.1.0
+        irida-next-output : 0.1.0.dev0
     END_VERSIONS
     """
 }
