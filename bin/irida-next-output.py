@@ -7,15 +7,22 @@ import argparse
 import os
 import glob
 
+
 def main(argv=None):
     parser = argparse.ArgumentParser(
-            description="Creates example output JSON for loading into IRIDA Next",
-            epilog="Example: python irida-next-output.py --json-output output.json *.out"
+        description="Creates example output JSON for loading into IRIDA Next",
+        epilog="Example: python irida-next-output.py --json-output output.json *.out",
     )
-    parser.add_argument('files', nargs='+')
-    parser.add_argument('--json-output', action='store', dest='json_output',
-                        type=str, help='JSON output file',
-                        default=None, required=True)
+    parser.add_argument("files", nargs="+")
+    parser.add_argument(
+        "--json-output",
+        action="store",
+        dest="json_output",
+        type=str,
+        help="JSON output file",
+        default=None,
+        required=True,
+    )
 
     args = parser.parse_args(argv)
 
@@ -32,23 +39,21 @@ def main(argv=None):
     samples_dict = {s.name: s for s in input_files}
 
     output_dict = {
-        'files': {
-            'summary': {},
-            'samples': {},
+        "files": {
+            "summary": {},
+            "samples": {},
         },
-        'metadata': {
-            'samples': {},
-        }
+        "metadata": {
+            "samples": {},
+        },
     }
 
     for sample in samples_dict:
-        metadata_sample = {
-            'output_name': samples_dict[sample].name
-        }
-        output_dict['metadata']['samples'][sample] = metadata_sample
+        metadata_sample = {"output_name": samples_dict[sample].name}
+        output_dict["metadata"]["samples"][sample] = metadata_sample
 
     samples_json = json.dumps(output_dict, indent=4)
-    with open(json_output_file, 'w') as oh:
+    with open(json_output_file, "w") as oh:
         oh.write(samples_json)
 
     print(f"Output written to [{json_output_file}]")
