@@ -10,11 +10,11 @@ The input to the pipeline is a standard sample sheet (passed as `--input samples
 | ------- | --------------- | --------------- |
 | SampleA | file_1.fastq.gz | file_2.fastq.gz |
 
-The structure of this file is defined in [assets/schema_input.json][].
+The structure of this file is defined in [assets/schema_input.json](assets/schema_input.json).
 
 # Parameters
 
-Parameters are defined in [nextflow_schema.json][].
+Parameters are defined in [nextflow_schema.json](nextflow_schmea.json).
 
 # Output
 
