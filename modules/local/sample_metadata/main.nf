@@ -28,7 +28,7 @@ process SAMPLE_METADATA {
         "metadata": {
             "samples": {
                 "${meta.id}": {
-                    "reads": [\${reads_1}, \${reads_2}]
+                    "reads": ["\${reads_1}", "\${reads_2}"]
                 }
             }
         }
