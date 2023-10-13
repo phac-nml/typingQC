@@ -22,8 +22,15 @@ process SAMPLE_METADATA {
     reads_2=`basename ${reads[1]}`
     cat <<-EOF > "${meta.id}.json"
     {
-        "${meta.id}": {
-            "reads": [\${reads_1}, \${reads_2}]
+        "files": {
+            "samples": {}
+        },
+        "metadata": {
+            "samples": {
+                "${meta.id}": {
+                    "reads": [\${reads_1}, \${reads_2}]
+                }
+            }
         }
     }
     EOF
