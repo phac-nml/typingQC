@@ -10,11 +10,13 @@ import argparse
 import os
 import glob
 
+
 def get_open(f):
-    if 'gzip' == guess_type(str(f))[1]:
+    if "gzip" == guess_type(str(f))[1]:
         return partial(gzip.open)
     else:
         return open
+
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
@@ -53,26 +55,18 @@ def main(argv=None):
         },
     }
 
-    output_metadata = {
-        "files": {
-            "samples": {}
-        },
-        "metadata": {
-            "samples": {}
-         }
-    }
+    output_metadata = {"files": {"samples": {}}, "metadata": {"samples": {}}}
 
     for f in input_files:
         _open = get_open(f)
-        with _open(f, 'r') as fh:
+        with _open(f, "r") as fh:
             sample_metadata = json.load(fh)
             output_metadata["files"]["samples"] |= sample_metadata["files"]["samples"]
             output_metadata["metadata"]["samples"] |= sample_metadata["metadata"]["samples"]
 
-
     data_json = json.dumps(output_metadata, indent=4)
     _open = get_open(json_output_file)
-    with _open(json_output_file, 'wt') as oh:
+    with _open(json_output_file, "wt") as oh:
         oh.write(data_json)
 
     print(f"Output written to [{json_output_file}]")
