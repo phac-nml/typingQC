@@ -7,7 +7,7 @@ process IRIDA_NEXT_OUTPUT {
     path(samples_data)
 
     output:
-    path("output.json"), emit: output_json
+    path("output.json.gz"), emit: output_json
     path "versions.yml", emit: versions
 
     when:
@@ -17,15 +17,9 @@ process IRIDA_NEXT_OUTPUT {
     def args = task.ext.args ?: ''
     def samples_data_dir = "samples_data"
     """
-    # Copy all input data files into a single directory
-    if [ -e ${samples_data_dir} ]
-    then
-        rm -rf ${samples_data_dir}
-    fi
-
     irida-next-output.py \\
         $args \\
-        --json-output output.json \\
+        --json-output output.json.gz \\
         ${samples_data}
 
     cat <<-END_VERSIONS > versions.yml

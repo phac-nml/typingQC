@@ -80,13 +80,11 @@ workflow IRIDANEXT {
     )
     ch_versions = ch_versions.mix(SAMPLE_METADATA.out.versions)
 
-    sample_metadata_ch = SAMPLE_METADATA.out.json.toList()
-    //SAMPLE_METADATA.out.json.map { meta, data -> [meta: meta, data: data] }.collectFile(name: 'sample_info.txt', newLine: true).view()
-    sample_metadata_ch.view()
-    //IRIDA_NEXT_OUTPUT (
-    //    samples_data=SAMPLE_METADATA.out.json.collect()
-    //)
-    //ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions)
+    sample_metadata_ch = SAMPLE_METADATA.out.json.map { meta, data -> data }.collect()
+    IRIDA_NEXT_OUTPUT (
+        samples_data=sample_metadata_ch
+    )
+    ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
