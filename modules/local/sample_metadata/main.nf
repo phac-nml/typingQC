@@ -1,4 +1,4 @@
-process SAMPLES_INFO {
+process SAMPLE_METADATA {
     tag "$meta.id"
     label 'process_single'
 
@@ -8,8 +8,8 @@ process SAMPLES_INFO {
     tuple val(meta), path(reads)
 
     output:
-    path("*.out")      , emit: info_out
-    path "versions.yml", emit: versions
+    tuple val(meta), path("*.json.gz"), emit: json
+    path "versions.yml"               , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -18,7 +18,16 @@ process SAMPLES_INFO {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    echo "${meta.id}" > ${prefix}_info.out
+    reads_1=`basename ${reads[0]}`
+    reads_2=`basename ${reads[1]}`
+    cat <<-EOF > "${meta.id}.json"
+    {
+        "${meta.id}": {
+            "reads": [\${reads_1}, \${reads_2}]
+        }
+    }
+    EOF
+    gzip ${meta.id}.json
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
