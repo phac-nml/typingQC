@@ -2,16 +2,26 @@
 
 import json
 from pathlib import Path
+from mimetypes import guess_type
+from functools import partial
+import gzip
 import sys
 import argparse
 import os
 import glob
 
 
+def get_open(f):
+    if "gzip" == guess_type(str(f))[1]:
+        return partial(gzip.open)
+    else:
+        return open
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(
         description="Creates example output JSON for loading into IRIDA Next",
-        epilog="Example: python irida-next-output.py --json-output output.json *.out",
+        epilog="Example: python irida-next-output.py --json-output output.json *.json *.json.gz",
     )
     parser.add_argument("files", nargs="+")
     parser.add_argument(
@@ -35,9 +45,6 @@ def main(argv=None):
     if isinstance(input_files, str):
         input_files = [input_files]
 
-    input_files = [Path(f) for f in input_files]
-    samples_dict = {s.name: s for s in input_files}
-
     output_dict = {
         "files": {
             "summary": {},
@@ -48,13 +55,19 @@ def main(argv=None):
         },
     }
 
-    for sample in samples_dict:
-        metadata_sample = {"output_name": samples_dict[sample].name}
-        output_dict["metadata"]["samples"][sample] = metadata_sample
+    output_metadata = {"files": {"samples": {}}, "metadata": {"samples": {}}}
 
-    samples_json = json.dumps(output_dict, indent=4)
-    with open(json_output_file, "w") as oh:
-        oh.write(samples_json)
+    for f in input_files:
+        _open = get_open(f)
+        with _open(f, "r") as fh:
+            sample_metadata = json.load(fh)
+            output_metadata["files"]["samples"] |= sample_metadata["files"]["samples"]
+            output_metadata["metadata"]["samples"] |= sample_metadata["metadata"]["samples"]
+
+    data_json = json.dumps(output_metadata, indent=4)
+    _open = get_open(json_output_file)
+    with _open(json_output_file, "wt") as oh:
+        oh.write(data_json)
 
     print(f"Output written to [{json_output_file}]")
 

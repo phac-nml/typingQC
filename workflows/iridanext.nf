@@ -36,8 +36,8 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { INPUT_CHECK       } from '../subworkflows/local/input_check'
+include { SAMPLE_METADATA   } from '../modules/local/sample_metadata/main'
 include { IRIDA_NEXT_OUTPUT } from '../modules/local/irida-next-output/main'
-include { SAMPLES_INFO      } from '../modules/local/samples_info/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -75,13 +75,14 @@ workflow IRIDANEXT {
     // See the documentation https://nextflow-io.github.io/nf-validation/samplesheets/fromSamplesheet/
     // ! There is currently no tooling to help you write a sample sheet schema
 
-    SAMPLES_INFO (
+    SAMPLE_METADATA (
         INPUT_CHECK.out.reads
     )
-    ch_versions = ch_versions.mix(SAMPLES_INFO.out.versions)
+    ch_versions = ch_versions.mix(SAMPLE_METADATA.out.versions)
 
+    sample_metadata_ch = SAMPLE_METADATA.out.json.map { meta, data -> data }.collect()
     IRIDA_NEXT_OUTPUT (
-        samples_data=SAMPLES_INFO.out.info_out.collect()
+        samples_data=sample_metadata_ch
     )
     ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions)
 
