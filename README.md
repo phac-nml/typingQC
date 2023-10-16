@@ -73,7 +73,7 @@ Output JSON file for loading metadata into IRIDA Next is located in `results/iri
 To run with the test profile, please do:
 
 ```bash
-nextflow run phac-nml/iridanext-example-nf -profile docker,test -r dev -latest --outdir results
+nextflow run phac-nml/iridanext-example-nf -profile docker,test -r main -latest --outdir results
 ```
 
 # Legal
