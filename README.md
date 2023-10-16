@@ -35,22 +35,33 @@ Output JSON file for loading metadata into IRIDA Next is located in `results/iri
 ```
 {
     "files": {
-        "summary": {},
         "samples": {}
     },
     "metadata": {
         "samples": {
-            "SAMPLE1_PE_T1_info.out": {
-                "output_name": "SAMPLE1_PE_T1_info.out"
+            "SAMPLE1_PE_T1": {
+                "reads": [
+                    "sample1_R1.fastq.gz",
+                    "sample1_R2.fastq.gz"
+                ]
             },
-            "SAMPLE3_SE_T1_info.out": {
-                "output_name": "SAMPLE3_SE_T1_info.out"
+            "SAMPLE3_SE_T1": {
+                "reads": [
+                    "sample1_R1.fastq.gz",
+                    "null"
+                ]
             },
-            "SAMPLE3_SE_T2_info.out": {
-                "output_name": "SAMPLE3_SE_T2_info.out"
+            "SAMPLE3_SE_T2": {
+                "reads": [
+                    "sample2_R1.fastq.gz",
+                    "null"
+                ]
             },
-            "SAMPLE2_PE_T1_info.out": {
-                "output_name": "SAMPLE2_PE_T1_info.out"
+            "SAMPLE2_PE_T1": {
+                "reads": [
+                    "sample2_R1.fastq.gz",
+                    "sample2_R2.fastq.gz"
+                ]
             }
         }
     }
