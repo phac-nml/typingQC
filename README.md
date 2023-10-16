@@ -23,7 +23,7 @@ Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](n
 To run the pipeline, please do:
 
 ```bash
-nextflow run phac-nml/iridanext-example-nf -profile docker,test -r dev -latest --input samplesheet.csv --outdir results
+nextflow run phac-nml/iridanext-example-nf -profile docker -r main -latest --input samplesheet.csv --outdir results
 ```
 
 Where the `samplesheet.csv` is structured as above.
