@@ -14,7 +14,9 @@ The structure of this file is defined in [assets/schema_input.json](assets/schem
 
 # Parameters
 
-Parameters are defined in [nextflow_schema.json](nextflow_schmea.json).
+The main parameter is `--input` as defined above and `--output` for specifying the output results directory.
+
+Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schmea.json).
 
 # Running
 
@@ -26,7 +28,9 @@ nextflow run phac-nml/iridanext-example-nf -profile docker,test -r dev -latest -
 
 Where the `samplesheet.csv` is structured as above.
 
-Output JSON file for IRIDA Next is located in `results/irida/output.json`:
+# Output
+
+Output JSON file for loading metadata into IRIDA Next is located in `results/irida/output.json.gz`:
 
 ```
 {
@@ -61,6 +65,17 @@ To run with the test profile, please do:
 nextflow run phac-nml/iridanext-example-nf -profile docker,test -r dev -latest --outdir results
 ```
 
-# Output
+# Legal
 
-The output of the pipeline is a file `output.json` that can be used to load data into IRIDA Next.
+Copyright 2023 Government of Canada
+
+Licensed under the MIT License (the "License"); you may not use
+this work except in compliance with the License. You may obtain a copy of the
+License at:
+
+https://opensource.org/license/mit/
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
