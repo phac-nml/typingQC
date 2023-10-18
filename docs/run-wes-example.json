@@ -3,7 +3,7 @@
         "--input": "[SAMPLESHEET]",
         "-r": "main"
     },
-    "workflow_type": "DSL2",
+    "workflow_type": "DSL2",
     "workflow_type_version": "22.10.7",
     "tags": {
         "createdBy": "TestUser",
