@@ -58,7 +58,11 @@ workflow IRIDANEXT {
     // Create a new channel of metadata from a sample sheet
     // NB: `input` corresponds to `params.input` and associated sample sheet schema
     input = Channel.fromSamplesheet("input")
-        .map { meta, fastq_1, fastq_2 -> tuple(meta, [ fastq_1, fastq_2 ]) }
+        // Map the inputs so that they conform to the nf-core-expected "reads" format.
+        // Either [meta, [fastq_1]] or [meta, [fastq_1, fastq_2]] if fastq_2 exists
+        .map { meta, fastq_1, fastq_2 ->
+               fastq_2 ? tuple(meta, [ file(fastq_1), file(fastq_2) ]) :
+               tuple(meta, [ file(fastq_1) ])}
     input.view()
 
     SAMPLE_METADATA (
