@@ -63,7 +63,6 @@ workflow IRIDANEXT {
         .map { meta, fastq_1, fastq_2 ->
                fastq_2 ? tuple(meta, [ file(fastq_1), file(fastq_2) ]) :
                tuple(meta, [ file(fastq_1) ])}
-    input.view()
 
     SAMPLE_METADATA (
         input

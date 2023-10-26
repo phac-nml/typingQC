@@ -11,6 +11,7 @@
                 "type": "string",
                 "pattern": "^\\S+$",
                 "meta": ["id"],
+                "unique": true,
                 "errorMessage": "Sample name must be provided and cannot contain spaces"
             },
             "fastq_1": {
