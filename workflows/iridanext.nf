@@ -65,17 +65,17 @@ workflow IRIDANEXT {
                fastq_2 ? tuple(meta, [ file(fastq_1), file(fastq_2) ]) :
                tuple(meta, [ file(fastq_1) ])}
 
-    SAMPLE_METADATA (
-        input
-    )
-    ch_versions = ch_versions.mix(SAMPLE_METADATA.out.versions)
-    sample_metadata_ch = SAMPLE_METADATA.out.json.map { meta, data -> data }.collect()
-
     ASSEMBLY_STUB (
         input
     )
     ch_versions = ch_versions.mix(ASSEMBLY_STUB.out.versions)
-    
+
+    SAMPLE_METADATA (
+        input.join(ASSEMBLY_STUB.out.assembly)
+    )
+    ch_versions = ch_versions.mix(SAMPLE_METADATA.out.versions)
+    sample_metadata_ch = SAMPLE_METADATA.out.json.map { meta, data -> data }.collect()
+
     IRIDA_NEXT_OUTPUT (
         samples_data=sample_metadata_ch
     )

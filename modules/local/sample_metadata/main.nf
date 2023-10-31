@@ -5,7 +5,7 @@ process SAMPLE_METADATA {
     container 'docker.io/python:3.9.17'
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads), path(assembly)
 
     output:
     tuple val(meta), path("*.json.gz"), emit: json
@@ -23,7 +23,11 @@ process SAMPLE_METADATA {
     cat <<-EOF > "${meta.id}.json"
     {
         "files": {
-            "samples": {}
+            "samples": {
+                "${meta.id}": {
+                    "assembly_contigs": "${assembly}"
+                }
+            }
         },
         "metadata": {
             "samples": {

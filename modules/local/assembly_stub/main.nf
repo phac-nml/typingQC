@@ -6,8 +6,8 @@ process ASSEMBLY_STUB {
     tuple val(meta), path(reads)
 
     output:
-    path("*.assembly.fa.gz"), emit: assembly
-    path "versions.yml"     , emit: versions
+    tuple val(meta), path("*.assembly.fa.gz"), emit: assembly
+    path "versions.yml"                      , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -16,7 +16,7 @@ process ASSEMBLY_STUB {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    cat <<EOF > ${prefix}.assembly.fa
+    cat <<-EOF > ${prefix}.assembly.fa
     >${meta.id}-stub-assembly
     ACGTAACCGGTTAAACCCGGGTTTAAAACCCCGGGGTTTTAAAAACCCCCGGGGGTTTTT
     EOF
@@ -25,7 +25,7 @@ process ASSEMBLY_STUB {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        assembly_stub : 0.1
+        assembly_stub : 0.1.0.dev0
     END_VERSIONS
     """
 }
