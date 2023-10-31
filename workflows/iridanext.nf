@@ -33,6 +33,7 @@ WorkflowIridanext.initialise(params, log)
 include { INPUT_CHECK       } from '../subworkflows/local/input_check'
 include { SAMPLE_METADATA   } from '../modules/local/sample_metadata/main'
 include { IRIDA_NEXT_OUTPUT } from '../modules/local/irida-next-output/main'
+include { ASSEMBLY_STUB     } from '../modules/local/assembly_stub/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,8 +69,13 @@ workflow IRIDANEXT {
         input
     )
     ch_versions = ch_versions.mix(SAMPLE_METADATA.out.versions)
-
     sample_metadata_ch = SAMPLE_METADATA.out.json.map { meta, data -> data }.collect()
+
+    ASSEMBLY_STUB (
+        input
+    )
+    ch_versions = ch_versions.mix(ASSEMBLY_STUB.out.versions)
+    
     IRIDA_NEXT_OUTPUT (
         samples_data=sample_metadata_ch
     )
