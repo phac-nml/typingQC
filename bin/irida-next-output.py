@@ -64,7 +64,7 @@ def main(argv=None):
             output_metadata["files"]["samples"] |= sample_metadata["files"]["samples"]
             output_metadata["metadata"]["samples"] |= sample_metadata["metadata"]["samples"]
 
-    data_json = json.dumps(output_metadata, indent=4)
+    data_json = json.dumps(output_metadata, sort_keys=True, indent=4)
     _open = get_open(json_output_file)
     with _open(json_output_file, "wt") as oh:
         oh.write(data_json)

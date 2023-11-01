@@ -32,6 +32,7 @@ WorkflowIridanext.initialise(params, log)
 //
 include { INPUT_CHECK          } from '../subworkflows/local/input_check'
 include { GENERATE_SAMPLE_JSON } from '../modules/local/generate_sample_json/main'
+include { SIMPLIFY_IRIDA_JSON  } from '../modules/local/simplify_irida_json/main'
 include { IRIDA_NEXT_OUTPUT    } from '../modules/local/irida-next-output/main'
 include { ASSEMBLY_STUB        } from '../modules/local/assembly_stub/main'
 
@@ -74,10 +75,15 @@ workflow IRIDANEXT {
         input.join(ASSEMBLY_STUB.out.assembly)
     )
     ch_versions = ch_versions.mix(GENERATE_SAMPLE_JSON.out.versions)
-    ch_sample_jsons = GENERATE_SAMPLE_JSON.out.json.map { meta, data -> data }.collect()
+
+    SIMPLIFY_IRIDA_JSON (
+        GENERATE_SAMPLE_JSON.out.json
+    )
+    ch_versions = ch_versions.mix(SIMPLIFY_IRIDA_JSON.out.versions)
+    ch_simplified_jsons = SIMPLIFY_IRIDA_JSON.out.simple_json.map { meta, data -> data }.collect() // Collect JSONs
 
     IRIDA_NEXT_OUTPUT (
-        samples_data=ch_sample_jsons
+        samples_data=ch_simplified_jsons
     )
     ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions)
 

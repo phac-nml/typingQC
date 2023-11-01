@@ -42,7 +42,7 @@ process GENERATE_SAMPLE_JSON {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        irida-next-output : 0.1.0.dev0
+        generate_sample_json : 0.1.0.dev0
     END_VERSIONS
     """
 }
