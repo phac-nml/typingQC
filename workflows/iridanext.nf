@@ -30,10 +30,10 @@ WorkflowIridanext.initialise(params, log)
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK       } from '../subworkflows/local/input_check'
-include { SAMPLE_METADATA   } from '../modules/local/sample_metadata/main'
-include { IRIDA_NEXT_OUTPUT } from '../modules/local/irida-next-output/main'
-include { ASSEMBLY_STUB     } from '../modules/local/assembly_stub/main'
+include { INPUT_CHECK          } from '../subworkflows/local/input_check'
+include { GENERATE_SAMPLE_JSON } from '../modules/local/generate_sample_json/main'
+include { IRIDA_NEXT_OUTPUT    } from '../modules/local/irida-next-output/main'
+include { ASSEMBLY_STUB        } from '../modules/local/assembly_stub/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,14 +70,14 @@ workflow IRIDANEXT {
     )
     ch_versions = ch_versions.mix(ASSEMBLY_STUB.out.versions)
 
-    SAMPLE_METADATA (
+    GENERATE_SAMPLE_JSON (
         input.join(ASSEMBLY_STUB.out.assembly)
     )
-    ch_versions = ch_versions.mix(SAMPLE_METADATA.out.versions)
-    sample_metadata_ch = SAMPLE_METADATA.out.json.map { meta, data -> data }.collect()
+    ch_versions = ch_versions.mix(GENERATE_SAMPLE_JSON.out.versions)
+    ch_sample_jsons = GENERATE_SAMPLE_JSON.out.json.map { meta, data -> data }.collect()
 
     IRIDA_NEXT_OUTPUT (
-        samples_data=sample_metadata_ch
+        samples_data=ch_sample_jsons
     )
     ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions)
 

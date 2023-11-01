@@ -1,4 +1,4 @@
-process SAMPLE_METADATA {
+process GENERATE_SAMPLE_JSON {
     tag "$meta.id"
     label 'process_single'
 
@@ -17,22 +17,22 @@ process SAMPLE_METADATA {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def assembly_path = ["${params.outdir}", "assembly", "${assembly}"].join(File.separator)
     """
-    reads_1=`basename ${reads[0]}`
-    reads_2=`basename ${reads[1]}`
     cat <<-EOF > "${meta.id}.json"
     {
         "files": {
             "samples": {
                 "${meta.id}": {
-                    "assembly_contigs": "${assembly}"
+                    "assembly_contigs": "${assembly_path}"
                 }
             }
         },
         "metadata": {
             "samples": {
                 "${meta.id}": {
-                    "reads": ["\${reads_1}", "\${reads_2}"]
+                    "reads.1": "${reads[0]}",
+                    "reads.2": "${reads[1]}"
                 }
             }
         }
