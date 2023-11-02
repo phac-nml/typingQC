@@ -2,6 +2,8 @@ process ASSEMBLY_STUB {
     tag "$meta.id"
     label 'process_single'
 
+    container 'docker.io/python:3.9.17'
+
     input:
     tuple val(meta), path(reads)
 
