@@ -3,6 +3,9 @@
 import json
 import argparse
 import sys
+import gzip
+from mimetypes import guess_type
+from functools import partial
 from pathlib import Path
 
 def flatten_dictionary(dictionary):
@@ -50,12 +53,12 @@ def main():
 
     json_input_file = args.input
 
-    with open(args.input, "r") as input_file:
-            input_json = json.load(input_file)
+    # Handle GZIP and non-GZIP
+    encoding = guess_type(json_input_file)[1]
+    open_file = partial(gzip.open, mode='rt') if encoding == 'gzip' else open  # partial (function pointer)
 
-    # Flatten files:
-    for sample in input_json["files"]["samples"]:
-        input_json["files"]["samples"][sample] = flatten_dictionary(input_json["files"]["samples"][sample])
+    with open_file(json_input_file) as input_file:
+            input_json = json.load(input_file)
 
     # Flatten metadata:
     for sample in input_json["metadata"]["samples"]:

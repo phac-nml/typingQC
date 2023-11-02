@@ -17,17 +17,11 @@ process SIMPLIFY_IRIDA_JSON {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def is_gzipped = json.getName().endsWith(".gz") ? true : false
-    def json_uncompressed_name = json.getName().replace(".gz", "")
     """
-    if [ "$is_gzipped" = "true" ]; then
-        gzip -c -d $json > $json_uncompressed_name
-    fi
-
     simplify_irida_json.py \\
         $args \\
         --json-output ${meta.id}.simple.json \\
-        ${json_uncompressed_name}
+        ${json}
 
     gzip ${meta.id}.simple.json
 

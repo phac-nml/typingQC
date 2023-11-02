@@ -23,16 +23,17 @@ process GENERATE_SAMPLE_JSON {
     {
         "files": {
             "samples": {
-                "${meta.id}": {
-                    "assembly_contigs": "${assembly_path}"
-                }
+                "${meta.id}": [
+                    {
+                        "path": "${assembly_path}"
+                    }
+                ]
             }
         },
         "metadata": {
             "samples": {
                 "${meta.id}": {
-                    "reads.1": "${reads[0]}",
-                    "reads.2": "${reads[1]}"
+                    "reads": ["${reads[0]}", "${reads[1]}"]
                 }
             }
         }
