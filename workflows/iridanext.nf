@@ -35,6 +35,7 @@ include { GENERATE_SAMPLE_JSON } from '../modules/local/generate_sample_json/mai
 include { SIMPLIFY_IRIDA_JSON  } from '../modules/local/simplify_irida_json/main'
 include { IRIDA_NEXT_OUTPUT    } from '../modules/local/irida-next-output/main'
 include { ASSEMBLY_STUB        } from '../modules/local/assembly_stub/main'
+include { GENERATE_SUMMARY     } from '../modules/local/generate_summary/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,10 +72,18 @@ workflow IRIDANEXT {
     )
     ch_versions = ch_versions.mix(ASSEMBLY_STUB.out.versions)
 
+    // A channel of tuples of ([meta], [read[0], read[1]], assembly)
+    ch_tuple_read_assembly = input.join(ASSEMBLY_STUB.out.assembly)
+
     GENERATE_SAMPLE_JSON (
-        input.join(ASSEMBLY_STUB.out.assembly)
+        ch_tuple_read_assembly
     )
     ch_versions = ch_versions.mix(GENERATE_SAMPLE_JSON.out.versions)
+
+    GENERATE_SUMMARY (
+        ch_tuple_read_assembly.collect{ [it] }
+    )
+    ch_versions = ch_versions.mix(GENERATE_SUMMARY.out.versions)
 
     SIMPLIFY_IRIDA_JSON (
         GENERATE_SAMPLE_JSON.out.json
