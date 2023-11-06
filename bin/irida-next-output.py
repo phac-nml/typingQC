@@ -25,6 +25,15 @@ def main(argv=None):
     )
     parser.add_argument("files", nargs="+")
     parser.add_argument(
+        "--summary-file",
+        action="store",
+        dest="summary_file",
+        type=str,
+        help="pipeline summary file",
+        default=None,
+        required=True,
+    )
+    parser.add_argument(
         "--json-output",
         action="store",
         dest="json_output",
@@ -41,6 +50,9 @@ def main(argv=None):
         sys.stderr.write(f"Error: --json-output [{json_output_file}] exists")
         return 1
 
+    # Not checking for the existance of the summary file
+    # because the path may be relative to the outdir, which we don't have here.
+
     input_files = args.files
     if isinstance(input_files, str):
         input_files = [input_files]
@@ -55,7 +67,7 @@ def main(argv=None):
         },
     }
 
-    output_metadata = {"files": {"samples": {}}, "metadata": {"samples": {}}}
+    output_metadata = {"files": {"global": [{"path": str(args.summary_file)}], "samples": {}}, "metadata": {"samples": {}}}
 
     for f in input_files:
         _open = get_open(f)

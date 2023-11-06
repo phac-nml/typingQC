@@ -17,7 +17,7 @@ process GENERATE_SUMMARY {
     def sorted_summaries = summaries.sort{ it[0].id }
 
     // Generate summary text:
-    def summary_text = "IRIDANEXT-EXAMPLE-NF Pipeline Summary\n\nCOMPLETE!\n"
+    def summary_text = "IRIDANEXT-EXAMPLE-NF Pipeline Summary\n\nSUCCESS!\n"
 
     for (summary in sorted_summaries) {
         summary_text += "\n${summary[0].id}:\n"
