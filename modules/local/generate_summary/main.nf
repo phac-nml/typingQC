@@ -27,6 +27,12 @@ process GENERATE_SUMMARY {
     }
 
     // Create summary text file (GZIP):
+    work_dir_location = "${task.workDir}"
+    work_dir_file = new File(work_dir_location)
+    println "WORK DIR: " + work_dir_location
+    println "EXISTS? : " + work_dir_file.exists()
+    println "DIRECTORY? :" + work_dir_file.isDirectory()
+
     summary_gzip_location = ["${task.workDir}", "summary.txt.gz"].join(File.separator)
     outputStream = new FileOutputStream(summary_gzip_location)
     gzipOutputStream = new java.util.zip.GZIPOutputStream(outputStream)
