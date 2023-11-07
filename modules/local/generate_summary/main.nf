@@ -13,7 +13,7 @@ process GENERATE_SUMMARY {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''    
+    def args = task.ext.args ?: ''
     def sorted_summaries = summaries.sort{ it[0].id }
 
     // Generate summary text:
