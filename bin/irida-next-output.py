@@ -67,7 +67,10 @@ def main(argv=None):
         },
     }
 
-    output_metadata = {"files": {"global": [{"path": str(args.summary_file)}], "samples": {}}, "metadata": {"samples": {}}}
+    output_metadata = {
+        "files": {"global": [{"path": str(args.summary_file)}], "samples": {}},
+        "metadata": {"samples": {}},
+    }
 
     for f in input_files:
         _open = get_open(f)
