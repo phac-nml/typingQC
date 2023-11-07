@@ -72,7 +72,7 @@ workflow IRIDANEXT {
     )
     ch_versions = ch_versions.mix(ASSEMBLY_STUB.out.versions)
 
-    // A channel of tuples of ([meta], [read[0], read[1]], assembly)
+    // A channel of tuples of ({meta}, [read[0], read[1]], assembly)
     ch_tuple_read_assembly = input.join(ASSEMBLY_STUB.out.assembly)
 
     GENERATE_SAMPLE_JSON (

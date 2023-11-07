@@ -19,7 +19,7 @@ process IRIDA_NEXT_OUTPUT {
     """
     irida-next-output.py \\
         $args \\
-        --summary-file ${params.summary_directory_name}/summary.txt \\
+        --summary-file ${params.summary_directory_name}/summary.txt.gz \\
         --json-output output.json.gz \\
         ${samples_data}
 
