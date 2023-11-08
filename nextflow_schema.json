@@ -244,5 +244,6 @@
         {
             "$ref": "#/definitions/generic_options"
         }
-    ]
+    ],
+    "properties": {}
 }
