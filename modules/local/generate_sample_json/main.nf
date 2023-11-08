@@ -17,7 +17,7 @@ process GENERATE_SAMPLE_JSON {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def assembly_path = ["${params.assembly_directory_name}", "${assembly}"].join(File.separator)
+    def assembly_path = ["${task.assembly_directory_name}", "${assembly}"].join(File.separator)
     """
     cat <<-EOF > "${meta.id}.json"
     {

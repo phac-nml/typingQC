@@ -245,14 +245,5 @@
             "$ref": "#/definitions/generic_options"
         }
     ],
-    "properties": {
-        "assembly_directory_name": {
-            "type": "string",
-            "default": "assembly"
-        },
-        "summary_directory_name": {
-            "type": "string",
-            "default": "summary"
-        }
-    }
+    "properties": {}
 }
