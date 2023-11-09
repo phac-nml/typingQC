@@ -26,7 +26,7 @@ To run the pipeline, please do:
 nextflow run phac-nml/iridanext-example-nf -profile singularity -r main -latest --input assets/samplesheet.csv --outdir results
 ```
 
-Where the `samplesheet.csv` is structured as specified in [Input](#input).
+Where the `samplesheet.csv` is structured as specified in the [Input](#input) section.
 
 # Output
 
