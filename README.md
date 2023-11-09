@@ -1,6 +1,6 @@
-# Example pipeline for IRIDA Next
+# Example Pipeline for IRIDA Next
 
-This is an example pipeline to be used for integration with IRIDA Next.
+This is an example pipeline to be used for integration with IRIDA Next. It contains the following major modules:
 
 # Input
 
@@ -14,9 +14,7 @@ The structure of this file is defined in [assets/schema_input.json](assets/schem
 
 # Parameters
 
-The main parameter is `--input` as defined above and `--output` for specifying the output results directory.
-
-You may wish to provide `-profile singularity` to specify the use of singularity containers and `-r [branch]` to specify which GitHub branch you would like to run.
+The main parameters are `--input` as defined above and `--output` for specifying the output results directory. You may wish to provide `-profile singularity` to specify the use of singularity containers and `-r [branch]` to specify which GitHub branch you would like to run.
 
 Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schmea.json).
 
@@ -32,7 +30,9 @@ Where the `samplesheet.csv` is structured as specified in [Input](#input).
 
 # Output
 
-Output JSON file for loading metadata into IRIDA Next is located in the specified `--outdir` location, as follows: `[outdir]/irida.output.json.gz`:
+A JSON file for loading metadata into IRIDA Next is output by this pipeline. The format of this JSON file is specified in our [Pipeline Standards for the IRIDA Next JSON](https://github.com/phac-nml/pipeline-standards#32-irida-next-json). This JSON file is written directly within the `--outdir` provided to the pipeline with the name `irida.output.json.gz` (ex: `[outdir]/irida.output.json.gz`).
+
+An example of the what the contents of the IRIDA Next JSON file looks like for this particular pipeline is as follows:
 
 ```
 {
@@ -79,7 +79,9 @@ Output JSON file for loading metadata into IRIDA Next is located in the specifie
 }
 ```
 
-There is also some output in the summary file (specified in the above JSON as `"global": [{"path":"summary/summary.txt.gz"})`). However, there is not formatting specification for this file.
+Within the `files` section of this JSON file, all of the output paths are relative to the `outdir`. Therefore, `"path": "assembly/SAMPLE1.assembly.fa.gz"` refers to a file located within `outdir/assembly/SAMPLE1.assembly.fa.gz`.
+
+There is also a pipeline execution summary output file provided (specified in the above JSON as `"global": [{"path":"summary/summary.txt.gz"})`). However, there is no formatting specification for this file.
 
 ## Test profile
 
