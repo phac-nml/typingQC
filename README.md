@@ -1,6 +1,6 @@
 # Example Pipeline for IRIDA Next
 
-This is an example pipeline to be used for integration with IRIDA Next. It contains the following major modules:
+This is an example pipeline to be used for integration with IRIDA Next.
 
 # Input
 
