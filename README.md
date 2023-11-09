@@ -1,4 +1,4 @@
-# Example pipeline for IRIDA Next
+# Example Pipeline for IRIDA Next
 
 This is an example pipeline to be used for integration with IRIDA Next.
 
@@ -10,11 +10,11 @@ The input to the pipeline is a standard sample sheet (passed as `--input samples
 | ------- | --------------- | --------------- |
 | SampleA | file_1.fastq.gz | file_2.fastq.gz |
 
-The structure of this file is defined in [assets/schema_input.json](assets/schema_input.json).
+The structure of this file is defined in [assets/schema_input.json](assets/schema_input.json). Validation of the sample sheet is performed by [nf-validation](https://nextflow-io.github.io/nf-validation/).
 
 # Parameters
 
-The main parameter is `--input` as defined above and `--output` for specifying the output results directory.
+The main parameters are `--input` as defined above and `--output` for specifying the output results directory. You may wish to provide `-profile singularity` to specify the use of singularity containers and `-r [branch]` to specify which GitHub branch you would like to run.
 
 Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schmea.json).
 
@@ -23,50 +23,65 @@ Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](n
 To run the pipeline, please do:
 
 ```bash
-nextflow run phac-nml/iridanext-example-nf -profile docker -r main -latest --input samplesheet.csv --outdir results
+nextflow run phac-nml/iridanext-example-nf -profile singularity -r main -latest --input assets/samplesheet.csv --outdir results
 ```
 
-Where the `samplesheet.csv` is structured as above.
+Where the `samplesheet.csv` is structured as specified in the [Input](#input) section.
 
 # Output
 
-Output JSON file for loading metadata into IRIDA Next is located in `results/irida/output.json.gz`:
+A JSON file for loading metadata into IRIDA Next is output by this pipeline. The format of this JSON file is specified in our [Pipeline Standards for the IRIDA Next JSON](https://github.com/phac-nml/pipeline-standards#32-irida-next-json). This JSON file is written directly within the `--outdir` provided to the pipeline with the name `irida.output.json.gz` (ex: `[outdir]/irida.output.json.gz`).
+
+An example of the what the contents of the IRIDA Next JSON file looks like for this particular pipeline is as follows:
 
 ```
 {
     "files": {
-        "samples": {}
+        "global": [
+            {
+                "path": "summary/summary.txt.gz"
+            }
+        ],
+        "samples": {
+            "SAMPLE1": [
+                {
+                    "path": "assembly/SAMPLE1.assembly.fa.gz"
+                }
+            ],
+            "SAMPLE2": [
+                {
+                    "path": "assembly/SAMPLE2.assembly.fa.gz"
+                }
+            ],
+            "SAMPLE3": [
+                {
+                    "path": "assembly/SAMPLE3.assembly.fa.gz"
+                }
+            ]
+        }
     },
     "metadata": {
         "samples": {
-            "SAMPLE1_PE_T1": {
-                "reads": [
-                    "sample1_R1.fastq.gz",
-                    "sample1_R2.fastq.gz"
-                ]
+            "SAMPLE1": {
+                "reads.1": "sample1_R1.fastq.gz",
+                "reads.2": "sample1_R2.fastq.gz"
             },
-            "SAMPLE3_SE_T1": {
-                "reads": [
-                    "sample1_R1.fastq.gz",
-                    "null"
-                ]
+            "SAMPLE2": {
+                "reads.1": "sample2_R1.fastq.gz",
+                "reads.2": "sample2_R2.fastq.gz"
             },
-            "SAMPLE3_SE_T2": {
-                "reads": [
-                    "sample2_R1.fastq.gz",
-                    "null"
-                ]
-            },
-            "SAMPLE2_PE_T1": {
-                "reads": [
-                    "sample2_R1.fastq.gz",
-                    "sample2_R2.fastq.gz"
-                ]
+            "SAMPLE3": {
+                "reads.1": "sample1_R1.fastq.gz",
+                "reads.2": "null"
             }
         }
     }
 }
 ```
+
+Within the `files` section of this JSON file, all of the output paths are relative to the `outdir`. Therefore, `"path": "assembly/SAMPLE1.assembly.fa.gz"` refers to a file located within `outdir/assembly/SAMPLE1.assembly.fa.gz`.
+
+There is also a pipeline execution summary output file provided (specified in the above JSON as `"global": [{"path":"summary/summary.txt.gz"}]`). However, there is no formatting specification for this file.
 
 ## Test profile
 
