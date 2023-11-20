@@ -28,7 +28,7 @@ nextflow_process {
                 def json_string = path(output_json.get(0)).linesGzip.join("\n")
                 def parser = new groovy.json.JsonSlurper()
                 def irida_json = parser.parseText(json_string)
-                
+
                 assert irida_json.files.global[0].path.equals("summary/summary.txt.gz")
 
                 assert irida_json.files.samples.SAMPLE1[0].path.equals("assembly/SAMPLE1.assembly.fa.gz")
