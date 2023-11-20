@@ -4,7 +4,7 @@ nextflow_process {
     script "modules/local/generate_sample_json/main.nf"
     process "GENERATE_SAMPLE_JSON"
 
-    test("Should run without failures") {
+    test("Basic execution, check output.") {
 
         when {
             params {
@@ -12,7 +12,6 @@ nextflow_process {
             }
             process {
                 """
-                // define inputs of the process here. Example:
                 input[0] = new Tuple(["id": "SAMPLE1"], [file("sample1_R1.fastq.gz"), file("sample1_R2.fastq.gz")], file("SAMPLE1.assembly.fa.gz"))
                 """
             }
