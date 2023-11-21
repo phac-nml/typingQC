@@ -29,8 +29,6 @@ class WorkflowIridanext {
 
     public static String toolBibliographyText(params) {
 
-        // TODO Optionally add bibliographic entries to this list.
-        // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "<li>Author (2023) Pub name, Journal, DOI</li>" : "",
         def reference_text = [
                 ""
             ].join(' ').trim()
