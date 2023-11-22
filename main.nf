@@ -41,7 +41,7 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { IRIDANEXT } from './workflows/iridanext'
+include { IRIDANEXT } from './workflows/iridanext-example-nf'
 
 //
 // WORKFLOW: Run main phac-nml/iridanext-example-nf analysis pipeline
