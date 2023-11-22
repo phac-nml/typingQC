@@ -17,7 +17,7 @@ class WorkflowIridanext {
 
     public static String toolCitationText(params) {
 
-        // TODO nf-core: Optionally add in-text citation tools to this list.
+        // Optionally add in-text citation tools to this list.
         // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "Tool (Foo et al. 2023)" : "",
         def citation_text = [
                 "Tools used in the workflow included:",
