@@ -1,4 +1,4 @@
-# nf-core/iridanext: Output
+# phac-nml/iridanext-example-nf: Output
 
 ## Introduction
 

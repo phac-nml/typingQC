@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/nf-core/iridanext/master/nextflow_schema.json",
-    "title": "nf-core/iridanext pipeline parameters",
+    "$id": "https://raw.githubusercontent.com/phac-nml/iridanext-example-nf/master/nextflow_schema.json",
+    "title": "phac-nml/iridanext-example-nf pipeline parameters",
     "description": "Example IRIDA Next pipeline",
     "type": "object",
     "definitions": {

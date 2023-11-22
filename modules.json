@@ -1,6 +1,6 @@
 {
-    "name": "nf-core/iridanext",
-    "homePage": "https://github.com/nf-core/iridanext",
+    "name": "phac-nml/iridanext-example-nf",
+    "homePage": "https://github.com/phac-nml/iridanext-example-nf",
     "repos": {
         "https://github.com/nf-core/modules.git": {
             "modules": {

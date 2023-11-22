@@ -62,7 +62,7 @@ Do not use `-c <file>` to specify parameters as this will result in errors. Cust
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run nf-core/iridanext -profile docker -params-file params.yaml
+nextflow run phac-nml/iridanext-example-nf -profile docker -params-file params.yaml
 ```
 
 with `params.yaml` containing:

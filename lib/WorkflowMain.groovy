@@ -1,5 +1,5 @@
 //
-// This file holds several functions specific to the main.nf workflow in the nf-core/iridanext pipeline
+// This file holds several functions specific to the main.nf workflow in the phac-nml/iridanext-example-nf pipeline
 //
 
 import nextflow.Nextflow
