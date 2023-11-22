@@ -1,8 +1,8 @@
-# nf-core/iridanext: Usage
+# phac-nml/iridanext-example-nf: Usage
 
 ## Introduction
 
-<!-- TODO nf-core: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add to) the main nf-core website. -->
+This pipeline is an example that illustrates running a nf-core-compliant pipeline on IRIDA Next.
 
 ## Samplesheet input
 
