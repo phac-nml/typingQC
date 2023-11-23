@@ -160,8 +160,6 @@ In most cases, you will only need to create a custom config as a one-off but if 
 
 See the main [Nextflow documentation](https://www.nextflow.io/docs/latest/config.html) for more information about creating your own configuration files.
 
-If you have any questions or issues please send us a message on [Slack](https://nf-co.re/join/slack) on the [`#configs` channel](https://nfcore.slack.com/channels/configs).
-
 ## Azure Resource Requests
 
 To be used with the `azurebatch` profile by specifying the `-profile azurebatch`.
