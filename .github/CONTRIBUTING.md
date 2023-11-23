@@ -6,13 +6,6 @@ Many thanks for taking an interest in improving phac-nml/iridanext-example-nf.
 We try to manage the required tasks for phac-nml/iridanext-example-nf using GitHub issues, you probably came to this page when creating one.
 Please use the pre-filled template to save time.
 
-However, don't be put off by this template - other more general issues and suggestions are welcome!
-Contributions to the code are even more welcome ;)
-
-:::info
-If you need help using or modifying phac-nml/iridanext-example-nf then the best place to ask is on the nf-core Slack [#iridanext](https://nfcore.slack.com/channels/iridanext) channel ([join our Slack here](https://nf-co.re/join/slack)).
-:::
-
 ## Contribution workflow
 
 If you'd like to write some code for phac-nml/iridanext-example-nf, the standard workflow is as follows:

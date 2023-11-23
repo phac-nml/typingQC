@@ -5,10 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before you post this issue, please check the documentation:
-
-        - [nf-core website: troubleshooting](https://nf-co.re/usage/troubleshooting)
-        - [phac-nml/iridanext-example-nf pipeline documentation](https://nf-co.re/iridanext/usage)
+        Before you post this issue, please check the documentation.
 
   - type: textarea
     id: description

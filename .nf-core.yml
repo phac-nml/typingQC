@@ -5,12 +5,16 @@ lint:
     - assets/nf-core-iridanext-example-nf_logo_light.png
     - docs/images/nf-core-iridanext-example-nf_logo_light.png
     - docs/images/nf-core-iridanext-example-nf_logo_dark.png
+    - .github/workflows/awstest.yml
+    - .github/workflows/awsfulltest.yml
+    - lib/WorkflowIridanext-example-nf.groovy
   files_unchanged:
     - assets/sendmail_template.txt
     - lib/NfcoreTemplate.groovy
     - .github/CONTRIBUTING.md
     - .github/ISSUE_TEMPLATE/bug_report.yml
     - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/workflows/branch.yml
     - assets/email_template.txt
     - docs/README.md
   pipeline_name_conventions: False
