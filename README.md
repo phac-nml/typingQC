@@ -25,7 +25,7 @@ Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](n
 To run the pipeline, please do:
 
 ```bash
-nextflow run phac-nml/iridanext-example-nf -profile singularity -r main -latest --input assets/samplesheet.csv --outdir results
+nextflow run phac-nml/iridanextexample -profile singularity -r main -latest --input assets/samplesheet.csv --outdir results
 ```
 
 Where the `samplesheet.csv` is structured as specified in the [Input](#input) section.
@@ -90,7 +90,7 @@ There is also a pipeline execution summary output file provided (specified in th
 To run with the test profile, please do:
 
 ```bash
-nextflow run phac-nml/iridanext-example-nf -profile docker,test -r main -latest --outdir results
+nextflow run phac-nml/iridanextexample -profile docker,test -r main -latest --outdir results
 ```
 
 # Legal

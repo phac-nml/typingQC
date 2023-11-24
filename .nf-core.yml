@@ -2,12 +2,11 @@ repository_type: pipeline
 
 lint:
   files_exist:
-    - assets/nf-core-iridanext-example-nf_logo_light.png
-    - docs/images/nf-core-iridanext-example-nf_logo_light.png
-    - docs/images/nf-core-iridanext-example-nf_logo_dark.png
+    - assets/nf-core-iridanextexample_logo_light.png
+    - docs/images/nf-core-iridanextexample_logo_light.png
+    - docs/images/nf-core-iridanextexample_logo_dark.png
     - .github/workflows/awstest.yml
     - .github/workflows/awsfulltest.yml
-    - lib/WorkflowIridanext-example-nf.groovy
   files_unchanged:
     - assets/sendmail_template.txt
     - lib/NfcoreTemplate.groovy

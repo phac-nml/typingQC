@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/iridanext-example-nf/master/assets/schema_input.json",
-    "title": "phac-nml/iridanext-example-nf pipeline - params.input schema",
+    "$id": "https://raw.githubusercontent.com/phac-nml/iridanextexample/master/assets/schema_input.json",
+    "title": "phac-nml/iridanextexample pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",
     "items": {

@@ -17,7 +17,7 @@ process GENERATE_SUMMARY {
     def sorted_summaries = summaries.sort{ it[0].id }
 
     // Generate summary text:
-    def summary_text = "IRIDANEXT-EXAMPLE-NF Pipeline Summary\n\nSUCCESS!\n"
+    def summary_text = "IRIDANEXTEXAMPLE Pipeline Summary\n\nSUCCESS!\n"
 
     // TODO: Consider the possibility of code injection.
     // Should probably be moved to file processing through Python.

@@ -24,7 +24,7 @@ nextflow_process {
                 // check if emitted output has been created
                 assert summary.size() == 1
 
-                assert path(summary.get(0)).linesGzip[0].equals("IRIDANEXT-EXAMPLE-NF Pipeline Summary")
+                assert path(summary.get(0)).linesGzip[0].equals("IRIDANEXTEXAMPLE Pipeline Summary")
                 assert path(summary.get(0)).linesGzip[4].equals("SAMPLE1:")
                 assert path(summary.get(0)).linesGzip[5].contains("reads.1: ")
                 assert path(summary.get(0)).linesGzip[6].contains("reads.2: ")
