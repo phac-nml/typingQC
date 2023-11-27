@@ -9,6 +9,7 @@ lint:
     - .github/workflows/awsfulltest.yml
   files_unchanged:
     - assets/sendmail_template.txt
+    - assets/email_template.html
     - lib/NfcoreTemplate.groovy
     - .github/CONTRIBUTING.md
     - .github/ISSUE_TEMPLATE/bug_report.yml
@@ -16,6 +17,7 @@ lint:
     - .github/workflows/branch.yml
     - assets/email_template.txt
     - docs/README.md
+    - LICENSE
   pipeline_name_conventions: False
   actions_awsfulltest: False
   nextflow_config:
@@ -23,3 +25,9 @@ lint:
     - manifest.homePage
   multiqc_config:
     - report_comment
+  nextflow_config:
+    - custom_config
+    - manifest.name
+    - manifest.homePage
+  readme:
+    - nextflow_badge
