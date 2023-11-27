@@ -31,11 +31,11 @@ WorkflowIridanextExample.initialise(params, log)
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { INPUT_CHECK          } from '../subworkflows/local/input_check'
-include { GENERATE_SAMPLE_JSON } from '../modules/local/generate_sample_json/main'
-include { SIMPLIFY_IRIDA_JSON  } from '../modules/local/simplify_irida_json/main'
-include { IRIDA_NEXT_OUTPUT    } from '../modules/local/irida-next-output/main'
-include { ASSEMBLY_STUB        } from '../modules/local/assembly_stub/main'
-include { GENERATE_SUMMARY     } from '../modules/local/generate_summary/main'
+include { GENERATE_SAMPLE_JSON } from '../modules/local/generatesamplejson/main'
+include { SIMPLIFY_IRIDA_JSON  } from '../modules/local/simplifyiridajson/main'
+include { IRIDA_NEXT_OUTPUT    } from '../modules/local/iridanextoutput/main'
+include { ASSEMBLY_STUB        } from '../modules/local/assemblystub/main'
+include { GENERATE_SUMMARY     } from '../modules/local/generatesummary/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

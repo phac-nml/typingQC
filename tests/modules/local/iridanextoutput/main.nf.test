@@ -1,7 +1,7 @@
 nextflow_process {
 
     name "Test Process IRIDA_NEXT_OUTPUT"
-    script "modules/local/irida-next-output/main.nf"
+    script "modules/local/iridanextoutput/main.nf"
     process "IRIDA_NEXT_OUTPUT"
 
     test("Basic execution, check output.") {

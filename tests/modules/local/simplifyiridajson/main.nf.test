@@ -1,7 +1,7 @@
 nextflow_process {
 
     name "Test Process SIMPLIFY_IRIDA_JSON"
-    script "modules/local/simplify_irida_json/main.nf"
+    script "modules/local/simplifyiridajson/main.nf"
     process "SIMPLIFY_IRIDA_JSON"
 
     test("Basic execution, check output.") {

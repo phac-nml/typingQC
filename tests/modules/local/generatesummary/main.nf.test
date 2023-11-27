@@ -1,7 +1,7 @@
 nextflow_process {
 
     name "Test Process GENERATE_SUMMARY"
-    script "modules/local/generate_summary/main.nf"
+    script "modules/local/generatesummary/main.nf"
     process "GENERATE_SUMMARY"
 
     test("Basic execution, check output.") {

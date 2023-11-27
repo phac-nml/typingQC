@@ -27,7 +27,7 @@ process SIMPLIFY_IRIDA_JSON {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        simplify_irida_json : 0.1.0.dev0
+        simplifyiridajson : 0.1.0.dev0
     END_VERSIONS
     """
 }
