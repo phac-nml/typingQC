@@ -28,7 +28,3 @@ lint:
     - manifest.homePage
   readme:
     - nextflow_badge
-
-
-
-
