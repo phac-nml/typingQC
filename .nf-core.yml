@@ -20,9 +20,6 @@ lint:
     - LICENSE
   pipeline_name_conventions: False
   actions_awsfulltest: False
-  nextflow_config:
-    - manifest.name
-    - manifest.homePage
   multiqc_config:
     - report_comment
   nextflow_config:
@@ -31,3 +28,7 @@ lint:
     - manifest.homePage
   readme:
     - nextflow_badge
+
+
+
+
