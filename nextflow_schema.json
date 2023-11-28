@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/iridanextexample/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/phac-nml/iridanextexample/main/nextflow_schema.json",
     "title": "phac-nml/iridanextexample pipeline parameters",
     "description": "IRIDA Next Example Pipeline",
     "type": "object",
