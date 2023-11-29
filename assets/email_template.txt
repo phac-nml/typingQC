@@ -4,15 +4,15 @@
   |\\ | |__  __ /  ` /  \\ |__) |__         }  {
   | \\| |       \\__, \\__/ |  \\ |___     \\`-._,-`-,
                                         `._,._,'
-  nf-core/iridanext v${version}
+  phac-nml/iridanextexample v${version}
 ----------------------------------------------------
 Run Name: $runName
 
 <% if (success){
-    out << "## nf-core/iridanext execution completed successfully! ##"
+    out << "## phac-nml/iridanextexample execution completed successfully! ##"
 } else {
     out << """####################################################
-## nf-core/iridanext execution completed unsuccessfully! ##
+## phac-nml/iridanextexample execution completed unsuccessfully! ##
 ####################################################
 The exit status of the task that caused the workflow execution to fail was: $exitStatus.
 The full error message was:
@@ -35,5 +35,5 @@ Pipeline Configuration:
 <% out << summary.collect{ k,v -> " - $k: $v" }.join("\n") %>
 
 --
-nf-core/iridanext
-https://github.com/nf-core/iridanext
+phac-nml/iridanextexample
+https://github.com/phac-nml/iridanextexample

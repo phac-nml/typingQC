@@ -1,4 +1,4 @@
-# nf-core/iridanext: Output
+# phac-nml/iridanextexample: Output
 
 ## Introduction
 
@@ -6,13 +6,74 @@ This document describes the output produced by the pipeline.
 
 The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
 
-<!-- TODO nf-core: Write this documentation describing your workflow's output -->
+- assembly: very small mock assembly files for each sample
+- generate: intermediate files used in generating the IRIDA Next JSON output
+- pipeline_info: information about the pipeline's execution
+- simplify: simplified intermediate files used in generating the IRIDA Next JSON output
+- summary: summary report about the pipeline's execution and results
+
+The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json).
 
 ## Pipeline overview
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
+- [Assembly stub](#assembly-stub) - Performs a stub assembly by generating a mock assembly
+- [Generate sample JSON](#generate-sample-json) - Generates a JSON file for each sample
+- [Generate summary](#generate-summary) - Generates a summary text file describing the samples and assemblies
+- [Simplify IRIDA JSON](#simplify-irida-json) - Simplifies the sample JSONs by limiting nesting depth
+- [IRIDA Next Output](#irida-next-output) - Generates a JSON output file that is compliant with IRIDA Next
 - [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+
+### Assembly stub
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `assembly/`
+  - Mock assembly files: `ID.assembly.fa.gz`
+
+</details>
+
+### Generate sample JSON
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `generate/`
+  - JSON files: `ID.json.gz`
+
+</details>
+
+### Generate summary
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `summary/`
+  - Text summary describing samples and assemblies: `summary.txt.gz`
+
+</details>
+
+### Simplify IRIDA JSON
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `simplify/`
+  - Simplified JSON files: `ID.simple.json.gz`
+
+</details>
+
+### IRIDA Next Output
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `/`
+  - IRIDA Next-compliant JSON output: `iridanext.output.json.gz`
+
+</details>
 
 ### Pipeline information
 

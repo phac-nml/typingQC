@@ -17,7 +17,7 @@ process GENERATE_SUMMARY {
     def sorted_summaries = summaries.sort{ it[0].id }
 
     // Generate summary text:
-    def summary_text = "IRIDANEXT-EXAMPLE-NF Pipeline Summary\n\nSUCCESS!\n"
+    def summary_text = "IRIDANEXTEXAMPLE Pipeline Summary\n\nSUCCESS!\n"
 
     // TODO: Consider the possibility of code injection.
     // Should probably be moved to file processing through Python.
@@ -28,7 +28,7 @@ process GENERATE_SUMMARY {
         summary_text += "    assembly: ${summary[2]}\n"
     }
 
-    version_text = "\"${task.process}\":\n    generate_summary : 0.1.0.dev0"
+    version_text = "\"${task.process}\":\n    generatesummary : 0.1.0.dev0"
 
     """
     echo "${summary_text}" > summary.txt

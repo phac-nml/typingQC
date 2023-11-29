@@ -13,6 +13,6 @@
         "engine": "nextflow",
         "execute_loc": "azure"
     },
-    "workflow_url": "https://github.com/phac-nml/iridanext-example-nf",
+    "workflow_url": "https://github.com/phac-nml/iridanextexample",
     "workflow_attachment": ""
 }

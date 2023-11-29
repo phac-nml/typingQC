@@ -1,11 +1,9 @@
 #!/usr/bin/env nextflow
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    nf-core/iridanext
+    phac-nml/iridanextexample
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Github : https://github.com/nf-core/iridanext
-    Website: https://nf-co.re/iridanext
-    Slack  : https://nfcore.slack.com/channels/iridanext
+    Github : https://github.com/phac-nml/iridanextexample
 ----------------------------------------------------------------------------------------
 */
 
@@ -41,12 +39,12 @@ WorkflowMain.initialise(workflow, params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { IRIDANEXT } from './workflows/iridanext'
+include { IRIDANEXT } from './workflows/iridanextexample'
 
 //
-// WORKFLOW: Run main nf-core/iridanext analysis pipeline
+// WORKFLOW: Run main phac-nml/iridanextexample analysis pipeline
 //
-workflow NFCORE_IRIDANEXT {
+workflow PHACNML_IRIDANEXT {
     IRIDANEXT ()
 }
 
@@ -61,7 +59,7 @@ workflow NFCORE_IRIDANEXT {
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
 workflow {
-    NFCORE_IRIDANEXT ()
+    PHACNML_IRIDANEXT ()
 }
 
 /*

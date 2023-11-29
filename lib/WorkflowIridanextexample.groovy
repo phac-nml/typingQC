@@ -1,11 +1,11 @@
 //
-// This file holds several functions specific to the workflow/iridanext.nf in the nf-core/iridanext pipeline
+// This file holds several functions specific to the workflow/iridanextexample.nf in the phac-nml/iridanextexample pipeline
 //
 
 import nextflow.Nextflow
 import groovy.text.SimpleTemplateEngine
 
-class WorkflowIridanext {
+class WorkflowIridanextExample {
 
     //
     // Check and validate parameters
@@ -17,7 +17,7 @@ class WorkflowIridanext {
 
     public static String toolCitationText(params) {
 
-        // TODO nf-core: Optionally add in-text citation tools to this list.
+        // Optionally add in-text citation tools to this list.
         // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "Tool (Foo et al. 2023)" : "",
         def citation_text = [
                 "Tools used in the workflow included:",
@@ -29,8 +29,6 @@ class WorkflowIridanext {
 
     public static String toolBibliographyText(params) {
 
-        // TODO Optionally add bibliographic entries to this list.
-        // Can use ternary operators to dynamically construct based conditions, e.g. params["run_xyz"] ? "<li>Author (2023) Pub name, Journal, DOI</li>" : "",
         def reference_text = [
                 ""
             ].join(' ').trim()
