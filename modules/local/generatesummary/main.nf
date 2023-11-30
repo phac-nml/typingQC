@@ -28,7 +28,7 @@ process GENERATE_SUMMARY {
         summary_text += "    assembly: ${summary[2]}\n"
     }
 
-    version_text = "\"${task.process}\":\n    generatesummary : 0.1.0.dev0"
+    version_text = "\"${task.process}\":\n    generatesummary : 0.1.0"
 
     """
     echo "${summary_text}" > summary.txt
