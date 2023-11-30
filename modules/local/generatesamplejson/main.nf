@@ -43,7 +43,7 @@ process GENERATE_SAMPLE_JSON {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        generatesamplejson : 0.1.0.dev0
+        generatesamplejson : 0.1.0
     END_VERSIONS
     """
 }

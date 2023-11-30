@@ -27,7 +27,7 @@ process ASSEMBLY_STUB {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        assemblystub : 0.1.0.dev0
+        assemblystub : 0.1.0
     END_VERSIONS
     """
 }
