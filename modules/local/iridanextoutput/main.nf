@@ -7,7 +7,7 @@ process IRIDA_NEXT_OUTPUT {
     path(samples_data)
 
     output:
-    path("output.json.gz"), emit: output_json
+    path("iridanext.output.json.gz"), emit: output_json
     path "versions.yml", emit: versions
 
     when:
@@ -19,12 +19,13 @@ process IRIDA_NEXT_OUTPUT {
     """
     irida-next-output.py \\
         $args \\
-        --json-output output.json.gz \\
+        --summary-file ${task.summary_directory_name}/summary.txt.gz \\
+        --json-output iridanext.output.json.gz \\
         ${samples_data}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        irida-next-output : 0.1.0.dev0
+        iridanextoutput : 0.1.0
     END_VERSIONS
     """
 }

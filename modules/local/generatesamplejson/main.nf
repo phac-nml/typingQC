@@ -1,11 +1,11 @@
-process SAMPLE_METADATA {
+process GENERATE_SAMPLE_JSON {
     tag "$meta.id"
     label 'process_single'
 
     container 'docker.io/python:3.9.17'
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads), path(assembly)
 
     output:
     tuple val(meta), path("*.json.gz"), emit: json
@@ -17,18 +17,23 @@ process SAMPLE_METADATA {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def assembly_path = ["${task.assembly_directory_name}", "${assembly}"].join(File.separator)
     """
-    reads_1=`basename ${reads[0]}`
-    reads_2=`basename ${reads[1]}`
     cat <<-EOF > "${meta.id}.json"
     {
         "files": {
-            "samples": {}
+            "samples": {
+                "${meta.id}": [
+                    {
+                        "path": "${assembly_path}"
+                    }
+                ]
+            }
         },
         "metadata": {
             "samples": {
                 "${meta.id}": {
-                    "reads": ["\${reads_1}", "\${reads_2}"]
+                    "reads": ["${reads[0]}", "${reads[1]}"]
                 }
             }
         }
@@ -38,7 +43,7 @@ process SAMPLE_METADATA {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        irida-next-output : 0.1.0.dev0
+        generatesamplejson : 0.1.0
     END_VERSIONS
     """
 }

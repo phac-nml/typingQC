@@ -1,6 +1,6 @@
-# nf-core/iridanext: Documentation
+# phac-nml/iridanextexample: Documentation
 
-The nf-core/iridanext documentation is split into the following pages:
+The phac-nml/iridanextexample documentation is split into the following pages:
 
 - [Usage](usage.md)
   - An overview of how the pipeline works, how to run it and a description of all of the different command-line flags.
