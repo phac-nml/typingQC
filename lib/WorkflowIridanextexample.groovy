@@ -12,7 +12,6 @@ class WorkflowIridanextExample {
     //
     public static void initialise(params, log) {
 
-        genomeExistsError(params, log)
     }
 
     public static String toolCitationText(params) {
@@ -61,19 +60,5 @@ class WorkflowIridanextExample {
         def description_html = engine.createTemplate(methods_text).make(meta)
 
         return description_html
-    }
-
-    //
-    // Exit pipeline if incorrect --genome key provided
-    //
-    private static void genomeExistsError(params, log) {
-        if (params.genomes && params.genome && !params.genomes.containsKey(params.genome)) {
-            def error_string = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
-                "  Genome '${params.genome}' not found in any config files provided to the pipeline.\n" +
-                "  Currently, the available genome keys are:\n" +
-                "  ${params.genomes.keySet().join(", ")}\n" +
-                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-            Nextflow.error(error_string)
-        }
     }
 }
