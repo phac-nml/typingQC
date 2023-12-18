@@ -33,6 +33,7 @@
                     "type": "string",
                     "default": "assembly",
                     "pattern": "^\\S+$",
+                    "description": "The name of the project.",
                     "fa_icon": "fas fa-tag"
                 },
                 "assembler": {
