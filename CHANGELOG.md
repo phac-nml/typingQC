@@ -5,7 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-Removed GitHub workflows that weren't needed.
+- Removed GitHub workflows that weren't needed.
+- Adding additional parameters for testing purposes.
 
 ## 1.0.1 - 2023/12/06
 
