@@ -21,7 +21,7 @@ class WorkflowMain {
     //
     // Validate parameters and print summary to screen
     //
-    public static void initialise(workflow, params, log) {
+    public static void initialise(workflow, params, log, args) {
 
         // Print workflow version and exit on --version
         if (params.version) {
@@ -32,6 +32,8 @@ class WorkflowMain {
 
         // Check that a -profile or Nextflow config has been provided to run the pipeline
         NfcoreTemplate.checkConfigProvided(workflow, log)
+        // Check that the profile doesn't contain spaces and doesn't end with a trailing comma
+        checkProfile(workflow.profile, args, log)
 
         // Check that conda channels are set-up correctly
         if (workflow.profile.tokenize(',').intersect(['conda', 'mamba']).size() >= 1) {
