@@ -64,8 +64,8 @@ workflow IRIDANEXT {
         // Map the inputs so that they conform to the nf-core-expected "reads" format.
         // Either [meta, [fastq_1]] or [meta, [fastq_1, fastq_2]] if fastq_2 exists
         .map { meta, fastq_1, fastq_2 ->
-               fastq_2 ? tuple(meta, [ file(fastq_1), file(fastq_2) ]) :
-               tuple(meta, [ file(fastq_1) ])}
+                fastq_2 ? tuple(meta, [ file(fastq_1), file(fastq_2) ]) :
+                tuple(meta, [ file(fastq_1) ])}
 
     ASSEMBLY_STUB (
         input
