@@ -20,6 +20,9 @@ If you're not used to this workflow with git, you can start with some [docs from
 
 ## Tests
 
+You can optionally test your changes by running the pipeline locally. Then it is recommended to use the `debug` profile to
+receive warnings about process selectors and other debug info. Example: `nextflow run . -profile debug,test,docker --outdir <OUTDIR>`.
+
 When you create a pull request with changes, [GitHub Actions](https://github.com/features/actions) will run automatic tests.
 Typically, pull-requests are only fully reviewed when these tests are passing, though of course we can help out before then.
 
@@ -67,8 +70,7 @@ If you wish to contribute a new step, please use the following coding standards:
 6. Add sanity checks and validation for all relevant parameters.
 7. Perform local tests to validate that the new code works as expected.
 8. If applicable, add a new test command in `.github/workflow/ci.yml`.
-9. Update MultiQC config `assets/multiqc_config.yml` so relevant suffixes, file name clean up and module plots are in the appropriate order. If applicable, add a [MultiQC](https://https://multiqc.info/) module.
-10. Add a description of the output files and if relevant any appropriate images from the MultiQC report to `docs/output.md`.
+9. Add a description of the output files to `docs/output.md`.
 
 ### Default values
 

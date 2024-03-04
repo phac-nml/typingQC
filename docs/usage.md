@@ -18,7 +18,7 @@ The input samplesheet must contain three columns: `ID`, `fastq_1`, `fastq_2`. Th
 
 A final samplesheet file consisting of both single- and paired-end data may look something like the one below.
 
-```console
+```csv title="samplesheet.csv"
 sample,fastq_1,fastq_2
 SAMPLE1,sample1_R1.fastq.gz,sample1_R2.fastq.gz
 SAMPLE2,sample2_R1.fastq.gz,sample2_R2.fastq.gz
