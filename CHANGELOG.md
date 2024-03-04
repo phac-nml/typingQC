@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## In-development
 
 - Fixed nf-core tools linting failures introduced in version 2.12.1.
+- 
+## 1.0.3 - 2024/02/23
+
+- Pinned nf-validation@1.1.3 plugin
 
 ## 1.0.2 - 2023/12/18
 
