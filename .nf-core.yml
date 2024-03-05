@@ -28,3 +28,6 @@ lint:
     - manifest.homePage
   readme:
     - nextflow_badge
+
+template:
+  prefix: phac-nml
