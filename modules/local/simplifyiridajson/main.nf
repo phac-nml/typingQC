@@ -2,7 +2,14 @@ process SIMPLIFY_IRIDA_JSON {
     tag "$meta.id"
     label 'process_single'
 
-    container 'docker.io/python:3.9.17'
+    // Container directive is intentionally using the "override_configure_container_registry" as an example:
+    // How to keep a non-biocontainer/quay.io default, see nextflow.config for
+
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    'https://depot.galaxyproject.org/singularity/python:3.10' :
+    task.ext.override_configured_container_registry != false ?
+    'docker.io/python:3.10' :
+    'biocontainers/python:3.10' }"
 
     input:
     tuple val(meta), path(json)
