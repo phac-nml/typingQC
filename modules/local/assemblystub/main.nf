@@ -2,7 +2,9 @@ process ASSEMBLY_STUB {
     tag "$meta.id"
     label 'process_single'
 
-    container 'docker.io/python:3.9.17'
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/python:3.10' :
+        'biocontainers/python:3.10' }"
 
     input:
     tuple val(meta), path(reads)
