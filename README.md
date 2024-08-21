@@ -29,6 +29,7 @@ nextflow run phac-nml/iridanextexample -profile singularity -r main -latest --in
 ```
 
 Where the `samplesheet.csv` is structured as specified in the [Input](#input) section.
+For more information see [usage doc](docs/usage.md)
 
 # Output
 
@@ -84,6 +85,8 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
 Within the `files` section of this JSON file, all of the output paths are relative to the `outdir`. Therefore, `"path": "assembly/SAMPLE1.assembly.fa.gz"` refers to a file located within `outdir/assembly/SAMPLE1.assembly.fa.gz`.
 
 There is also a pipeline execution summary output file provided (specified in the above JSON as `"global": [{"path":"summary/summary.txt.gz"}]`). However, there is no formatting specification for this file.
+
+For more information see [output doc](docs/output.md)
 
 ## Test profile
 
