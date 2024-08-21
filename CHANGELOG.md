@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed nf-core tools linting failures introduced in version 2.14.1.
 - Added phac-nml prefix to nf-core config
-- Added ternary conditional operator in container section of process directive for singularity containers
-- Replaced docker.io as default docker container registry for quay.io/biocontainers
+- Updated container directives to meet requirements of [phac-nml pipeline standards software requirements]
+  - Added ternary conditional operator in container section of process directive for singularity containers
+  - Replaced docker.io as default docker container registry for quay.io/biocontainers
+  - Implemented an example of [overriding container registries with the container directive]
 
 ## [1.0.3]- 2024/02/23
 
@@ -35,6 +37,8 @@ Initial release of phac-nml/iridanextexample, created with the [nf-core](https:/
 
 ### `Deprecated`
 
+[Overriding container registries with the container directive]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
+[phac-nml pipeline standards software requirements]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
 [1.0.3]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.3
 [1.0.2]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.2
 [1.0.1]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.1

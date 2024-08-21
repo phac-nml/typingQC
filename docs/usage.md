@@ -61,6 +61,7 @@ Do not use `-c <file>` to specify parameters as this will result in errors. Cust
 ### Overriding Container Registries with the `container` Directive
 
 The `iridanextexample` has implemented the process `override_configured_container_registry` ([detailed here](https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#5221-example-overriding-container-registries-with-the-container-directive)) to allow `docker.io` to be used when default registry is `quay.io` to [customize the container](#custom-containers) for the [process](/modules/local/simplifyiridajson/main.nf) `SIMPLIFY_IRIDA_JSON`. The process can be changed in the [nextflow.config](/./nextflow.config#L158)
+
 ```bash
 // Override the default Docker registry when required
 process.ext.override_configured_container_registry = true
