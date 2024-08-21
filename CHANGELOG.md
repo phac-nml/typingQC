@@ -5,8 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## In-development
 
-- Fixed nf-core tools linting failures introduced in version 2.12.1.
+- Fixed nf-core tools linting failures introduced in version 2.14.1.
 - Added phac-nml prefix to nf-core config
+- Added ternary conditional operator in container section of process directive for singularity containers
+- Replaced docker.io as default docker container registry for quay.io/biocontainers
 
 ## 1.0.3 - 2024/02/23
 
