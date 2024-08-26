@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## In-development
+## [1.0.4]- 2024/08/27
 
 - Fixed nf-core tools linting failures introduced in version 2.14.1.
 - Added phac-nml prefix to nf-core config
@@ -39,6 +39,7 @@ Initial release of phac-nml/iridanextexample, created with the [nf-core](https:/
 
 [Overriding container registries with the container directive]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
 [phac-nml pipeline standards software requirements]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
+[1.0.4]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.4
 [1.0.3]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.3
 [1.0.2]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.2
 [1.0.1]: https://github.com/phac-nml/iridanextexample/releases/tag/1.0.1
