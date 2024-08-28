@@ -28,7 +28,7 @@ nextflow_process {
                 def sample_json_string = path(json.get(0)[1]).linesGzip.join("\n")
                 def parser = new groovy.json.JsonSlurper()
                 def sample_json = parser.parseText(sample_json_string)
-                
+
                 assert sample_json.files.samples.SAMPLE1[0].path.equals("assembly/SAMPLE1.assembly.fa.gz")
                 assert sample_json.metadata.samples.SAMPLE1.reads[0].equals("sample1_R1.fastq.gz")
                 assert sample_json.metadata.samples.SAMPLE1.reads[1].equals("sample1_R2.fastq.gz")

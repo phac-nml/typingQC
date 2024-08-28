@@ -18,7 +18,7 @@ The structure of this file is defined in [assets/schema_input.json](assets/schem
 
 The main parameters are `--input` as defined above and `--output` for specifying the output results directory. You may wish to provide `-profile singularity` to specify the use of singularity containers and `-r [branch]` to specify which GitHub branch you would like to run.
 
-Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schmea.json).
+Other parameters (defaults from nf-core) are defined in [nextflow_schema.json](nextflow_schema.json).
 
 # Running
 
@@ -29,6 +29,7 @@ nextflow run phac-nml/iridanextexample -profile singularity -r main -latest --in
 ```
 
 Where the `samplesheet.csv` is structured as specified in the [Input](#input) section.
+For more information see [usage doc](docs/usage.md)
 
 # Output
 
@@ -84,6 +85,8 @@ An example of the what the contents of the IRIDA Next JSON file looks like for t
 Within the `files` section of this JSON file, all of the output paths are relative to the `outdir`. Therefore, `"path": "assembly/SAMPLE1.assembly.fa.gz"` refers to a file located within `outdir/assembly/SAMPLE1.assembly.fa.gz`.
 
 There is also a pipeline execution summary output file provided (specified in the above JSON as `"global": [{"path":"summary/summary.txt.gz"}]`). However, there is no formatting specification for this file.
+
+For more information see [output doc](docs/output.md)
 
 ## Test profile
 
