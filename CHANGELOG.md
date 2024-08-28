@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.4]- 2024/08/27
+## [1.0.4]- 2024/08/28
 
 - Fixed nf-core tools linting failures introduced in version 2.14.1.
 - Added phac-nml prefix to nf-core config
