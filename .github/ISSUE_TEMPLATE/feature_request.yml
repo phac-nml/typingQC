@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for the phac-nml/typingQC pipeline
+description: Suggest an idea for the phac-nml/typingqc pipeline
 labels: enhancement
 body:
   - type: textarea
