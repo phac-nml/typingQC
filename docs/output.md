@@ -1,4 +1,4 @@
-# phac-nml/iridanextexample: Output
+# phac-nml/typingQC: Output
 
 ## Introduction
 

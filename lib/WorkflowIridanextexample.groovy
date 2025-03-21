@@ -1,11 +1,11 @@
 //
-// This file holds several functions specific to the workflow/iridanextexample.nf in the phac-nml/iridanextexample pipeline
+// This file holds several functions specific to the workflow/typingQC.nf in the phac-nml/typingQC pipeline
 //
 
 import nextflow.Nextflow
 import groovy.text.SimpleTemplateEngine
 
-class WorkflowIridanextExample {
+class WorkflowtypingQC {
 
     //
     // Check and validate parameters

@@ -13,7 +13,7 @@ def summary_params = paramsSummaryMap(workflow)
 // Print parameter summary log to screen
 log.info logo + paramsSummaryLog(workflow) + citation
 
-WorkflowIridanextexample.initialise(params, log)
+WorkflowtypingQC.initialise(params, log)
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
