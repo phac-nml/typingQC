@@ -39,7 +39,7 @@ WorkflowMain.initialise(workflow, params, log, args)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { IRIDANEXT } from './workflows/typingQC'
+include { IRIDANEXT } from './workflows/iridanextexample'
 
 //
 // WORKFLOW: Run main phac-nml/typingQC analysis pipeline
