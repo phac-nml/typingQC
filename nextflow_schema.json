@@ -1,8 +1,8 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/phac-nml/iridanextexample/main/nextflow_schema.json",
-    "title": "phac-nml/iridanextexample pipeline parameters",
-    "description": "IRIDA Next Example Pipeline",
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/phac-nml/typingQC/main/nextflow_schema.json",
+    "title": "phac-nml/typingQC pipeline parameters",
+    "description": "Genome Typing Quality Control Assessment",
     "type": "object",
     "definitions": {
         "input_output_options": {

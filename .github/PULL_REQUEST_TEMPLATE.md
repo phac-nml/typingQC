@@ -1,21 +1,21 @@
 <!--
-# phac-nml/iridanextexample pull request
+# phac-nml/typingQC pull request
 
-Many thanks for contributing to phac-nml/iridanextexample!
+Many thanks for contributing to phac-nml/typingQC!
 
 Please fill in the appropriate checklist below (delete whatever is not relevant).
 These are the most common things requested on pull requests (PRs).
 
 Remember that PRs should be made against the dev branch, unless you're preparing a pipeline release.
 
-Learn more about contributing: [CONTRIBUTING.md](https://github.com/phac-nml/iridanextexample/tree/main/.github/CONTRIBUTING.md)
+Learn more about contributing: [CONTRIBUTING.md](https://github.com/phac-nml/typingQC/tree/main/.github/CONTRIBUTING.md)
 -->
 
 ## PR checklist
 
 - [ ] This comment contains a description of changes (with reason).
 - [ ] If you've fixed a bug or added code that should be tested, add tests!
-- [ ] If you've added a new tool - have you followed the pipeline conventions in the [contribution docs](https://github.com/phac-nml/iridanextexample/tree/main/.github/CONTRIBUTING.md)
+- [ ] If you've added a new tool - have you followed the pipeline conventions in the [contribution docs](https://github.com/phac-nml/typingQC/tree/main/.github/CONTRIBUTING.md)
 - [ ] Make sure your code lints (`nf-core lint`).
 - [ ] Ensure the test suite passes (`nextflow run . -profile test,docker --outdir <OUTDIR>`).
 - [ ] Check for unexpected warnings in debug mode (`nextflow run . -profile debug,test,docker --outdir <OUTDIR>`).
