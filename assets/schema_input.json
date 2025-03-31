@@ -10,29 +10,84 @@
             "sample": {
                 "type": "string",
                 "pattern": "^\\S+$",
-                "meta": ["id"],
+                "meta": ["irida_id"],
                 "unique": true,
                 "errorMessage": "Sample name must be provided and cannot contain spaces"
             },
-            "fastq_1": {
+            "sample_name": {
                 "type": "string",
-                "pattern": "^\\S+\\.f(ast)?q(\\.gz)?$",
-                "errorMessage": "FastQ file for reads 1 must be provided, cannot contain spaces and must have the extension: '.fq', '.fastq', '.fq.gz' or '.fastq.gz'"
+                "meta": ["id"],
+                "errorMessage": "Same name is optional, if provided will replace sample for filenames and outputs"
             },
-            "fastq_2": {
-                "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have the extension: '.fq', '.fastq', '.fq.gz' or '.fastq.gz'",
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "pattern": "^\\S+\\.f(ast)?q(\\.gz)?$"
-                    },
-                    {
-                        "type": "string",
-                        "maxLength": 0
-                    }
-                ]
+            "sistr_data": {
+                "type": "string",
+                "format": "file-path",
+                "pattern": "^\\S+\\.sistr\\.subtyping\\.(tab|tsv)$",
+                "errorMessage": "Automatically generated SISTR tabulated data from mikrokondo for Salmonella samples. File cannot contain spaces."
+            },
+            "ectyper_data": {
+                "type": "string",
+                "format": "file-path",
+                "pattern": "^\\S+\\.output\\.ectyper\\.subtyping\\.(tab|tsv)$",
+                "errorMessage": "Automatically generated ECTyper tabulated data from mikrokondo for Escherichia samples. File cannot contain spaces."
+            },
+            "metadata_1": {
+                "type": "string",
+                "meta": ["metadata_1"],
+                "errorMessage": "Metadata associated with the sample (metadata_1).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_2": {
+                "type": "string",
+                "meta": ["metadata_2"],
+                "errorMessage": "Metadata associated with the sample (metadata_2).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_3": {
+                "type": "string",
+                "meta": ["metadata_3"],
+                "errorMessage": "Metadata associated with the sample (metadata_3).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_4": {
+                "type": "string",
+                "meta": ["metadata_4"],
+                "errorMessage": "Metadata associated with the sample (metadata_4).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_5": {
+                "type": "string",
+                "meta": ["metadata_5"],
+                "errorMessage": "Metadata associated with the sample (metadata_5).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_6": {
+                "type": "string",
+                "meta": ["metadata_6"],
+                "errorMessage": "Metadata associated with the sample (metadata_6).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_7": {
+                "type": "string",
+                "meta": ["metadata_7"],
+                "errorMessage": "Metadata associated with the sample (metadata_7).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
+            },
+            "metadata_8": {
+                "type": "string",
+                "meta": ["metadata_8"],
+                "errorMessage": "Metadata associated with the sample (metadata_8).",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample", "fastq_1"]
+        "required": ["sample"]
     }
 }

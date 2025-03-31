@@ -33,10 +33,10 @@ WorkflowTypingQC.initialise(params, log)
 
 include { INPUT_CHECK          } from '../subworkflows/local/input_check'
 
-//include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
-//include { SISTRQC            } from '../modules/local/sistrqc/main'
-//include { ECTYPERQC          } from '../modules/local/ectyperseroqc/main'
-//include { FAIL_TYPING        } from '../modules/local/failtyping/main'
+include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
+include { SISTRQC            } from '../modules/local/sistrqc/main'
+include { ECTYPERQC          } from '../modules/local/ectyperseroqc/main'
+include { FAIL_TYPING        } from '../modules/local/failtyping/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
