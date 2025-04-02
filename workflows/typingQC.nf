@@ -96,15 +96,15 @@ workflow TYPINGQC {
     sistr_results = SISTRQC(isolates.sistrqc.map {
         meta, input_file -> tuple(meta, input_file)
         })
-        
+
     ectyper_results = ECTYPERQC(isolates.ectyperqc.map {
         meta, input_file -> tuple(meta, input_file)
         })
-    
+
     failed_qc_results = SEQUENCEQC(isolates.sequenceqc.map {
         meta, input_file -> tuple(meta, input_file)
         })
-    
+
     fail_typing_qc = FAIL_TYPING(isolates.fallthrough.map {
         meta, file -> tuple(meta, file)
         })
