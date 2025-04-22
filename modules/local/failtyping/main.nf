@@ -1,10 +1,17 @@
 process FAIL_TYPING {
     input:
-    tuple val(meta), path(input_file)
+    val(meta)
+
+    output:
+    path "fail_typing_results.txt", emit: results
+    path "versions.yml", emit: versions
 
     script:
     """
-    echo "FAIL - Not a typable species: ${meta.predicted_identification_name}" >&2
-    exit 1
+    echo "NOT A REPORTABLE SPECIES" > fail_typing_results.txt
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        custom: v1.0
+    END_VERSIONS
     """
 }
