@@ -31,63 +31,63 @@
                 "pattern": "^\\S+\\.output\\.ectyper\\.subtyping\\.(tab|tsv)$",
                 "errorMessage": "Automatically generated ECTyper tabulated data from mikrokondo for Escherichia samples. File cannot contain spaces."
             },
-            "metadata_1": {
+            "predicted_identification_name": {
                 "type": "string",
-                "meta": ["metadata_1"],
-                "errorMessage": "Metadata associated with the sample (metadata_1).",
+                "meta": ["Species"],
+                "errorMessage": "Species called by mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_2": {
+            "QC_status_overall": {
                 "type": "string",
-                "meta": ["metadata_2"],
-                "errorMessage": "Metadata associated with the sample (metadata_2).",
+                "meta": ["QCStatus"],
+                "errorMessage": "Sequencing QC Status - mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_3": {
+            "N50_value": {
                 "type": "string",
-                "meta": ["metadata_3"],
-                "errorMessage": "Metadata associated with the sample (metadata_3).",
+                "meta": ["N50"],
+                "errorMessage": "N50 value - mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_4": {
+            "raw_average_quality_value": {
                 "type": "string",
-                "meta": ["metadata_4"],
-                "errorMessage": "Metadata associated with the sample (metadata_4).",
+                "meta": ["AvgQuality"],
+                "errorMessage": "Sequencing Average Quality - mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_5": {
+            "length_value": {
                 "type": "string",
-                "meta": ["metadata_5"],
-                "errorMessage": "Metadata associated with the sample (metadata_5).",
+                "meta": ["Length"],
+                "errorMessage": "Genome length - mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_6": {
+            "nr_contigs_value": {
                 "type": "string",
-                "meta": ["metadata_6"],
-                "errorMessage": "Metadata associated with the sample (metadata_6).",
+                "meta": ["NrContigs"],
+                "errorMessage": "Number of contigs in genome - Mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_7": {
+            "ectyper_qcflag": {
                 "type": "string",
-                "meta": ["metadata_7"],
-                "errorMessage": "Metadata associated with the sample (metadata_7).",
+                "meta": ["ECTYPERqc"],
+                "errorMessage": "ECTyper QC Status - Mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "metadata_8": {
+            "sistr_qc_status": {
                 "type": "string",
-                "meta": ["metadata_8"],
-                "errorMessage": "Metadata associated with the sample (metadata_8).",
+                "meta": ["SISTRqc"],
+                "errorMessage": "SISTR QC Status - Mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample"]
+        "required": ["sample", "predicted_identification_name", "QC_status_overall"]
     }
 }
