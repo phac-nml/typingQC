@@ -94,7 +94,7 @@ workflow TYPINGQC {
             } else if (predicted_id.contains('Salmonella') && !file_1) {
                 println "\nERROR: Salmonella sample ${meta.id} is missing sistr_data file"
             }
-            
+
             // Return structured tuple, using a placeholder if input_file is null
             input_file ? tuple(meta, file(input_file)) : tuple(meta)
         }
