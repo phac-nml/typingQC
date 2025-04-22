@@ -39,13 +39,13 @@ WorkflowMain.initialise(workflow, params, log, args)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { IRIDANEXT } from './workflows/typingQC'
+include { TYPINGQC } from './workflows/typingQC'
 
 //
 // WORKFLOW: Run main phac-nml/typingQC analysis pipeline
 //
-workflow PHACNML_IRIDANEXT {
-    IRIDANEXT ()
+workflow PHACNML_TYPINGQC {
+    TYPINGQC ()
 }
 
 /*
@@ -59,7 +59,7 @@ workflow PHACNML_IRIDANEXT {
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
 workflow {
-    PHACNML_IRIDANEXT ()
+    PHACNML_TYPINGQC ()
 }
 
 /*

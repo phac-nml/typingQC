@@ -35,7 +35,7 @@ include { INPUT_CHECK          } from '../subworkflows/local/input_check'
 
 include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
 include { SISTRQC            } from '../modules/local/sistrqc/main'
-include { ECTYPERQC          } from '../modules/local/ectyperseroqc/main'
+include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
 include { FAIL_TYPING        } from '../modules/local/failtyping/main'
 
 /*
@@ -79,35 +79,30 @@ workflow TYPINGQC {
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
 
-            // Assign the correct file (only one file per sample depending on species)
-            def input_file = file_1 ?: file_2
+            // Assign the correct file based on species
+            def input_file = null
+            def predicted_id = meta.Species ?: ""
+            if (predicted_id.contains('Escherichia') && file_2) {
+                input_file = file_2
+            } else if (predicted_id.contains('Salmonella') && file_1) {
+                input_file = file_1
+            }
 
-            // Return structured tuple
-            tuple(meta, file(input_file))
+            // Return structured tuple, using a placeholder if input_file is null
+            input_file ? tuple(meta, file(input_file)) : tuple(meta)
         }
-
-    isolates = input.branch {
-        sistrqc: { it[0].QC_status_overall == 'PASS' && it[0].predicted_identification_name.contains('Salmonella') }
-        ectyperqc: { it[0].QC_status_overall == 'PASS' && it[0].predicted_identification_name.contains('Escherichia') }
-        sequenceqc: { it[0].QC_status_overall == 'FAIL' }
-        fallthrough: true // Handles untypable species
+        .branch {
+        sistrqc: it.size() > 1 && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
+        ectyperqc: it.size() > 1 && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
+        sequenceqc: it[0].QCStatus == 'FAIL'
+        fallthrough: true
     }
 
-    sistr_results = SISTRQC(isolates.sistrqc.map {
-        meta, input_file -> tuple(meta, input_file)
-        })
-
-    ectyper_results = ECTYPERQC(isolates.ectyperqc.map {
-        meta, input_file -> tuple(meta, input_file)
-        })
-
-    failed_qc_results = SEQUENCEQC(isolates.sequenceqc.map {
-        meta, input_file -> tuple(meta, input_file)
-        })
-
-    fail_typing_qc = FAIL_TYPING(isolates.fallthrough.map {
-        meta, file -> tuple(meta, file)
-        })
+    // Process execution
+    failed_qc_results = SEQUENCEQC(input.sequenceqc)
+    sistr_results = SISTRQC(input.sistrqc)
+    ectyper_results = ECTYPERQC(input.ectyperqc)
+    fail_typing_qc = FAIL_TYPING(input.fallthrough)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
