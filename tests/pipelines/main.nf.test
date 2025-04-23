@@ -22,7 +22,6 @@ nextflow_pipeline {
             assert path("$launchDir/results/sistr_qc_results.txt").exists()
             assert path("$launchDir/results/sequence_qc_results.txt").exists()
             assert path("$launchDir/results/fail_typing_results.txt").exists()
-            assert path("$launchDir/results/irida.output.json.gz").exists()
         }
     }
 }

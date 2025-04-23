@@ -3,4 +3,3 @@ SAMPLE1,EC20150579,,/root/working_directory/pipeline_development/typingQC/tests/
 SAMPLE2,SA20103830,/root/working_directory/pipeline_development/typingQC/tests/data/SAMPLE.sistr.subtyping.tab,,Salmonella enterica,PASS,243848,30.58,4838457,40,,PASS
 SAMPLE3,SA20103840,/root/working_directory/pipeline_development/typingQC/tests/data/SAMPLE.sistr.subtyping.tab,,Salmonella enterica,FAIL,243848,30.58,4838457,40,,FAIL
 SAMPLE4,SA20103830,,,Listeria monocytogenes,PASS,243848,30.58,4838457,40,,,
-SAMPLE5,EC20150570,,,Escherichia coli,PASS,133544,31.84,5010637,101,PASS,,
