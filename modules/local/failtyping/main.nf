@@ -1,4 +1,7 @@
 process FAIL_TYPING {
+    tag "Identify why sample(s) failed to be typed"
+    label 'process_single'
+
     input:
     val(meta)
 

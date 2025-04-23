@@ -1,4 +1,7 @@
 process ECTYPERQC {
+    tag "Verify ECTyper Sero and Virulence Typing Results"
+    label 'process_single'
+
     input:
     tuple val(meta), path(input_file)
 

@@ -1,4 +1,7 @@
 process SISTRQC {
+    tag "Verify SISTR Serotyping Results"
+    label 'process_single'
+
     input:
     tuple val(meta), path(input_file)
 

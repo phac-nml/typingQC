@@ -18,6 +18,10 @@ nextflow_pipeline {
             assert path("$launchDir/results").exists()
 
             // Will expand on this as the modules are developed
+            assert path("$launchDir/results/ectyper_qc_results.txt").exists()
+            assert path("$launchDir/results/sistr_qc_results.txt").exists()
+            assert path("$launchDir/results/sequence_qc_results.txt").exists()
+            assert path("$launchDir/results/fail_typing_results.txt").exists()
         }
     }
 }

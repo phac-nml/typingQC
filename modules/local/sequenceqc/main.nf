@@ -1,4 +1,7 @@
 process SEQUENCEQC {
+    tag "Identify Sequencing Error"
+    label 'process_single'
+
     input:
     tuple val(meta), path(input_file)
 
