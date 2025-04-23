@@ -1,0 +1,2 @@
+cgmlst_ST	cgmlst_distance	cgmlst_found_loci	cgmlst_genome_match	cgmlst_matching_alleles	cgmlst_subspecies	fasta_filepath	genome	h1	h2	o_antigen	qc_messages	qc_status	serogroup	serovar	serovar_antigen	serovar_cgmlst
+2082397503	0.024242424242424288	330	17-5493	322	enterica	/mnt/batch/tasks/workitems/job-0fbb88695f58b4769751-MIKROKONDO_POST_ASSEMBLY_SUBTYPE_GENO/job-1/nf-b364e48e8afac92f0d0db4f21e5fe589/wd/SA20103830_polished.fasta	SA20103830_polished	d	1,2	6,8	INFO: Number of cgMLST330 loci found (n=330)	PASS	C2-C3	Muenchen	Muenchen|Virginia|Manhattan|Yovokome	Muenchen

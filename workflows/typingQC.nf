@@ -27,12 +27,6 @@ WorkflowTypingQC.initialise(params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
-//
-
-include { INPUT_CHECK          } from '../subworkflows/local/input_check'
-
 include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
 include { SISTRQC            } from '../modules/local/sistrqc/main'
 include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
@@ -89,6 +83,7 @@ workflow TYPINGQC {
             }
 
             // Check for Escherichia without ectyper_data or Salmonella without sistr_data
+            // This will be moved to produce an 'RDS_QC_Message' in the FAIL_TYPING module
             if (predicted_id.contains('Escherichia') && !file_2) {
                 println "\nERROR: Escherichia sample ${meta.id} is missing ectyper_data file"
             } else if (predicted_id.contains('Salmonella') && !file_1) {
