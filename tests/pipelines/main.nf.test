@@ -10,6 +10,7 @@ nextflow_pipeline {
             params {
                 input = "$baseDir/tests/data/samplesheets/samplesheet1.csv"
                 outdir = "results"
+                publish_dir_mode = 'copy'
             }
         }
 
