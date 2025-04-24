@@ -1,6 +1,8 @@
 sample,sample_name,sistr_data,ectyper_data,predicted_identification_name,QC_status_overall,N50_value,raw_average_quality_value,length_value,nr_contigs_value,ectyper_qcflag,sistr_qc_status
 SAMPLE1,EC20150579,,https://raw.githubusercontent.com/phac-nml/typingQC/inputs/tests/data/SAMPLE.output.ectyper.subtyping.tsv,Escherichia coli,PASS,133544,31.84,5010637,101,PASS,,
 SAMPLE2,SA20103830,https://raw.githubusercontent.com/phac-nml/typingQC/inputs/tests/data/SAMPLE.sistr.subtyping.tab,,Salmonella enterica,PASS,243848,30.58,4838457,40,,PASS
-SAMPLE3,SA20103840,https://raw.githubusercontent.com/phac-nml/typingQC/inputs/tests/data/SAMPLE.sistr.subtyping.tab,,Salmonella enterica,FAIL,243848,30.58,4838457,40,,FAIL
-SAMPLE4,SA20103830,,,Listeria monocytogenes,PASS,243848,30.58,4838457,40,,,
-SAMPLE5,EC20150570,,,Escherichia coli,PASS,133544,31.84,5010637,101,PASS,,
+SAMPLE3,SA20103840,https://raw.githubusercontent.com/phac-nml/typingQC/inputs/tests/data/SAMPLE.sistr.subtyping.tab,,Salmonella enterica,PASS,243848,30.58,4838457,40,,PASS
+SAMPLE4,SA20103840,https://raw.githubusercontent.com/phac-nml/typingQC/inputs/tests/data/SAMPLE.sistr.subtyping.tab,,Salmonella enterica,FAIL,243848,30.58,4838457,40,,FAIL
+SAMPLE5,LM20103830,,,Listeria monocytogenes,PASS,243848,30.58,4838457,40,,,
+SAMPLE6,LM20103830,https://raw.githubusercontent.com/phac-nml/typingQC/inputs/tests/data/SAMPLE.sistr.subtyping.tab,,Listeria monocytogenes,PASS,243848,30.58,4838457,40,,,
+SAMPLE7,EC20150570,,,Escherichia coli,PASS,133544,31.84,5010637,101,PASS,,

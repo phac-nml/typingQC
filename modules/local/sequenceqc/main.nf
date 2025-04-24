@@ -12,7 +12,6 @@ process SEQUENCEQC {
     script:
     """
     echo "Running SEQUENCEQC on ${meta.id} with file: ${input_file}" > ${meta.id}_sequence_qc_results.txt
-    
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         custom: TBD
