@@ -6,8 +6,8 @@ process FAIL_TYPING {
     val(meta)
 
     output:
-    path "fail_typing_results.txt", emit: results
-    path "versions.yml", emit: versions
+    path "fail_typing_results.txt",    emit: results
+    path "versions.yml",               emit: versions
 
     script:
     """

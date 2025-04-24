@@ -7,7 +7,7 @@ process SEQUENCEQC {
 
     output:
     path "sequence_qc_results.txt", emit: results
-    path "versions.yml", emit: versions
+    path "versions.yml",            emit: versions
 
     script:
     """
