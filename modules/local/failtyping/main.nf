@@ -6,15 +6,15 @@ process FAIL_TYPING {
     val(meta)
 
     output:
-    path "fail_typing_results.txt",    emit: results
-    path "versions.yml",               emit: versions
+    path "*_fail_typing_results.txt",   emit: results
+    path "versions.yml",                emit: versions
 
     script:
     """
-    echo "NOT A REPORTABLE SPECIES" > fail_typing_results.txt
+    echo " If ${meta.id} ${meta.Species} is not Escherichia or Salmonella, it is not a REPORTABLE SPECIES. Or the typing file could be missing" > ${meta.id}_fail_typing_results.txt
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        custom: v1.0
+        custom: TBD
     END_VERSIONS
     """
 }
