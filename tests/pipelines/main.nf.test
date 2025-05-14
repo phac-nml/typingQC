@@ -21,8 +21,9 @@ nextflow_pipeline {
             assert path("$launchDir/results/ectyperqc/EC20150579_ectyper_qc_results.txt").exists()
             assert path("$launchDir/results/sistrqc/SA20103830_sistr_qc_results.txt").exists()
             assert path("$launchDir/results/sistrqc/SA20103840_sistr_qc_results.txt").exists()
-            assert path("$launchDir/results/sequenceqc/SA20103840_SAMPLE4_sequence_qc_results.txt").exists()
-            assert path("$launchDir/results/failtyping/[EC20150570]_fail_typing_results.txt").exists()
+            assert path("$launchDir/results/sequenceqc/SA20103850_sequence_qc_results.txt").exists()
+            assert path("$launchDir/results/failtyping/EC20150580_fail_typing_results.txt").exists()
+            assert path("$launchDir/results/failtyping/LM20103830_fail_typing_results.txt").exists()
         }
     }
 }
