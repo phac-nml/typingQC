@@ -60,7 +60,7 @@ workflow TYPINGQC {
     // Create a new channel of metadata from a sample sheet
     // NB: `input` corresponds to `params.input` and associated sample sheet schema
     input = Channel.fromSamplesheet("input")
-        .map { meta, file_1, file_2 ->
+        .map { meta, mikro_file ->
             if (!meta.id) {
                 meta.id = meta.irida_id
             } else {
@@ -74,34 +74,17 @@ workflow TYPINGQC {
             // Add the ID to the set of processed IDs
             processedIDs << meta.id
 
-            // Assign the correct file based on species
-            def input_file = null
-            def predicted_id = meta.Species ?: ""
-            if (predicted_id.contains('Escherichia') && file_2) {
-                input_file = file_2
-            } else if (predicted_id.contains('Salmonella') && file_1) {
-                input_file = file_1
-            }
-
-            // Check for Escherichia without ectyper_data or Salmonella without sistr_data
-            // This will be moved to produce an 'RDS_QC_Message' in the FAIL_TYPING module
-            if (predicted_id.contains('Escherichia') && !file_2) {
-                println "\nERROR: Escherichia sample ${meta.id} is missing ectyper_data file"
-            } else if (predicted_id.contains('Salmonella') && !file_1) {
-                println "\nERROR: Salmonella sample ${meta.id} is missing sistr_data file"
-            }
-
             // Return structured tuple, using a placeholder if input_file is null
-            input_file ? tuple(meta, file(input_file)) : tuple(meta)
+            tuple(meta, mikro_file ? [file(mikro_file)] : [])
         }
         .branch {
-        sistrqc: it.size() > 1 && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
-        ectyperqc: it.size() > 1 && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
-        sequenceqc: it[0].QCStatus == 'FAIL'
+        sistrqc: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
+        ectyperqc: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
+        sequenceqc: !it[1].isEmpty() && it[0].QCStatus == 'FAIL'
         fallthrough: true
     }
 
-    // Process execution
+    // Process execution for typing and sequencing results
     failed_qc_results = SEQUENCEQC(input.sequenceqc)
     sistr_results = SISTRQC(input.sistrqc)
     ectyper_results = ECTYPERQC(input.ectyperqc)
