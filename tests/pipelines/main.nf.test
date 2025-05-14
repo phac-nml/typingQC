@@ -24,6 +24,7 @@ nextflow_pipeline {
             assert path("$launchDir/results/sequenceqc/SA20103850_sequence_qc_results.txt").exists()
             assert path("$launchDir/results/failtyping/EC20150580_fail_typing_results.txt").exists()
             assert path("$launchDir/results/failtyping/LM20103830_fail_typing_results.txt").exists()
+            assert path("$launchDir/results/failtyping/LM20103830_SAMPLE7_fail_typing_results.txt").exists()
         }
     }
 }
