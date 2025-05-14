@@ -3,7 +3,7 @@ process SEQUENCEQC {
     label 'process_single'
 
     input:
-    tuple val(meta), path(input_file)
+    tuple val(meta), path(mikro_file)
 
     output:
     path "*_sequence_qc_results.txt",   emit: results
@@ -11,7 +11,7 @@ process SEQUENCEQC {
 
     script:
     """
-    echo "Running SEQUENCEQC on ${meta.id} with file: ${input_file}" > ${meta.id}_sequence_qc_results.txt
+    echo "Running SEQUENCEQC on ${meta.id} with file: ${mikro_file}" > ${meta.id}_sequence_qc_results.txt
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         custom: TBD
