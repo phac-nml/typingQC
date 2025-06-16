@@ -1,5 +1,5 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
-SAMPLE1,SALM001,/root/working_directory/pipeline_dev/typingQC/tests/data/SALM001.flat_sample.json.gz,Salmonella_enterica,PASS
-SAMPLE2,SALM002,/root/working_directory/pipeline_dev/typingQC/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAIL
-SAMPLE3,SALM003,/root/working_directory/pipeline_dev/typingQC/tests/data/SALM003.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM001.flat_sample.json.gz,Salmonella_enterica,PASS
+SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE3,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM003.flat_sample.json.gz,Salmonella_enterica,FAIL
 SAMPLE4,SALM005,,Salmonella_enterica,PASS
