@@ -1,0 +1,5 @@
+sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
+SAMPLE1,SA2501150,/root/working_directory/nml-phac/typingQC/tests/data/SA2501150.flat_sample.json.gz,Salmonella_enterica,PASS
+SAMPLE2,SA20250441,/root/working_directory/nml-phac/typingQC/tests/data/SA20250441.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE3,SA20251374,/root/working_directory/nml-phac/typingQC/tests/data/SA20251374.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE4,SA20150580,,Salmonella_enterica,PASS
