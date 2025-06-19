@@ -23,8 +23,8 @@ nextflow_pipeline {
             assert path("$launchDir/results/sistrqc/SALM004_sistr_qc_results.txt").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
             assert path("$launchDir/results/failtyping/EC20150580_untypable.csv").exists()
-            assert path("$launchDir/results/failtyping/LM20103830_untypable.csv").exists()
-            assert path("$launchDir/results/failtyping/LM20103830_SAMPLE7_untypable.csv").exists()
+            assert path("$launchDir/results/failtyping/LIST001_untypable.csv").exists()
+            assert path("$launchDir/results/failtyping/LIST001_SAMPLE7_untypable.csv").exists()
         }
     }
 
@@ -48,7 +48,7 @@ nextflow_pipeline {
             // Read CSV into rows
             def csv = outputFile.readLines()
             def header = csv[0].split(",")
-            def values = csv[1].split(",", 3) // Only split first 2 commas (3 columns)
+            def values = csv[1].split(",", 3) 
 
             assert header == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
             assert values[0] == "SALM002"
@@ -82,7 +82,7 @@ nextflow_pipeline {
             // Read CSV into rows
             def csv_salm = outputFile_salm.readLines()
             def header_salm = csv_salm[0].split(",")
-            def values_salm = csv_salm[1].split(",", 3) // Only split first 2 commas (3 columns)
+            def values_salm = csv_salm[1].split(",", 3) 
 
             assert header_salm == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
             assert values_salm[0] == "SALM005"
