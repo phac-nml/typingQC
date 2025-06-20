@@ -1,4 +1,4 @@
-process FAIL_TYPING {
+process EXCLUSIONS {
     tag "Identify why sample(s) failed to be typed"
     label 'process_single'
 

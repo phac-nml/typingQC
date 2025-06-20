@@ -4,5 +4,5 @@ SAMPLE2,EC20150580,,Escherichia coli,PASS
 SAMPLE3,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASS
 SAMPLE4,SALM004,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM004.flat_sample.json.gz,Salmonella enterica,PASS
 SAMPLE5,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM003.flat_sample.json.gz,Salmonella enterica,FAIL
-SAMPLE6,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASS
+SAMPLE6,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/untypable/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASS
 SAMPLE7,LIST001,,Listeria monocytogenes,PASS
