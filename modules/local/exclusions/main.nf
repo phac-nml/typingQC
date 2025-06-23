@@ -16,11 +16,13 @@ process EXCLUSIONS {
     script:
     def args = task.ext.args ?: ''
     def species = meta.Species ?: "Unknown"
+    def qc_status = meta.QCStatus ?: "Unknown"
     def has_file = mikro_file.toString() != "[]" && mikro_file.size() >0 ? "true" : "false"
     """
     parse_untypable.py \\
     --sample_id ${meta.id} \\
     --species "${species}" \\
+    --qc_status "${qc_status}" \\
     --has_mikro_file ${has_file} \\
     --output_dir . \\
     ${args}
