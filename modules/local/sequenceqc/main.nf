@@ -14,11 +14,16 @@ process SEQUENCEQC {
     path "versions.yml",                emit: versions
 
     script:
+    def args = task.ext.args ?: ''
+    def species = meta.Species ?: "Unknown"
+    def qc_status = meta.QCStatus ?: "Unknown"
     """
     parse_sequenceQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
-    --output_dir .
+    --species "${species}" \\
+    --output_dir . \\
+    ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

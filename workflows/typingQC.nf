@@ -80,7 +80,7 @@ workflow TYPINGQC {
         .branch {
         sistrqc: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
         ectyperqc: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
-        sequenceqc: !it[1].isEmpty() && it[0].QCStatus == 'FAIL' && ((it[0].Species ?: "").contains('Salmonella') || (it[0].SPecies ?: "").contains('Escherichia'))
+        sequenceqc: !it[1].isEmpty() && it[0].QCStatus == 'FAIL'
         fallthrough: true
     }
 
