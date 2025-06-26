@@ -29,18 +29,24 @@ def load_json(path):
     with open_func(path, 'rt') as f:
         return json.load(f)
 
+#Constants for JSON field structure
+Quality_Analysis_prefix = "QualityAnalysis."
+QC_Status_suffix = ".qc_status"
+Message_suffix = ".message"
+QC_Message_key = "QCMessage"
+
 def extract_failed_messages(sample_data):
     messages = []
     for key, value in sample_data.items():
-        if key.startswith("QualityAnalysis.") and key.endswith(".qc_status") and value == "FAILED":
-            prefix = key.rsplit(".qc_status", 1)[0]
-            message_key = f"{prefix}.message"
+        if key.startswith(Quality_Analysis_prefix) and key.endswith(QC_Status_suffix) and value == "FAILED":
+            prefix = key.rsplit(QC_Status_suffix, 1)[0]
+            message_key = f"{prefix}{Message_suffix}"
             if message_key in sample_data:
                 messages.append(sample_data[message_key])
     return messages
 
 def extract_qc_message_first_line(sample_data):
-    qc_msg = sample_data.get("QCMessage", "")
+    qc_msg = sample_data.get(QC_Message_key, "")
     return qc_msg.splitlines()[0] if qc_msg else ""
 
 def main():
