@@ -8,11 +8,11 @@ import gzip
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Extract FAILED QC messages from mikro JSON file"
+        description="Extract FAILED QC messages from a Mikrokondo-generated JSON output file"
     )
     parser.add_argument(
         "-i", "--input", required=True, type=Path,
-        help="Path to the mikro QC JSON file (.json or .json.gz)"
+        help="Path to the Mikrokondo-generated JSON output file (.json or .json.gz)"
     )
     parser.add_argument(
         "-s", "--sample_id", required=True,
@@ -51,7 +51,7 @@ def main():
 
     data = load_json(args.input)
     if not isinstance(data, dict) or len(data) != 1:
-        raise ValueError("Expected JSON to contain a single top-level sample key.")
+        raise ValueError("Expected Mikrokondo-generated JSON input file to contain a single top-level sample key.")
 
     sample_key = next(iter(data))
     sample_data = data[sample_key]
