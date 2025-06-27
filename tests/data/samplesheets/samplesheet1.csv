@@ -1,8 +1,8 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
-SAMPLE1,EC20150579,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/Escherichia.flat_sample.json,Escherichia coli,PASS
+SAMPLE1,EC20150579,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/Escherichia.flat_sample.json,Escherichia coli,PASS
 SAMPLE2,EC20150580,,Escherichia coli,PASS
-SAMPLE3,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASS
-SAMPLE4,SALM004,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM004.flat_sample.json.gz,Salmonella enterica,PASS
-SAMPLE5,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/SALM003.flat_sample.json.gz,Salmonella enterica,FAIL
-SAMPLE6,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/sequenceQC/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASS
+SAMPLE3,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASS
+SAMPLE4,SALM004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM004.flat_sample.json.gz,Salmonella enterica,PASS
+SAMPLE5,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM003.flat_sample.json.gz,Salmonella enterica,FAIL
+SAMPLE6,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASS
 SAMPLE7,LIST001,,Listeria monocytogenes,PASS
