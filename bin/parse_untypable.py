@@ -19,18 +19,14 @@ def parse_args():
         "--qc_status", required=True, help="Overall sequencing status from mikrokondo analysis, e.g. PASS or FAIL"
     )
     parser.add_argument(
-        "--has_mikro_file", required=True, choices=["true", "false"],
-        help="Whether mikrokondo-generated JSON file is present"
+        "--has_mikro_file", action="store_true", help="Include this flag if mikrokondo-generated JSON file is present"
     )
     return parser.parse_args()
 
 def determine_failure_reason(species, has_mikro_file):
 
-    # Convert string boolean to actual boolean
-    has_file = has_mikro_file.lower() == "true"
-
     # Check if mikrokondo file is missing
-    if not has_file:
+    if not has_mikro_file:
         return f"[FAILED] No mikrokondo data file provided."
 
     # Check for supported species (case-insensitive)
@@ -57,7 +53,6 @@ def main():
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"])
         writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
-
 
 if __name__ == "__main__":
     main()

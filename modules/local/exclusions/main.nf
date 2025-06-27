@@ -17,13 +17,13 @@ process EXCLUSIONS {
     def args = task.ext.args ?: ''
     def species = meta.Species ?: "Unknown"
     def qc_status = meta.QCStatus ?: "Unknown"
-    def has_file = mikro_file.size() > 0
+    def has_file = mikro_file && mikro_file.size() > 0 ? "--has_mikro_file" :  ""
     """
     parse_untypable.py \\
     --sample_id ${meta.id} \\
     --species "${species}" \\
     --qc_status "${qc_status}" \\
-    --has_mikro_file ${has_file} \\
+    ${has_file} \\
     ${args}
 
     cat <<-END_VERSIONS > versions.yml
