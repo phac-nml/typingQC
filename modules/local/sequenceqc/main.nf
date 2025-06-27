@@ -22,7 +22,6 @@ process SEQUENCEQC {
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
     --species "${species}" \\
-    --output_dir . \\
     ${args}
 
     cat <<-END_VERSIONS > versions.yml

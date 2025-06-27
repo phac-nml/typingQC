@@ -22,10 +22,6 @@ def parse_args():
         "--species", required=True,
         help="Predicted species from mikrokondo"
     )
-    parser.add_argument(
-        "-o", "--output_dir", type=Path, default=Path.cwd(),
-        help="Directory to write the output CSV file"
-    )
     return parser.parse_args()
 
 def load_json(path):
@@ -74,7 +70,7 @@ def main():
     failed_messages = extract_failed_messages(sample_data)
     rds_qc_message = build_rds_qc_message(sample_data, args.species)
 
-    output_path = args.output_dir / f"{args.sample_id}_sequenceQC.csv"
+    output_path = Path(f"{args.sample_id}_sequenceQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"])
