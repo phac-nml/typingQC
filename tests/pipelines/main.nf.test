@@ -22,9 +22,9 @@ nextflow_pipeline {
             assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
             assert path("$launchDir/results/sistrqc/SALM004_sistr_qc_results.txt").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
-            assert path("$launchDir/results/exclusions/EC20150580_untypable.csv").exists()
-            assert path("$launchDir/results/exclusions/LIST001_untypable.csv").exists()
-            assert path("$launchDir/results/exclusions/LIST001_SAMPLE7_untypable.csv").exists()
+            assert path("$launchDir/results/exclusions/EC20150580_exclusions.csv").exists()
+            assert path("$launchDir/results/exclusions/LIST001_exclusions.csv").exists()
+            assert path("$launchDir/results/exclusions/LIST001_SAMPLE7_exclusions.csv").exists()
         }
     }
 
@@ -41,7 +41,7 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/failtyping/SALM005_fail_typing_results.txt").exists()
+            assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
 
             def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
@@ -90,12 +90,12 @@ nextflow_pipeline {
         }
     }
 
-    test("Testing samples that are not typable with current available software"){
-        tag "pipeline_untypable"
+    test("Testing samples that cannot be typed with current genotyping tools"){
+        tag "pipeline_exclusions"
 
         when {
             params {
-                input = "$baseDir/tests/data/samplesheets/samplesheet_untypable.csv"
+                input = "$baseDir/tests/data/samplesheets/samplesheet_exclusions.csv"
                 outdir = "results"
             }
         }
@@ -103,23 +103,35 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/exclusions/LIST002_untypable.csv").exists()
-            assert path("$launchDir/results/exclusions/SALM004_untypable.csv").exists()
+            assert path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
 
-            def outputFile_salm = path("$launchDir/results/exclusions/SALM005_untypable.csv")
+            def outputFile_salm = path("$launchDir/results/exclusions/SALM005_exclusions.csv")
             assert outputFile_salm.exists()
 
             // Read CSV into rows
             def csv_salm = outputFile_salm.readLines()
             def header_salm = csv_salm[0].split(",")
-            def values_salm = csv_salm[1].split(",", 3)
+            def values_salm = csv_salm[1].split(",", 3) // Only split first 2 commas (3 columns)
 
             assert header_salm == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
             assert values_salm[0] == "SALM005"
-            assert values_salm[1].isEmpty()
+            assert values_salm[1].contains("Overall QC status: FAIL")
             assert values_salm[2].contains("[FAILED] No mikrokondo data file provided")
 
-            def outputFile_list = path("$launchDir/results/exclusions/LIST001_untypable.csv")
+            def outputFile_salm2 = path("$launchDir/results/exclusions/SALM004_exclusions.csv")
+            assert outputFile_salm2.exists()
+
+            def csv_salm2 = outputFile_salm2.readLines()
+            def header_salm2 = csv_salm2[0].split(",")
+            def values_salm2 = csv_salm2[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm2[0] == "SALM004"
+            assert values_salm2[1].contains("Overall QC status: PASS")
+            assert values_salm2[2].contains("[FAILED] No mikrokondo data file provided")
+
+            def outputFile_list = path("$launchDir/results/exclusions/LIST001_exclusions.csv")
             assert outputFile_list.exists()
 
             // Read CSV into rows
@@ -129,7 +141,7 @@ nextflow_pipeline {
 
             assert header_list == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
             assert values_list[0] == "LIST001"
-            assert values_list[1].isEmpty()
+            assert values_list[1].contains("Overall QC status: PASS")
             assert values_list[2].contains("[FAILED] Typing unsupported for species: Listeria monocytogenes")
         }
     }
