@@ -10,21 +10,20 @@ process EXCLUSIONS {
     tuple val(meta), path(mikro_file)
 
     output:
-    path "${meta.id}_untypable.csv",   emit: results
+    path "${meta.id}_exclusions.csv",   emit: results
     path "versions.yml",               emit: versions
 
     script:
     def args = task.ext.args ?: ''
     def species = meta.Species ?: "Unknown"
     def qc_status = meta.QCStatus ?: "Unknown"
-    def has_file = mikro_file.toString() != "[]" && mikro_file.size() >0 ? "true" : "false"
+    def has_file = mikro_file.size() > 0
     """
     parse_untypable.py \\
     --sample_id ${meta.id} \\
     --species "${species}" \\
     --qc_status "${qc_status}" \\
     --has_mikro_file ${has_file} \\
-    --output_dir . \\
     ${args}
 
     cat <<-END_VERSIONS > versions.yml
