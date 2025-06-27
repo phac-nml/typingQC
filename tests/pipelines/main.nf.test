@@ -19,12 +19,130 @@ nextflow_pipeline {
 
             // Will expand on this as the modules are developed
             assert path("$launchDir/results/ectyperqc/EC20150579_ectyper_qc_results.txt").exists()
-            assert path("$launchDir/results/sistrqc/SA20103830_sistr_qc_results.txt").exists()
-            assert path("$launchDir/results/sistrqc/SA20103840_sistr_qc_results.txt").exists()
-            assert path("$launchDir/results/sequenceqc/SA20103850_sequence_qc_results.txt").exists()
-            assert path("$launchDir/results/failtyping/EC20150580_fail_typing_results.txt").exists()
-            assert path("$launchDir/results/failtyping/LM20103830_fail_typing_results.txt").exists()
-            assert path("$launchDir/results/failtyping/LM20103830_SAMPLE7_fail_typing_results.txt").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
+            assert path("$launchDir/results/sistrqc/SALM004_sistr_qc_results.txt").exists()
+            assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
+            assert path("$launchDir/results/exclusions/EC20150580_exclusions.csv").exists()
+            assert path("$launchDir/results/exclusions/LIST001_exclusions.csv").exists()
+            assert path("$launchDir/results/exclusions/LIST001_SAMPLE7_exclusions.csv").exists()
+        }
+    }
+
+    test("Testing samples that fail sequencing"){
+        tag "pipeline_sequenceQC"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_sequence.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+            assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
+
+            def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
+            assert outputFile.exists()
+
+            // Read CSV into rows
+            def csv = outputFile.readLines()
+            def header = csv[0].split(",")
+            def values = csv[1].split(",", 3)
+
+            assert header == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values[0] == "SALM002"
+            assert values[1].contains("[FAILED n50_value] 2038")
+            assert values[1].contains("[FAILED nr_contigs] 1712")
+            assert values[1].contains("[FAILED length] 3525632")
+            assert values[1].contains("[FAILED checkm_contamination] 4.2")
+            assert values[2].contains("[FAILED] Sample is likely contaminated")
+
+            def outputFile2 = path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv")
+            assert outputFile2.exists()
+
+            // Read CSV into rows
+            def csv2 = outputFile2.readLines()
+            def header2 = csv2[0].split(",")
+            def values2 = csv2[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values2[0] == "SALM003"
+            assert values2[1].contains("[FAILED average_coverage] 20.16")
+            assert values2[1].contains("[FAILED n50_value] 89513")
+            assert values2[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+
+            def outputFile3 = path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv")
+            assert outputFile3.exists()
+
+            // Read CSV into rows
+            def csv3 = outputFile3.readLines()
+            def header3 = csv3[0].split(",")
+            def values3 = csv3[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header3 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values3[0] == "CAMP001"
+            assert values3[1].contains("[FAILED average_coverage] 26.99")
+            assert values3[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+            assert values3[2].contains("[WARNING] Typing unsupported for Campylobacter coli")
+        }
+    }
+
+    test("Testing samples that cannot be typed with current genotyping tools"){
+        tag "pipeline_exclusions"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_exclusions.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+            assert path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
+
+            def outputFile_salm = path("$launchDir/results/exclusions/SALM005_exclusions.csv")
+            assert outputFile_salm.exists()
+
+            // Read CSV into rows
+            def csv_salm = outputFile_salm.readLines()
+            def header_salm = csv_salm[0].split(",")
+            def values_salm = csv_salm[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm[0] == "SALM005"
+            assert values_salm[1].contains("Overall QC status: FAIL")
+            assert values_salm[2].contains("[FAILED] No mikrokondo data file provided")
+
+            def outputFile_salm2 = path("$launchDir/results/exclusions/SALM004_exclusions.csv")
+            assert outputFile_salm2.exists()
+
+            def csv_salm2 = outputFile_salm2.readLines()
+            def header_salm2 = csv_salm2[0].split(",")
+            def values_salm2 = csv_salm2[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm2[0] == "SALM004"
+            assert values_salm2[1].contains("Overall QC status: PASS")
+            assert values_salm2[2].contains("[FAILED] No mikrokondo data file provided")
+
+            def outputFile_list = path("$launchDir/results/exclusions/LIST001_exclusions.csv")
+            assert outputFile_list.exists()
+
+            // Read CSV into rows
+            def csv_list = outputFile_list.readLines()
+            def header_list = csv_list[0].split(",")
+            def values_list = csv_list[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_list == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_list[0] == "LIST001"
+            assert values_list[1].contains("Overall QC status: PASS")
+            assert values_list[2].contains("[FAILED] Typing unsupported for species: Listeria monocytogenes")
         }
     }
 }
