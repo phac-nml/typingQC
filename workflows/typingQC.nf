@@ -31,7 +31,7 @@ WorkflowTypingQC.initialise(params, log)
 include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
 include { SISTRQC            } from '../modules/local/sistrqc/main'
 include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
-include { FAIL_TYPING        } from '../modules/local/failtyping/main'
+include { EXCLUSIONS        } from '../modules/local/exclusions/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,7 +88,7 @@ workflow TYPINGQC {
     failed_qc_results = SEQUENCEQC(input.sequenceqc)
     sistr_results = SISTRQC(input.sistrqc)
     ectyper_results = ECTYPERQC(input.ectyperqc)
-    fail_typing_qc = FAIL_TYPING(input.fallthrough)
+    untypable_exclusions = EXCLUSIONS(input.fallthrough)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
