@@ -41,6 +41,8 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+            assert path("$launchDir/results/failtyping/SALM005_fail_typing_results.txt").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
 
             def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
             assert outputFile.exists()
@@ -57,6 +59,34 @@ nextflow_pipeline {
             assert values[1].contains("[FAILED length] 3525632")
             assert values[1].contains("[FAILED checkm_contamination] 4.2")
             assert values[2].contains("[FAILED] Sample is likely contaminated")
+
+            def outputFile2 = path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv")
+            assert outputFile2.exists()
+
+            // Read CSV into rows
+            def csv2 = outputFile2.readLines()
+            def header2 = csv2[0].split(",")
+            def values2 = csv2[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values2[0] == "SALM003"
+            assert values2[1].contains("[FAILED average_coverage] 20.16")
+            assert values2[1].contains("[FAILED n50_value] 89513")
+            assert values2[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+
+            def outputFile3 = path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv")
+            assert outputFile3.exists()
+
+            // Read CSV into rows
+            def csv3 = outputFile3.readLines()
+            def header3 = csv3[0].split(",")
+            def values3 = csv3[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header3 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values3[0] == "CAMP001"
+            assert values3[1].contains("[FAILED average_coverage] 26.99")
+            assert values3[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+            assert values3[2].contains("[WARNING] Typing unsupported for Campylobacter coli")
         }
     }
 
