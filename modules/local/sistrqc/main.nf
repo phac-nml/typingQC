@@ -8,10 +8,11 @@ process SISTRQC {
 
     input:
     tuple val(meta), path(mikro_file)
+    path(reportable_serovars)
 
     output:
-    path "*_sistrQC.csv",      emit: results
-    path "versions.yml",       emit: versions
+    path "${meta.id}_sistrQC.csv",      emit: results
+    path "versions.yml",                emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -22,6 +23,7 @@ process SISTRQC {
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
     --species "${species}" \\
+    --reportables ${reportable_serovars} \\
     ${args}
 
     cat <<-END_VERSIONS > versions.yml
