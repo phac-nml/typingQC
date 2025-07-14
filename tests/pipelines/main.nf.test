@@ -19,8 +19,8 @@ nextflow_pipeline {
 
             // Will expand on this as the modules are developed
             assert path("$launchDir/results/ectyperqc/EC20150579_ectyper_qc_results.txt").exists()
-            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
-            assert path("$launchDir/results/sistrqc/SALM004_sistr_qc_results.txt").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM004_sistrQC.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
             assert path("$launchDir/results/exclusions/EC20150580_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_exclusions.csv").exists()
@@ -29,7 +29,7 @@ nextflow_pipeline {
     }
 
     test("Testing samples that fail sequencing"){
-        tag "pipeline_sequenceQC"
+        tag "pipeline_success_sequenceQC"
 
         when {
             params {
@@ -42,7 +42,7 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
             assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
-            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
 
             def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
             assert outputFile.exists()
@@ -91,7 +91,7 @@ nextflow_pipeline {
     }
 
     test("Testing samples that cannot be typed with current genotyping tools"){
-        tag "pipeline_exclusions"
+        tag "pipeline_success_exclusions"
 
         when {
             params {
@@ -104,7 +104,7 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
             assert path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv").exists()
-            assert path("$launchDir/results/sistrqc/SALM001_sistr_qc_results.txt").exists()
+            assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
 
             def outputFile_salm = path("$launchDir/results/exclusions/SALM005_exclusions.csv")
             assert outputFile_salm.exists()
@@ -143,6 +143,182 @@ nextflow_pipeline {
             assert values_list[0] == "LIST001"
             assert values_list[1].contains("Overall QC status: PASS")
             assert values_list[2].contains("[FAILED] Typing unsupported for species: Listeria monocytogenes")
+        }
+    }
+
+    test("Testing samples with SISTR typing data"){
+        tag "pipeline_success_sistrQC"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_sistr.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.success
+            assert path("$launchDir/results").exists()
+            assert path("$launchDir/results/exclusions/SALM013_exclusions.csv").exists()
+            assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
+
+            def outputFile_salm = path("$launchDir/results/sistrqc/SALM001_sistrQC.csv")
+            assert outputFile_salm.exists()
+
+            // Read CSV into rows
+            def csv_salm = outputFile_salm.readLines()
+            def header_salm = csv_salm[0].split(",")
+            def values_salm = csv_salm[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm[0] == "SALM001"
+            assert values_salm[1].isEmpty()
+            assert values_salm[2].contains("[FAILED] Serovar 'IV Y:g,z51:-' is not reportable.")
+            assert values_salm[2].contains("cgMLST 'IV 48:g,z51:-' result is reportable")
+            assert values_salm[2].contains("seek guidance on traditional serotyping")
+
+            def outputFile_salm2 = path("$launchDir/results/sistrqc/SALM005_sistrQC.csv")
+            assert outputFile_salm2.exists()
+
+            // Read CSV into rows
+            def csv_salm2 = outputFile_salm2.readLines()
+            def header_salm2 = csv_salm2[0].split(",")
+            def values_salm2 = csv_salm2[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm2[0] == "SALM005"
+            assert values_salm2[1].contains("Only matched 294 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
+            assert values_salm2[2].contains("[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
+
+            def outputFile_salm3 = path("$launchDir/results/sistrqc/SALM008_sistrQC.csv")
+            assert outputFile_salm3.exists()
+
+            // Read CSV into rows
+            def csv_salm3 = outputFile_salm3.readLines()
+            def header_salm3 = csv_salm3[0].split(",")
+            def values_salm3 = csv_salm3[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm3 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm3[0] == "SALM008"
+            assert values_salm3[1].isEmpty()
+            assert values_salm3[2].contains("[FAILED] Serovar 'IIIb Y:z52:z' is not reportable. cgMLST 'IIIb 48:z52:z' result is reportable — seek guidance on traditional serotyping")
+
+            def outputFile_salm4 = path("$launchDir/results/sistrqc/SALM009_sistrQC.csv")
+            assert outputFile_salm4.exists()
+
+            // Read CSV into rows
+            def csv_salm4 = outputFile_salm4.readLines()
+            def header_salm4 = csv_salm4[0].split(",")
+            def values_salm4 = csv_salm4[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm4 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm4[0] == "SALM009"
+            assert values_salm4[1].isEmpty()
+            assert values_salm4[2].contains("[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
+
+            def outputFile_salm5 = path("$launchDir/results/sistrqc/SALM010_sistrQC.csv")
+            assert outputFile_salm5.exists()
+
+            // Read CSV into rows
+            def csv_salm5 = outputFile_salm5.readLines()
+            def header_salm5 = csv_salm5[0].split(",")
+            def values_salm5 = csv_salm5[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm5 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm5[0] == "SALM010"
+            assert values_salm5[1].contains("WARNING: H1 antigen gene (fliC) missing. Cannot determine H1 antigen. Cannot accurately predict serovar from antigen genes")
+            assert values_salm5[2].contains("[FAILED] SISTR serotyping unsuccessful.")
+            assert values_salm5[2].contains("RESEQUENCING or TRADITIONAL SEROTYPING is advised.")
+
+            def outputFile_salm6 = path("$launchDir/results/sistrqc/SALM010b_sistrQC.csv")
+            assert outputFile_salm6.exists()
+
+            // Read CSV into rows
+            def csv_salm6 = outputFile_salm6.readLines()
+            def header_salm6 = csv_salm6[0].split(",")
+            def values_salm6 = csv_salm6[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm6 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm6[0] == "SALM010b"
+            assert values_salm6[1].contains("Sample predicted to be Salmonella_enterica but no SISTR data found")
+            assert values_salm6[2].contains("[FAILED] Re-run mikrokondo to generate SISTR data.")
+
+            def outputFile_salm7 = path("$launchDir/results/sistrqc/SALM011_sistrQC.csv")
+            assert outputFile_salm7.exists()
+
+            // Read CSV into rows
+            def csv_salm7 = outputFile_salm7.readLines()
+            def header_salm7 = csv_salm7[0].split(",")
+            def values_salm7 = csv_salm7[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm7 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm7[0] == "SALM011"
+            assert values_salm7[1].contains("WARNING: Only matched 215 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
+            assert values_salm7[2].contains("[FAILED] Serovar 'Adelaide|Agodi' is not reportable. cgMLST 'Ealing' result is reportable — seek guidance on traditional serotyping.")
+
+            def outputFile_salm8 = path("$launchDir/results/sistrqc/SALM012_sistrQC.csv")
+            assert outputFile_salm8.exists()
+
+            // Read CSV into rows
+            def csv_salm8 = outputFile_salm8.readLines()
+            def header_salm8 = csv_salm8[0].split(",")
+            def values_salm8 = csv_salm8[1].split(",", 3) // Only split first 2 commas (3 columns)
+
+            assert header_salm8 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert values_salm8[0] == "SALM012"
+            assert values_salm8[1].contains("WARNING: Only matched 80 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
+            assert values_salm8[2].contains("[FAILED] Serovar 'Ibadan|Mississippi' is not reportable. cgMLST 'Saintpaul' result is reportable — seek guidance on traditional serotyping.")
+        }
+    }
+
+    test("SISTR module without reportable serovar input"){
+        tag "pipeline_failure_sistrQC"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_sistr.csv"
+                reportable_serovars = ""
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.failed
+            assert workflow.stdout.contains("ERROR ~ Argument of `file` function cannot be empty")
+        }
+    }
+
+    test("Missing reportable_serovars file triggers error in SISTR"){
+        tag "pipeline_failure_sistrQC"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_sistr.csv"
+                reportable_serovars = "./reportables.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.failed
+            assert workflow.stderr.contains("* --reportable_serovars: the file or directory './reportables.csv' does not exist.")
+        }
+    }
+
+    test("Empty reportable_serovars file triggers error in SISTR"){
+        tag "pipeline_failure_sistrQC"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_sistr.csv"
+                reportable_serovars = "$baseDir/tests/data/serovars/reportables.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.failed
+            assert workflow.stdout.contains("  ValueError: No valid serovars found in reportables.csv.")
         }
     }
 }
