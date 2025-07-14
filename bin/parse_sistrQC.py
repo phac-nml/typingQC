@@ -74,7 +74,7 @@ def extract_sistr_qc(sample_data, reportable_serovars):
         return ""
 
     elif qc_status.upper() == "WARNING":
-        # If sample raises a WARNING in qc_status record the QC_message 
+        # If sample raises a WARNING in qc_status record the QC_message
         return qc_messages if qc_messages else "SISTR analysis completed with warnings. Please review results manually."
 
     else:
