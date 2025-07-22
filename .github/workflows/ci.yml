@@ -36,6 +36,38 @@ jobs:
         with:
           version: "${{ matrix.NXF_VER }}"
 
+      - name: Clear all caches and force fresh downloads
+        run: |
+          echo "Clearing all Nextflow and system caches..."
+          
+          # Clear Nextflow cache directories
+          rm -rf ~/.nextflow/cache
+          rm -rf ~/.nextflow/assets
+          rm -rf ~/.nextflow/framework
+          rm -rf .nextflow/cache
+          rm -rf .nextflow
+          
+          # Clear any Docker/Singularity caches if using containers
+          docker system prune -f || true
+          
+          # Clear system DNS cache (helps with URL resolution)
+          sudo systemctl flush-dns || true
+          
+          # Clear any wget/curl caches
+          rm -rf ~/.cache/wget
+          rm -rf ~/.cache/curl
+          
+          # Force fresh directory creation
+          mkdir -p ~/.nextflow/cache
+          
+          echo "All caches cleared successfully"
+
+      - name: Set cache-busting environment variables
+        run: |
+          # Set environment variables to prevent caching
+          echo "NXF_OPTS=-Dhttp.agent='Nextflow-CI-${{ github.sha }}-${{ github.run_number }}'" >> $GITHUB_ENV
+          echo "NXF_CACHE_DIR=/tmp/nf-cache-${{ github.run_number }}" >> $GITHUB_ENV
+
       - name: Cache nf-test installation
         id: cache-software
         uses: actions/cache@v3
