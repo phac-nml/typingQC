@@ -16,7 +16,7 @@ process SISTRQC {
 
     when:
     meta.Species && meta.Species.toLowerCase().contains('salmonella')
-    
+
     script:
     def args = task.ext.args ?: ''
     """
