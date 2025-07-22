@@ -131,6 +131,11 @@ def main():
 
     # Extract sample data from JSON
     sample_key = next(iter(data))
+
+    # Check if sample_key matches expected sample_id to ensure correct JSON file
+    if sample_key != args.sample_id:
+        raise ValueError(f"Sample ID mismatch: JSON contains '{sample_key}' but expected '{args.sample_id}'.")
+
     sample_data = data[sample_key]
 
     #Check if SISTR data exists in the JSON file and process accordingly

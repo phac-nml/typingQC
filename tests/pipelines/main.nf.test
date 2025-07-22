@@ -230,7 +230,7 @@ nextflow_pipeline {
             assert values_salm5[2].contains("[FAILED] SISTR serotyping unsuccessful.")
             assert values_salm5[2].contains("RESEQUENCING or TRADITIONAL SEROTYPING is advised.")
 
-            def outputFile_salm6 = path("$launchDir/results/sistrqc/SALM010b_sistrQC.csv")
+            def outputFile_salm6 = path("$launchDir/results/sistrqc/SALM007_sistrQC.csv")
             assert outputFile_salm6.exists()
 
             // Read CSV into rows
@@ -239,7 +239,7 @@ nextflow_pipeline {
             def values_salm6 = csv_salm6[1].split(",", 3) // Only split first 2 commas (3 columns)
 
             assert header_salm6 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
-            assert values_salm6[0] == "SALM010b"
+            assert values_salm6[0] == "SALM007"
             assert values_salm6[1].contains("Sample predicted to be Salmonella_enterica but no SISTR data found")
             assert values_salm6[2].contains("[FAILED] Re-run mikrokondo to generate SISTR data.")
 
@@ -319,6 +319,22 @@ nextflow_pipeline {
         then {
             assert workflow.failed
             assert workflow.stdout.contains("  ValueError: No valid serovars found in reportables.csv.")
+        }
+    }
+
+    test("Incorrect JSON file used for sample"){
+        tag "pipeline_failure_JSON"
+
+        when {
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet_incorrectJSON.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.failed
+            assert workflow.stdout.contains("  ValueError: Sample ID mismatch: JSON contains 'SALM001' but expected 'SALM002'.")
         }
     }
 }
