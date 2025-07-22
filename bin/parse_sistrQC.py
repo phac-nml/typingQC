@@ -65,7 +65,7 @@ def H1_warning(qc_messages):
     ]
     return any(pattern in qc_messages for pattern in H1_pattern)
 
-def extract_sistr_qc(sample_data, reportable_serovars):
+def extract_sistr_qc(sample_data):
     qc_status = sample_data.get(QC_STATUS_KEY, "Unknown")
     qc_messages = sample_data.get(QC_MESSAGES_KEY, "")
 
@@ -138,7 +138,7 @@ def main():
         quality_analysis = f"Sample predicted to be {args.species} but no SISTR data found."
         rds_qc_message = "[FAILED] Re-run mikrokondo to generate SISTR data."
     else:
-        quality_analysis = extract_sistr_qc(sample_data, reportable_serovars)
+        quality_analysis = extract_sistr_qc(sample_data)
         rds_qc_message = build_rds_qc_message(sample_data, reportable_serovars)
 
     #Write output CSV file with results
