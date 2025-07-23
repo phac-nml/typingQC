@@ -1,6 +1,6 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
-SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/2b2058d/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASS
-SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/2b2058d/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAIL
-SAMPLE3,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/2b2058d/tests/data/SALM003.flat_sample.json.gz,Salmonella enterica,FAIL
+SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM01.flat_sample.json.gz,Salmonella_houtenae,PASS
+SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM02.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE3,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM03.flat_sample.json.gz,Salmonella enterica,FAIL
 SAMPLE4,SALM005,,Salmonella_enterica,PASS
-SAMPLE5,CAMP001,https://raw.githubusercontent.com/phac-nml/typingQC/2b2058d/tests/data/CAMP001.flat_sample.json.gz,Campylobacter coli,FAIL
+SAMPLE5,CAMP001,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/CAMP01.flat_sample.json.gz,Campylobacter coli,FAIL
