@@ -30,21 +30,6 @@ jobs:
       - name: Check out pipeline code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
 
-      - name: Update all samplesheets to use current commit & bypass cache
-        run: |
-          SHA=${GITHUB_SHA}
-          echo "Using commit SHA: $SHA"
-          # Find all CSV files that might be used as samplesheets
-          find . -type f -name "*.csv" | while read file; do
-            echo "Updating URLs in: $file"
-            # Replace old hardcoded commit with the current one
-            sed -i "s|https://raw.githubusercontent.com/phac-nml/typingQC/[^/]*/|https://raw.githubusercontent.com/phac-nml/typingQC/${SHA}/|g" "$file"
-            # Add cache-busting query parameter
-            sed -i "s|.json.gz|.json.gz?nocache=${SHA}|g" "$file"
-          done
-          echo "==== Updated samplesheets ===="
-          find . -type f -name "*.csv" -exec cat {} \;
-
       - name: Install Nextflow
         uses: nf-core/setup-nextflow@v1
         with:
