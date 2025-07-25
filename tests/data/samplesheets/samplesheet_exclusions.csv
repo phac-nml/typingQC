@@ -1,6 +1,6 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
-SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/f4d5bbd/tests/data/SALM01.flat_sample.json.gz,Salmonella houtenae,PASS
+SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASS
 SAMPLE2,SALM004,,Salmonella enterica,PASS
 SAMPLE3,SALM005,,Salmonella enterica,FAIL
-SAMPLE4,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/f4d5bbd/tests/data/LIST01.flat_sample.json.gz,Listeria monocytogenes,PASS
-SAMPLE5,CAMP001,https://raw.githubusercontent.com/phac-nml/typingQC/f4d5bbd/tests/data/CAMP01.flat_sample.json.gz,Campylobacter_coli,FAIL
+SAMPLE4,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASS
+SAMPLE5,CAMP001,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/CAMP001.flat_sample.json.gz,Campylobacter_coli,FAIL

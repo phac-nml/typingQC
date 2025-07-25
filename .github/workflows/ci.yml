@@ -56,7 +56,6 @@ jobs:
       - name: Run nf-test
         continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}
         run: |
-          rm -rf .nf-test
           nf-test test
 
       - name: Nextflow run with test profile
