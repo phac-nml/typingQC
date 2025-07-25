@@ -19,14 +19,13 @@ jobs:
   test:
     name: Run pipeline with test data
     # Only run on push if this is the phac-nml dev branch (merged PRs)
-    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'phac-nml/typingQC') }}"
+    if: "${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'phac-nml/mikrokondo') }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
         NXF_VER:
           - "23.04.0"
           - "latest-everything"
-
     steps:
       - name: Check out pipeline code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
@@ -50,6 +49,9 @@ jobs:
         run: |
           wget -qO- https://code.askimed.com/install/nf-test | bash
           sudo mv nf-test /usr/local/bin/
+
+      - name: Disk space cleanup
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
 
       - name: Run nf-test
         continue-on-error: ${{ matrix.NXF_VER == 'latest-everything' }}

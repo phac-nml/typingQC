@@ -84,9 +84,12 @@ workflow TYPINGQC {
         fallthrough: true
     }
 
+    // Create channel for reportable serovars file
+    ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
+
     // Process execution for typing and sequencing results
     failed_qc_results = SEQUENCEQC(input.sequenceqc)
-    sistr_results = SISTRQC(input.sistrqc)
+    sistr_results = SISTRQC(input.sistrqc, ch_reportable_serovars)
     ectyper_results = ECTYPERQC(input.ectyperqc)
     untypable_exclusions = EXCLUSIONS(input.fallthrough)
 

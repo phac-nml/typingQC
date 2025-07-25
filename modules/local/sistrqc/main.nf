@@ -2,20 +2,34 @@ process SISTRQC {
     tag "Verify SISTR Serotyping Results"
     label 'process_single'
 
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/python%3A3.12' :
+        'biocontainers/python:3.12' }"
+
     input:
     tuple val(meta), path(mikro_file)
+    path(reportable_serovars)
 
     output:
-    path "*_sistr_qc_results.txt",      emit: results
+    path "${meta.id}_sistrQC.csv",      emit: results
     path "versions.yml",                emit: versions
 
+    when:
+    meta.Species && meta.Species.toLowerCase().contains('salmonella')
 
     script:
+    def args = task.ext.args ?: ''
     """
-    echo "Running SISTRQC on ${meta.id} with file: ${mikro_file}" > ${meta.id}_sistr_qc_results.txt
+    parse_sistrQC.py \\
+    --input ${mikro_file} \\
+    --sample_id ${meta.id} \\
+    --species "${meta.Species}" \\
+    --reportables ${reportable_serovars} \\
+    ${args}
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        custom: TBD
+        python: \$(python --version | sed 's/Python //g')
     END_VERSIONS
     """
 }

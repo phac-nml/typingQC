@@ -1,0 +1,11 @@
+sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
+SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASS
+SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE3,SALM005,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM005.flat_sample.json.gz,Salmonella_enterica,PASS
+SAMPLE4,SALM008,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM008.flat_sample.json.gz,Salmonella enterica,PASS
+SAMPLE5,SALM009,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM009.flat_sample.json.gz,Salmonella_enterica,PASS
+SAMPLE6,SALM010,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM010.flat_sample.json.gz,Salmonella enterica,PASS
+SAMPLE7,SALM007,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM007.flat_sample.json.gz,Salmonella_enterica,PASS
+SAMPLE8,SALM011,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM011.flat_sample.json.gz,Salmonella enterica,PASS
+SAMPLE9,SALM012,https://raw.githubusercontent.com/phac-nml/typingQC/sistrQC/tests/data/SALM012.flat_sample.json.gz,Salmonella_enterica,PASS
+SAMPLE10,SALM013,,Salmonella enterica,PASS
