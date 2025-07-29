@@ -58,7 +58,7 @@ nextflow_pipeline {
             assert values[1].contains("[FAILED nr_contigs] 1712")
             assert values[1].contains("[FAILED length] 3525632")
             assert values[1].contains("[FAILED checkm_contamination] 4.2")
-            assert values[2].contains("[FAILED] Sample may be contaminated.")
+            assert values[2].contains("[SEQ_FAIL] Sample may be contaminated.")
 
             def outputFile2 = path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv")
             assert outputFile2.exists()
@@ -71,7 +71,7 @@ nextflow_pipeline {
             assert header2 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values2[0] == "EC004"
             assert values2[1].contains("[FAILED average_coverage] 33.48")
-            assert values2[2].contains("[WARNING] Check QUALITY_METRICS message to determine if resequencing is necessary.")
+            assert values2[2].contains("[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.")
 
             def outputFile3 = path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv")
             assert outputFile3.exists()
@@ -85,7 +85,7 @@ nextflow_pipeline {
             assert values3[0] == "CAMP001"
             assert values3[1].contains("[FAILED average_coverage] 26.99")
             assert values3[1].contains("[FAILED n50_value] 28835")
-            assert values3[2].contains("[WARNING] Check QUALITY_METRICS message to determine if resequencing is necessary.")
+            assert values3[2].contains("[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.")
             assert values3[2].contains("[WARNING] Typing unsupported for Campylobacter coli")
 
             def outputFile4 = path("$launchDir/results/sequenceqc/SALM013_sequenceQC.csv")
@@ -101,7 +101,7 @@ nextflow_pipeline {
             assert values4[1].contains("[FAILED n50_value] 2038")
             assert values4[1].contains("[FAILED nr_contigs] 1712")
             assert values4[1].contains("[FAILED length] 3525632")
-            assert values4[2].contains("[FAILED] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS.")
+            assert values4[2].contains("[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS.")
 
         }
     }

@@ -71,22 +71,22 @@ def build_rds_qc_message(sample_data, species, failed_tests, checkm_failed):
 
     # Check for checkM contamination failure first
     if checkm_failed:
-        base_message = "[FAILED] Sample may be contaminated. Re-isolation and resequencing is recommended."
+        base_message = "[SEQ_FAIL] Sample may be contaminated. Re-isolation and resequencing is recommended."
     elif num_failed == 0:
         qc_msg = sample_data.get(QC_Message_key, "")
         base_message = qc_msg.splitlines()[0] if qc_msg else ""
     elif 1 <= num_failed <= 2:
-        base_message = "[WARNING] Check QUALITY_METRICS message to determine if resequencing is necessary."
+        base_message = "[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary."
     elif 3 <= num_failed <= 5:
-        base_message = "[FAILED] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS."
+        base_message = "[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS."
     else:
         # This shouldn't happen with 6 total tests, but handle edge case
-        base_message = "[FAILED] Resequencing is recommended, as all sequence QUALITY_METRICS did not meet the required values."
+        base_message = "[SEQ_FAIL] Resequencing is recommended, as all sequence QUALITY_METRICS did not meet the required values."
 
     # Add species typing warning if not supported
     if not is_typing_supported(species):
         return f"{base_message}; [WARNING] Typing unsupported for {species}."
-    
+
     return base_message
 
 def main():
