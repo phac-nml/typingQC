@@ -2,6 +2,6 @@ sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overa
 SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASS
 SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAIL
 SAMPLE4,SALM005,,Salmonella_enterica,PASS
-SAMPLE5,SALM013,/root/working_directory/pipeline_dev/typingQC/tests/data/SALM013.flat_sample.json.gz,Salmonella_enterica,FAIL
+SAMPLE5,SALM013,https://raw.githubusercontent.com/phac-nml/typingQC/sequence/tests/data/SALM013.flat_sample.json.gz,Salmonella_enterica,FAIL
 SAMPLE6,CAMP001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/CAMP001.flat_sample.json.gz,Campylobacter coli,FAIL
-SAMPLE7,EC004,/root/working_directory/pipeline_dev/typingQC/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAIL
+SAMPLE7,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/sequence/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAIL
