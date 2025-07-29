@@ -52,15 +52,15 @@ nextflow_pipeline {
             def header = csv[0].split(",")
             def values = csv[1].split(",", 3)
 
-            assert header == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values[0] == "SALM002"
             assert values[1].contains("[FAILED n50_value] 2038")
             assert values[1].contains("[FAILED nr_contigs] 1712")
             assert values[1].contains("[FAILED length] 3525632")
             assert values[1].contains("[FAILED checkm_contamination] 4.2")
-            assert values[2].contains("[FAILED] Sample is likely contaminated")
+            assert values[2].contains("[FAILED] Sample may be contaminated.")
 
-            def outputFile2 = path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv")
+            def outputFile2 = path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv")
             assert outputFile2.exists()
 
             // Read CSV into rows
@@ -68,11 +68,10 @@ nextflow_pipeline {
             def header2 = csv2[0].split(",")
             def values2 = csv2[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
-            assert values2[0] == "SALM003"
-            assert values2[1].contains("[FAILED average_coverage] 20.16")
-            assert values2[1].contains("[FAILED n50_value] 89513")
-            assert values2[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+            assert header2 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
+            assert values2[0] == "EC004"
+            assert values2[1].contains("[FAILED average_coverage] 33.48")
+            assert values2[2].contains("[WARNING] Check QUALITY_METRICS message to determine if resequencing is necessary.")
 
             def outputFile3 = path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv")
             assert outputFile3.exists()
@@ -82,11 +81,28 @@ nextflow_pipeline {
             def header3 = csv3[0].split(",")
             def values3 = csv3[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header3 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header3 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values3[0] == "CAMP001"
             assert values3[1].contains("[FAILED average_coverage] 26.99")
-            assert values3[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+            assert values3[1].contains("[FAILED n50_value] 28835")
+            assert values3[2].contains("[WARNING] Check QUALITY_METRICS message to determine if resequencing is necessary.")
             assert values3[2].contains("[WARNING] Typing unsupported for Campylobacter coli")
+
+            def outputFile4 = path("$launchDir/results/sequenceqc/SALM013_sequenceQC.csv")
+            assert outputFile4.exists()
+
+            // Read CSV into rows
+            def csv4 = outputFile4.readLines()
+            def header4 = csv4[0].split(",")
+            def values4 = csv4[1].split(",", 3)
+
+            assert header4 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
+            assert values4[0] == "SALM013"
+            assert values4[1].contains("[FAILED n50_value] 2038")
+            assert values4[1].contains("[FAILED nr_contigs] 1712")
+            assert values4[1].contains("[FAILED length] 3525632")
+            assert values4[2].contains("[FAILED] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS.")
+
         }
     }
 
