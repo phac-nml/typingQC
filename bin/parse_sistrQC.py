@@ -100,14 +100,14 @@ def build_rds_qc_message(sample_data, reportable_serovars):
 
         # Check if SISTR predicted serovar is reportable
         if serovar in reportable_serovars:
-            return "[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar."
+            return "[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar."
         else:
             # Predicted overall serovar is not reportable, but check cgMLST serovar as alternative
             if serovar_cgmlst != serovar and serovar_cgmlst in reportable_serovars:
-                return f"[FAIL] Serovar '{serovar}' is not reportable. cgMLST '{serovar_cgmlst}' result is reportable — seek guidance on traditional serotyping."
+                return f"[TYPE_FAIL] Serovar '{serovar}' is not reportable. cgMLST '{serovar_cgmlst}' result is reportable — seek guidance on traditional serotyping."
             else:
                 # Serovar not reportable
-                return f"[FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
+                return f"[TYPE_FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
 
     elif qc_status.upper() == "FAIL":
         # SISTR analysis failed or has warnings
