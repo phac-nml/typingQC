@@ -20,6 +20,7 @@ nextflow_pipeline {
             // Will expand on this as the modules are developed
             assert path("$launchDir/results/ectyperqc/EC20150579_ectyper_qc_results.txt").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM003_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM004_sistrQC.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
             assert path("$launchDir/results/exclusions/EC20150580_exclusions.csv").exists()
@@ -41,8 +42,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+            assert path("$launchDir/results/ectyperqc/EC004_ectyper_qc_results.txt").exists()
             assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM002_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM013_sistrQC.csv").exists()
 
             def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
             assert outputFile.exists()
@@ -177,6 +181,7 @@ nextflow_pipeline {
             assert path("$launchDir/results").exists()
             assert path("$launchDir/results/exclusions/SALM013_exclusions.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM012_sistrQC.csv").exists()
 
             def outputFile_salm = path("$launchDir/results/sistrqc/SALM001_sistrQC.csv")
             assert outputFile_salm.exists()
@@ -189,7 +194,7 @@ nextflow_pipeline {
             assert header_salm == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm[0] == "SALM001"
             assert values_salm[1].isEmpty()
-            assert values_salm[2].contains("[FAIL] Serovar 'IV Y:g,z51:-' is not reportable.")
+            assert values_salm[2].contains("[TYPE_FAIL] Serovar 'IV Y:g,z51:-' is not reportable.")
             assert values_salm[2].contains("cgMLST 'IV 48:g,z51:-' result is reportable")
             assert values_salm[2].contains("seek guidance on traditional serotyping")
 
@@ -204,7 +209,7 @@ nextflow_pipeline {
             assert header_salm2 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm2[0] == "SALM005"
             assert values_salm2[1].contains("Only matched 294 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
-            assert values_salm2[2].contains("[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
+            assert values_salm2[2].contains("[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
 
             def outputFile_salm3 = path("$launchDir/results/sistrqc/SALM008_sistrQC.csv")
             assert outputFile_salm3.exists()
@@ -217,7 +222,7 @@ nextflow_pipeline {
             assert header_salm3 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm3[0] == "SALM008"
             assert values_salm3[1].isEmpty()
-            assert values_salm3[2].contains("[FAIL] Serovar 'IIIb Y:z52:z' is not reportable. cgMLST 'IIIb 48:z52:z' result is reportable — seek guidance on traditional serotyping")
+            assert values_salm3[2].contains("[TYPE_FAIL] Serovar 'IIIb Y:z52:z' is not reportable. cgMLST 'IIIb 48:z52:z' result is reportable — seek guidance on traditional serotyping")
 
             def outputFile_salm4 = path("$launchDir/results/sistrqc/SALM009_sistrQC.csv")
             assert outputFile_salm4.exists()
@@ -230,7 +235,7 @@ nextflow_pipeline {
             assert header_salm4 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm4[0] == "SALM009"
             assert values_salm4[1].isEmpty()
-            assert values_salm4[2].contains("[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
+            assert values_salm4[2].contains("[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
 
             def outputFile_salm5 = path("$launchDir/results/sistrqc/SALM010_sistrQC.csv")
             assert outputFile_salm5.exists()
@@ -270,9 +275,9 @@ nextflow_pipeline {
             assert header_salm7 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm7[0] == "SALM011"
             assert values_salm7[1].contains("WARNING: Only matched 215 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
-            assert values_salm7[2].contains("[FAIL] Serovar 'Adelaide|Agodi' is not reportable. cgMLST 'Ealing' result is reportable — seek guidance on traditional serotyping.")
+            assert values_salm7[2].contains("[TYPE_FAIL] Serovar 'Adelaide|Agodi' is not reportable. cgMLST 'Ealing' result is reportable — seek guidance on traditional serotyping.")
 
-            def outputFile_salm8 = path("$launchDir/results/sistrqc/SALM012_sistrQC.csv")
+            def outputFile_salm8 = path("$launchDir/results/sistrqc/SALM002_sistrQC.csv")
             assert outputFile_salm8.exists()
 
             // Read CSV into rows
@@ -281,9 +286,9 @@ nextflow_pipeline {
             def values_salm8 = csv_salm8[1].split(",", 3) // Only split first 2 commas (3 columns)
 
             assert header_salm8 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
-            assert values_salm8[0] == "SALM012"
-            assert values_salm8[1].contains("WARNING: Only matched 80 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
-            assert values_salm8[2].contains("[FAIL] Serovar 'Ibadan|Mississippi' is not reportable. cgMLST 'Saintpaul' result is reportable — seek guidance on traditional serotyping.")
+            assert values_salm8[0] == "SALM002"
+            assert values_salm8[1].contains("FAIL: Large number of cgMLST330 loci missing (n=149 > 30)")
+            assert values_salm8[2].contains("[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised.")
         }
     }
 
