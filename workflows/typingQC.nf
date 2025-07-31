@@ -78,19 +78,28 @@ workflow TYPINGQC {
             tuple(meta, mikro_file ? [file(mikro_file)] : [])
         }
         .branch {
-        sistrqc: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
-        ectyperqc: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
-        sequenceqc: !it[1].isEmpty() && it[0].QCStatus == 'FAIL'
-        fallthrough: true
-    }
+            salmonella_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAIL' && (it[0].Species ?: "").contains('Salmonella')
+            escherichia_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAIL' && (it[0].Species ?: "").contains('Escherichia')
+
+            salmonella_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
+            escherichia_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
+
+            sequence_FAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAIL'
+
+            fallthrough: true
+        }
+
+        sistrqc_input = input.salmonella_PASS.mix(input.salmonella_qcFAIL)
+        ectyperqc_input = input.escherichia_PASS.mix(input.escherichia_qcFAIL)
+        sequenceqc_input = input.salmonella_qcFAIL.mix(input.escherichia_qcFAIL).mix(input.sequence_FAIL)
 
     // Create channel for reportable serovars file
     ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
 
     // Process execution for typing and sequencing results
-    failed_qc_results = SEQUENCEQC(input.sequenceqc)
-    sistr_results = SISTRQC(input.sistrqc, ch_reportable_serovars)
-    ectyper_results = ECTYPERQC(input.ectyperqc)
+    sistr_results = SISTRQC(sistrqc_input, ch_reportable_serovars)
+    ectyper_results = ECTYPERQC(ectyperqc_input)
+    failed_qc_results = SEQUENCEQC(sequenceqc_input)
     untypable_exclusions = EXCLUSIONS(input.fallthrough)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (

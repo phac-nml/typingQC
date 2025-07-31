@@ -35,24 +35,59 @@ QC_Status_suffix = ".qc_status"
 Message_suffix = ".message"
 QC_Message_key = "QCMessage"
 
+#Extract failed QC messages and return both messages and failed test info
 def extract_failed_messages(sample_data):
     messages = []
+    failed_tests = []
+    checkm_failed = False
+
     for key, value in sample_data.items():
         if key.startswith(Quality_Analysis_prefix) and key.endswith(QC_Status_suffix) and value == "FAILED":
             prefix = key.rsplit(QC_Status_suffix, 1)[0]
             message_key = f"{prefix}{Message_suffix}"
+
+            # Extract the test name from the key
+            test_name = prefix.replace(Quality_Analysis_prefix, "")
+            failed_tests.append(test_name)
+
+            # Check if checkM contamination failed
+            if test_name == "checkm_contamination":
+                checkm_failed = True
+
             if message_key in sample_data:
                 messages.append(sample_data[message_key])
-    return messages
 
-#Needs to be updated if new species are added to genome typing capabilities
-def build_rds_qc_message(sample_data, species):
-    qc_msg = sample_data.get(QC_Message_key, "")
-    base_msg = qc_msg.splitlines()[0] if qc_msg else ""
+    return messages, failed_tests, checkm_failed
+
+# Check is typing is supported for given species
+def is_typing_supported(species):
     species_lower = species.lower()
-    if "salmonella" not in species_lower and "escherichia" not in species_lower:
-        return f"{base_msg}; [WARNING] Typing unsupported for {species}."
-    return base_msg
+    return "salmonella" in species_lower or "escherichia" in species_lower
+
+# Build RDS QC message depending on test results
+# Note: Needs to be updated if new species are added to genome typing capabilities
+def build_rds_qc_message(sample_data, species, failed_tests, checkm_failed):
+    num_failed = len(failed_tests)
+
+    # Check for checkM contamination failure first
+    if checkm_failed:
+        base_message = "[SEQ_FAIL] Sample may be contaminated. Re-isolation and resequencing is recommended."
+    elif num_failed == 0:
+        qc_msg = sample_data.get(QC_Message_key, "")
+        base_message = qc_msg.splitlines()[0] if qc_msg else ""
+    elif 1 <= num_failed <= 2:
+        base_message = "[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary."
+    elif 3 <= num_failed <= 5:
+        base_message = "[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS."
+    else:
+        # This shouldn't happen with 6 total tests, but handle edge case
+        base_message = "[SEQ_FAIL] Resequencing is recommended, as all sequence QUALITY_METRICS did not meet the required values."
+
+    # Add species typing warning if not supported
+    if not is_typing_supported(species):
+        return f"{base_message}; [WARNING] Typing unsupported for {species}."
+
+    return base_message
 
 def main():
     args = parse_args()
@@ -67,13 +102,13 @@ def main():
     sample_key = next(iter(data))
     sample_data = data[sample_key]
 
-    failed_messages = extract_failed_messages(sample_data)
-    rds_qc_message = build_rds_qc_message(sample_data, args.species)
+    failed_messages, failed_tests, checkm_failed = extract_failed_messages(sample_data)
+    rds_qc_message = build_rds_qc_message(sample_data, args.species, failed_tests, checkm_failed)
 
     output_path = Path(f"{args.sample_id}_sequenceQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"])
+        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
         writer.writerow([args.sample_id, "; ".join(failed_messages) if failed_messages else "No QC failures", rds_qc_message])
 
 if __name__ == "__main__":

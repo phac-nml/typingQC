@@ -87,7 +87,7 @@ def build_rds_qc_message(sample_data, reportable_serovars):
 
     # Check for H1 antigen warning from SISTR and treat it as an RDS [FAIL]
     if qc_status.upper() == "WARNING" and H1_warning(qc_messages):
-        return "[FAILED] SISTR serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
+        return "[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
 
     if qc_status.upper() in ["PASS", "WARNING"]:
         # Extract serovar predictions
@@ -96,22 +96,22 @@ def build_rds_qc_message(sample_data, reportable_serovars):
 
         # Check is any serovar was found by SISTR
         if not serovar:
-            return "[FAILED] No serovar found in SISTR results."
+            return "[SISTR_FAIL] No serovar found in SISTR results."
 
         # Check if SISTR predicted serovar is reportable
         if serovar in reportable_serovars:
-            return "[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar."
+            return "[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar."
         else:
             # Predicted overall serovar is not reportable, but check cgMLST serovar as alternative
             if serovar_cgmlst != serovar and serovar_cgmlst in reportable_serovars:
-                return f"[FAILED] Serovar '{serovar}' is not reportable. cgMLST '{serovar_cgmlst}' result is reportable — seek guidance on traditional serotyping."
+                return f"[TYPE_FAIL] Serovar '{serovar}' is not reportable. cgMLST '{serovar_cgmlst}' result is reportable — seek guidance on traditional serotyping."
             else:
                 # Serovar not reportable
-                return f"[FAILED] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
+                return f"[TYPE_FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
 
     elif qc_status.upper() == "FAIL":
         # SISTR analysis failed or has warnings
-        return "[FAILED] SISTR serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
+        return "[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
     else:
         return f"[UNKNOWN] SISTR QC status: {qc_status}. Please check for failures manually."
 
@@ -141,7 +141,7 @@ def main():
     #Check if SISTR data exists in the JSON file and process accordingly
     if QC_STATUS_KEY not in sample_data:
         quality_analysis = f"Sample predicted to be {args.species} but no SISTR data found."
-        rds_qc_message = "[FAILED] Re-run mikrokondo to generate SISTR data."
+        rds_qc_message = "[FAIL] Re-run mikrokondo to generate SISTR data."
     else:
         quality_analysis = extract_sistr_qc(sample_data)
         rds_qc_message = build_rds_qc_message(sample_data, reportable_serovars)
@@ -150,7 +150,7 @@ def main():
     output_path = Path(f"{args.sample_id}_sistrQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"])
+        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
         writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
 
 if __name__ == "__main__":

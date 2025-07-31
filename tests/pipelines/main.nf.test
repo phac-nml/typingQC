@@ -20,6 +20,7 @@ nextflow_pipeline {
             // Will expand on this as the modules are developed
             assert path("$launchDir/results/ectyperqc/EC20150579_ectyper_qc_results.txt").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM003_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM004_sistrQC.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
             assert path("$launchDir/results/exclusions/EC20150580_exclusions.csv").exists()
@@ -41,8 +42,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+            assert path("$launchDir/results/ectyperqc/EC004_ectyper_qc_results.txt").exists()
             assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM002_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM013_sistrQC.csv").exists()
 
             def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
             assert outputFile.exists()
@@ -52,15 +56,15 @@ nextflow_pipeline {
             def header = csv[0].split(",")
             def values = csv[1].split(",", 3)
 
-            assert header == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values[0] == "SALM002"
             assert values[1].contains("[FAILED n50_value] 2038")
             assert values[1].contains("[FAILED nr_contigs] 1712")
             assert values[1].contains("[FAILED length] 3525632")
             assert values[1].contains("[FAILED checkm_contamination] 4.2")
-            assert values[2].contains("[FAILED] Sample is likely contaminated")
+            assert values[2].contains("[SEQ_FAIL] Sample may be contaminated.")
 
-            def outputFile2 = path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv")
+            def outputFile2 = path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv")
             assert outputFile2.exists()
 
             // Read CSV into rows
@@ -68,11 +72,10 @@ nextflow_pipeline {
             def header2 = csv2[0].split(",")
             def values2 = csv2[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
-            assert values2[0] == "SALM003"
-            assert values2[1].contains("[FAILED average_coverage] 20.16")
-            assert values2[1].contains("[FAILED n50_value] 89513")
-            assert values2[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+            assert header2 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
+            assert values2[0] == "EC004"
+            assert values2[1].contains("[FAILED average_coverage] 33.48")
+            assert values2[2].contains("[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.")
 
             def outputFile3 = path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv")
             assert outputFile3.exists()
@@ -82,11 +85,28 @@ nextflow_pipeline {
             def header3 = csv3[0].split(",")
             def values3 = csv3[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header3 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header3 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values3[0] == "CAMP001"
             assert values3[1].contains("[FAILED average_coverage] 26.99")
-            assert values3[2].contains("[FAILED] RESEQUENCING IS RECOMMENDED")
+            assert values3[1].contains("[FAILED n50_value] 28835")
+            assert values3[2].contains("[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.")
             assert values3[2].contains("[WARNING] Typing unsupported for Campylobacter coli")
+
+            def outputFile4 = path("$launchDir/results/sequenceqc/SALM013_sequenceQC.csv")
+            assert outputFile4.exists()
+
+            // Read CSV into rows
+            def csv4 = outputFile4.readLines()
+            def header4 = csv4[0].split(",")
+            def values4 = csv4[1].split(",", 3)
+
+            assert header4 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
+            assert values4[0] == "SALM013"
+            assert values4[1].contains("[FAILED n50_value] 2038")
+            assert values4[1].contains("[FAILED nr_contigs] 1712")
+            assert values4[1].contains("[FAILED length] 3525632")
+            assert values4[2].contains("[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS.")
+
         }
     }
 
@@ -114,10 +134,10 @@ nextflow_pipeline {
             def header_salm = csv_salm[0].split(",")
             def values_salm = csv_salm[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm[0] == "SALM005"
             assert values_salm[1].contains("Overall QC status: FAIL")
-            assert values_salm[2].contains("[FAILED] No mikrokondo data file provided")
+            assert values_salm[2].contains("[WARNING] No mikrokondo data file provided")
 
             def outputFile_salm2 = path("$launchDir/results/exclusions/SALM004_exclusions.csv")
             assert outputFile_salm2.exists()
@@ -126,10 +146,10 @@ nextflow_pipeline {
             def header_salm2 = csv_salm2[0].split(",")
             def values_salm2 = csv_salm2[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm2 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm2[0] == "SALM004"
             assert values_salm2[1].contains("Overall QC status: PASS")
-            assert values_salm2[2].contains("[FAILED] No mikrokondo data file provided")
+            assert values_salm2[2].contains("[WARNING] No mikrokondo data file provided")
 
             def outputFile_list = path("$launchDir/results/exclusions/LIST001_exclusions.csv")
             assert outputFile_list.exists()
@@ -139,10 +159,10 @@ nextflow_pipeline {
             def header_list = csv_list[0].split(",")
             def values_list = csv_list[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_list == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_list == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_list[0] == "LIST001"
             assert values_list[1].contains("Overall QC status: PASS")
-            assert values_list[2].contains("[FAILED] Typing unsupported for species: Listeria monocytogenes")
+            assert values_list[2].contains("[WARNING] Typing unsupported for species: Listeria monocytogenes")
         }
     }
 
@@ -161,6 +181,7 @@ nextflow_pipeline {
             assert path("$launchDir/results").exists()
             assert path("$launchDir/results/exclusions/SALM013_exclusions.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM012_sistrQC.csv").exists()
 
             def outputFile_salm = path("$launchDir/results/sistrqc/SALM001_sistrQC.csv")
             assert outputFile_salm.exists()
@@ -170,10 +191,10 @@ nextflow_pipeline {
             def header_salm = csv_salm[0].split(",")
             def values_salm = csv_salm[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm[0] == "SALM001"
             assert values_salm[1].isEmpty()
-            assert values_salm[2].contains("[FAILED] Serovar 'IV Y:g,z51:-' is not reportable.")
+            assert values_salm[2].contains("[TYPE_FAIL] Serovar 'IV Y:g,z51:-' is not reportable.")
             assert values_salm[2].contains("cgMLST 'IV 48:g,z51:-' result is reportable")
             assert values_salm[2].contains("seek guidance on traditional serotyping")
 
@@ -185,10 +206,10 @@ nextflow_pipeline {
             def header_salm2 = csv_salm2[0].split(",")
             def values_salm2 = csv_salm2[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm2 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm2 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm2[0] == "SALM005"
             assert values_salm2[1].contains("Only matched 294 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
-            assert values_salm2[2].contains("[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
+            assert values_salm2[2].contains("[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
 
             def outputFile_salm3 = path("$launchDir/results/sistrqc/SALM008_sistrQC.csv")
             assert outputFile_salm3.exists()
@@ -198,10 +219,10 @@ nextflow_pipeline {
             def header_salm3 = csv_salm3[0].split(",")
             def values_salm3 = csv_salm3[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm3 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm3 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm3[0] == "SALM008"
             assert values_salm3[1].isEmpty()
-            assert values_salm3[2].contains("[FAILED] Serovar 'IIIb Y:z52:z' is not reportable. cgMLST 'IIIb 48:z52:z' result is reportable — seek guidance on traditional serotyping")
+            assert values_salm3[2].contains("[TYPE_FAIL] Serovar 'IIIb Y:z52:z' is not reportable. cgMLST 'IIIb 48:z52:z' result is reportable — seek guidance on traditional serotyping")
 
             def outputFile_salm4 = path("$launchDir/results/sistrqc/SALM009_sistrQC.csv")
             assert outputFile_salm4.exists()
@@ -211,10 +232,10 @@ nextflow_pipeline {
             def header_salm4 = csv_salm4[0].split(",")
             def values_salm4 = csv_salm4[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm4 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm4 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm4[0] == "SALM009"
             assert values_salm4[1].isEmpty()
-            assert values_salm4[2].contains("[PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
+            assert values_salm4[2].contains("[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar")
 
             def outputFile_salm5 = path("$launchDir/results/sistrqc/SALM010_sistrQC.csv")
             assert outputFile_salm5.exists()
@@ -224,10 +245,10 @@ nextflow_pipeline {
             def header_salm5 = csv_salm5[0].split(",")
             def values_salm5 = csv_salm5[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm5 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm5 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm5[0] == "SALM010"
             assert values_salm5[1].contains("WARNING: H1 antigen gene (fliC) missing. Cannot determine H1 antigen. Cannot accurately predict serovar from antigen genes")
-            assert values_salm5[2].contains("[FAILED] SISTR serotyping unsuccessful.")
+            assert values_salm5[2].contains("[SISTR_FAIL] Serotyping unsuccessful.")
             assert values_salm5[2].contains("RESEQUENCING or TRADITIONAL SEROTYPING is advised.")
 
             def outputFile_salm6 = path("$launchDir/results/sistrqc/SALM007_sistrQC.csv")
@@ -238,10 +259,10 @@ nextflow_pipeline {
             def header_salm6 = csv_salm6[0].split(",")
             def values_salm6 = csv_salm6[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm6 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm6 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm6[0] == "SALM007"
             assert values_salm6[1].contains("Sample predicted to be Salmonella_enterica but no SISTR data found")
-            assert values_salm6[2].contains("[FAILED] Re-run mikrokondo to generate SISTR data.")
+            assert values_salm6[2].contains("[FAIL] Re-run mikrokondo to generate SISTR data.")
 
             def outputFile_salm7 = path("$launchDir/results/sistrqc/SALM011_sistrQC.csv")
             assert outputFile_salm7.exists()
@@ -251,12 +272,12 @@ nextflow_pipeline {
             def header_salm7 = csv_salm7[0].split(",")
             def values_salm7 = csv_salm7[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm7 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
+            assert header_salm7 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
             assert values_salm7[0] == "SALM011"
             assert values_salm7[1].contains("WARNING: Only matched 215 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
-            assert values_salm7[2].contains("[FAILED] Serovar 'Adelaide|Agodi' is not reportable. cgMLST 'Ealing' result is reportable — seek guidance on traditional serotyping.")
+            assert values_salm7[2].contains("[TYPE_FAIL] Serovar 'Adelaide|Agodi' is not reportable. cgMLST 'Ealing' result is reportable — seek guidance on traditional serotyping.")
 
-            def outputFile_salm8 = path("$launchDir/results/sistrqc/SALM012_sistrQC.csv")
+            def outputFile_salm8 = path("$launchDir/results/sistrqc/SALM002_sistrQC.csv")
             assert outputFile_salm8.exists()
 
             // Read CSV into rows
@@ -264,10 +285,10 @@ nextflow_pipeline {
             def header_salm8 = csv_salm8[0].split(",")
             def values_salm8 = csv_salm8[1].split(",", 3) // Only split first 2 commas (3 columns)
 
-            assert header_salm8 == ["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"]
-            assert values_salm8[0] == "SALM012"
-            assert values_salm8[1].contains("WARNING: Only matched 80 cgMLST330 loci. Min threshold for confident serovar prediction from cgMLST is 297.0")
-            assert values_salm8[2].contains("[FAILED] Serovar 'Ibadan|Mississippi' is not reportable. cgMLST 'Saintpaul' result is reportable — seek guidance on traditional serotyping.")
+            assert header_salm8 == ["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"]
+            assert values_salm8[0] == "SALM002"
+            assert values_salm8[1].contains("FAIL: Large number of cgMLST330 loci missing (n=149 > 30)")
+            assert values_salm8[2].contains("[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised.")
         }
     }
 

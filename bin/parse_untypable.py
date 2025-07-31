@@ -27,16 +27,16 @@ def determine_failure_reason(species, has_mikro_file):
 
     # Check if mikrokondo file is missing
     if not has_mikro_file:
-        return f"[FAILED] No mikrokondo data file provided."
+        return f"[WARNING] No mikrokondo data file provided."
 
     # Check for supported species (case-insensitive)
     species_lower = species.lower()
     if "salmonella" not in species_lower and "escherichia" not in species_lower:
-        return f"[FAILED] Typing unsupported for species: {species}"
+        return f"[WARNING] Typing unsupported for species: {species}"
 
     # Catch all for unexpected cases
     else:
-        return f"[FAILED] Unknown reason - supported species ({species}) with mikrokondo file present but sample failed TypingQC - further investigation required"
+        return f"[FAIL] Unknown reason - supported species ({species}) with mikrokondo file present but sample failed TypingQC - further investigation required"
 
 def main():
     args = parse_args()
@@ -51,7 +51,7 @@ def main():
     output_path = Path(f"{args.sample_id}_exclusions.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_ANALYSIS", "RDS_QC_MESSAGE"])
+        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
         writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
 
 if __name__ == "__main__":
