@@ -1,0 +1,10 @@
+sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
+SAMPLE1,EC001,/root/working_directory/pipeline_dev/typingQC/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE2,EC002,/root/working_directory/pipeline_dev/typingQC/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE3,EC003,/root/working_directory/pipeline_dev/typingQC/tests/data/EC003.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE4,EC004,/root/working_directory/pipeline_dev/typingQC/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAIL
+SAMPLE5,EC005,/root/working_directory/pipeline_dev/typingQC/tests/data/EC005.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE6,EC006,/root/working_directory/pipeline_dev/typingQC/tests/data/EC006.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE7,EC007,/root/working_directory/pipeline_dev/typingQC/tests/data/EC007.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE8,EC008,,Escherichia coli,PASS
+SAMPLE9,EA001,/root/working_directory/pipeline_dev/typingQC/tests/data/EA001.flat_sample.json.gz,Escherichia coli,PASS

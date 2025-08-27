@@ -20,9 +20,9 @@ process ECTYPERQC {
     meta.Species && meta.Species.toLowerCase().contains('escherichia')
 
     script:
-    def args = teask.ext.args ?: ''
+    def args = task.ext.args ?: ''
     """
-    parse_ectyperqc.py \\
+    parse_ectyperQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
     --species "${meta.Species}" \\

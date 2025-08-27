@@ -18,12 +18,12 @@ nextflow_pipeline {
             assert path("$launchDir/results").exists()
 
             // Will expand on this as the modules are developed
-            assert path("$launchDir/results/ectyperqc/EC20150579_ectyper_qc_results.txt").exists()
+            assert path("$launchDir/results/ectyperqc/EC001_ectyperQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM003_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM004_sistrQC.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
-            assert path("$launchDir/results/exclusions/EC20150580_exclusions.csv").exists()
+            assert path("$launchDir/results/exclusions/EC002_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_SAMPLE7_exclusions.csv").exists()
         }
@@ -42,7 +42,7 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/ectyperqc/EC004_ectyper_qc_results.txt").exists()
+            assert path("$launchDir/results/ectyperqc/EC004_ectyperQC.csv").exists()
             assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM002_sistrQC.csv").exists()
