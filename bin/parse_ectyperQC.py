@@ -92,11 +92,11 @@ def build_serotype_rds_qc_message(sample_data):
     qc_status = sample_data.get(QC_KEY, "")
     serotype = sample_data.get(SEROTYPE_KEY, "")
     species = sample_data.get(SPECIES_KEY, "")
-    
+
     # Check if serotype was determined
     if not serotype:
         return "[ECTYPER_FAIL] No serotype found in ECTyper results."
-    
+
     # Define all RDS QC message mappings
     rds_qc_messages = {
         "FAIL (-:- TYPING)": "[ECTYPER_FAIL] RESEQUENCING or TRADITIONAL SEROTYPING is advised.",
@@ -109,7 +109,7 @@ def build_serotype_rds_qc_message(sample_data):
         "WARNING MIXED O-TYPE": "[ECTYPER_WARNING] Mixed O type detected.",
         "WARNING (WRONG SPECIES)": f"[ECTYPER_WARNING] Sample identified as {species}. Serotyping not performed; Toxin typing performed."
     }
-    
+
     # Handle all conditions for the RDS QC message
     if not qc_status or qc_status.upper() == "PASS (REPORTABLE)":
         return f"[ECTYPER_PASS] Serotype '{serotype}' determined successfully."
@@ -122,19 +122,19 @@ def extract_validated_toxins(sample_data, validated_genes, validated_stx):
     """Extract and validate toxin genes and STX subtypes"""
     pathotype_genes = sample_data.get(TOXIN_GENES_KEY, "")
     stx_subtypes = sample_data.get(STX_KEY, "")
-    
+
     # Process pathotype genes
     validated_toxins_found = []
     if pathotype_genes:
         genes = [gene.strip() for gene in pathotype_genes.split(",")]
         validated_toxins_found = [gene for gene in genes if gene in validated_genes]
-    
+
     # Process STX subtypes
     validated_stx_found = []
     if stx_subtypes:
         stx_types = [stx.strip() for stx in stx_subtypes.split(";")]
         validated_stx_found = [stx for stx in stx_types if stx in validated_stx]
-    
+
     return validated_toxins_found, validated_stx_found
 
 def main():
@@ -145,7 +145,7 @@ def main():
 
     if not args.validated_toxins.exists():
         raise FileNotFoundError(f"Validated genes file {args.validated_toxins} not found.")
-    
+
     if not args.validated_stx.exists():
         raise FileNotFoundError(f"Validated STX subtypes file {args.validated_stx} not found.")
 
@@ -160,7 +160,7 @@ def main():
 
     if len(validated_genes) == 0:
         raise ValueError(f"No valid toxin genes found in {args.validated_genes}.")
-    
+
     if len(validated_stx) == 0:
         raise ValueError(f"No valid STX subtypes found in {args.validated_stx}.")
 
@@ -184,7 +184,7 @@ def main():
         # Process serotyping data
         quality_analysis = extract_ectyper_serotype_qc(sample_data)
         rds_qc_message = build_serotype_rds_qc_message(sample_data)
-        
+
         # Process toxin data
         validated_toxins_found, validated_stx_found = extract_validated_toxins(sample_data, validated_genes, validated_stx)
 

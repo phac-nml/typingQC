@@ -29,7 +29,7 @@ process ECTYPERQC {
     --validated_toxins ${validated_toxins} \\
     --validated_stx ${validated_stx} \\
     ${args}
-    
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
