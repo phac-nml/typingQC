@@ -197,8 +197,8 @@ def main():
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE", "Validated_Toxins", "Validated_STXSubtypes"])
         writer.writerow([
-            args.sample_id, 
-            quality_analysis, 
+            args.sample_id,
+            quality_analysis,
             rds_qc_message,
             ",".join(validated_toxins_found) if validated_toxins_found else "n/a",
             ",".join(validated_stx_found) if validated_stx_found else "n/a"
