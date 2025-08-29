@@ -13,7 +13,6 @@ process ECTYPERQC {
 
     output:
     path "${meta.id}_ectyperQC.csv",     emit: serotype_results
-    path "${meta.id}_toxinQC.csv",       emit: toxin_results
     path "versions.yml",                 emit: versions
 
     when:

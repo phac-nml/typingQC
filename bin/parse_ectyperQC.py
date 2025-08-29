@@ -45,6 +45,9 @@ def load_validated_list(file_path):
         for line in f:
             line = line.strip()
             if line and not line.startswith('#'):
+                # Check if multiple items are on one line
+                if ',' in line or ';' in line or '\t' in line or ':' in line:
+                    raise ValueError(f"Line(s) in {file_path} contain(s) multiple items. Each gene should be on a separate line.")
                 validated_genes.add(line)
         # Ensure at least one valid gene is included
         if len(validated_genes) == 0:
@@ -68,14 +71,14 @@ def extract_ectyper_serotype_qc(sample_data):
     # Define all QC statuses to quality message mappings
     qc_analysis_messages = {
         "FAIL (-:- TYPING)": "Failed to type either of the O and H antigens",
-        "WARNING (-:H TYPING)": "Failed to type O antigen.",
-        "WARNING (O:- TYPING)": "Failed to type H antigen.",
+        "WARNING (-:H TYPING)": "Failed to type O antigen",
+        "WARNING (O:- TYPING)": "Failed to type H antigen",
         "WARNING (O NON-REPORT)": "O-antigen has %identity or %coverage below reportable threshold",
         "WARNING (H NON-REPORT)": "H-antigen has %identity or %coverage below reportable threshold",
         "WARNING (O AND H NON-REPORT)": "Both O- and H-antigens have %identity or %coverage below reportable thresholds",
         "WARNING UNDIFFERENTIATED O-TYPE": "ECTYPER unable to differentiate between a set of O-antigens due to high sequence similarity (above 99%)",
         "WARNING MIXED O-TYPE": f"Mixed O-type: {serotype}",
-        "WARNING (WRONG SPECIES)": f"Species identified not as E.coli but as {species} therefore only the toxin typing was performed on sample"
+        "WARNING (WRONG SPECIES)": f"Species identified as non-E.coli. Serotyping skipped; toxin typing completed."
     }
 
     # Return appropriate message or empty string for PASS
@@ -107,7 +110,7 @@ def build_serotype_rds_qc_message(sample_data):
         "WARNING (O AND H NON-REPORT)": "[ECTYPER_FAIL] THRESHOLD adjustment, RESEQUENCING or TRADITIONAL SEROTYPING is advised.",
         "WARNING UNDIFFERENTIATED O-TYPE": "[ECTYPER_WARNING] Ambiguous Escherichia antigen pairs detected. Refer to DED-C-350C.",
         "WARNING MIXED O-TYPE": "[ECTYPER_WARNING] Mixed O type detected.",
-        "WARNING (WRONG SPECIES)": f"[ECTYPER_WARNING] Sample identified as {species}. Serotyping not performed; Toxin typing performed."
+        "WARNING (WRONG SPECIES)": f"[ECTYPER_WARNING] Sample identified as {species}."
     }
 
     # Handle all conditions for the RDS QC message
@@ -188,19 +191,15 @@ def main():
         # Process toxin data
         validated_toxins_found, validated_stx_found = extract_validated_toxins(sample_data, validated_genes, validated_stx)
 
-    # Write serotyping output CSV file
+    # Write sero and toxin typing output CSV file
     serotype_output_path = Path(f"{args.sample_id}_ectyperQC.csv")
     with serotype_output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
-        writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
-
-    # Write toxin typing output CSV file
-    toxin_output_path = Path(f"{args.sample_id}_toxinQC.csv")
-    with toxin_output_path.open("w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["Validated_Toxins", "Validated_STXSubtypes"])
+        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE", "Validated_Toxins", "Validated_STXSubtypes"])
         writer.writerow([
+            args.sample_id, 
+            quality_analysis, 
+            rds_qc_message,
             ",".join(validated_toxins_found) if validated_toxins_found else "n/a",
             ",".join(validated_stx_found) if validated_stx_found else "n/a"
         ])
