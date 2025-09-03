@@ -5,7 +5,6 @@ import csv
 import argparse
 from pathlib import Path
 import gzip
-import sys
 
 def parse_args():
     parser = argparse.ArgumentParser(

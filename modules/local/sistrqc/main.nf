@@ -14,18 +14,13 @@ process SISTRQC {
     path "${meta.id}_sistrQC.csv",      emit: results
     path "versions.yml",                emit: versions
 
-    when:
-    meta.Species && meta.Species.toLowerCase().contains('salmonella')
-
     script:
-    def args = task.ext.args ?: ''
     """
     parse_sistrQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
     --species "${meta.Species}" \\
-    --reportables ${reportable_serovars} \\
-    ${args}
+    --reportables ${reportable_serovars}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
