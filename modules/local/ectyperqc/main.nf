@@ -15,19 +15,14 @@ process ECTYPERQC {
     path "${meta.id}_ectyperQC.csv",     emit: serotype_results
     path "versions.yml",                 emit: versions
 
-    when:
-    meta.Species && meta.Species.toLowerCase().contains('escherichia')
-
     script:
-    def args = task.ext.args ?: ''
     """
     parse_ectyperQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
     --species "${meta.Species}" \\
     --validated_toxins ${validated_toxins} \\
-    --validated_stx ${validated_stx} \\
-    ${args}
+    --validated_stx ${validated_stx}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
