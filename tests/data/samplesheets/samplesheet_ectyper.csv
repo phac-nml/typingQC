@@ -1,9 +1,9 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
-SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASS
-SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASS
-SAMPLE3,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAIL
-SAMPLE4,EC005,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EC005.flat_sample.json.gz,Escherichia coli,PASS
-SAMPLE5,EC006,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EC006.flat_sample.json.gz,Escherichia coli,PASS
-SAMPLE6,EC007,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EC007.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE3,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAIL
+SAMPLE4,EC005,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC005.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE5,EC006,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC006.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE6,EC007,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC007.flat_sample.json.gz,Escherichia coli,PASS
 SAMPLE7,EC008,,Escherichia coli,PASS
-SAMPLE8,EA001,https://raw.githubusercontent.com/phac-nml/typingQC/ectyperQC/tests/data/EA001.flat_sample.json.gz,Escherichia coli,PASS
+SAMPLE8,EA001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EA001.flat_sample.json.gz,Escherichia coli,PASS
