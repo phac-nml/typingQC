@@ -114,7 +114,7 @@ def build_serotype_rds_qc_message(sample_data):
 
     # Handle all conditions for the RDS QC message
     if not qc_status or qc_status.upper() == "PASS (REPORTABLE)":
-        return f"[ECTYPER_PASS] Serotype '{serotype}' determined successfully."
+        return f"[ECTYPER_PASS]"
     elif qc_status in rds_qc_messages:
         return rds_qc_messages[qc_status]
     else:
@@ -194,7 +194,7 @@ def main():
     serotype_output_path = Path(f"{args.sample_id}_ectyperQC.csv")
     with serotype_output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE", "Validated_Toxins", "Validated_STXSubtypes"])
+        writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS", "Validated_Toxins", "Validated_STXSubtypes"])
         writer.writerow([
             args.sample_id,
             quality_analysis,

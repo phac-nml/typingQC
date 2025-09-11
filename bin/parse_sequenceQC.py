@@ -81,11 +81,11 @@ def build_rds_qc_message(sample_data, species, failed_tests, checkm_failed):
         base_message = "[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS."
     else:
         # This shouldn't happen with 6 total tests, but handle edge case
-        base_message = "[SEQ_FAIL] Resequencing is recommended, as all sequence QUALITY_METRICS did not meet the required values."
+        base_message = "[SEQ_FAIL] Resequencing is recommended. QUALITY_METRICS did not meet the required values."
 
     # Add species typing warning if not supported
     if not is_typing_supported(species):
-        return f"{base_message}; [WARNING] Typing unsupported for {species}."
+        return f"{base_message}; [FAIL] Typing unsupported for {species}."
 
     return base_message
 
@@ -108,7 +108,7 @@ def main():
     output_path = Path(f"{args.sample_id}_sequenceQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
+        writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
         writer.writerow([args.sample_id, "; ".join(failed_messages) if failed_messages else "No QC failures", rds_qc_message])
 
 if __name__ == "__main__":

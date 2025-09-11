@@ -99,7 +99,7 @@ def build_rds_qc_message(sample_data, reportable_serovars):
 
         # Check if SISTR predicted serovar is reportable
         if serovar in reportable_serovars:
-            return "[SISTR_PASS] Use SISTR's PREDICTED_PRIMARY_TYPE_NAME as serovar."
+            return "[SISTR_PASS]"
         else:
             # Predicted overall serovar is not reportable, but check cgMLST serovar as alternative
             if serovar_cgmlst != serovar and serovar_cgmlst in reportable_serovars:
@@ -112,7 +112,7 @@ def build_rds_qc_message(sample_data, reportable_serovars):
         # SISTR analysis failed or has warnings
         return "[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
     else:
-        return f"[UNKNOWN] SISTR QC status: {qc_status}. Please check for failures manually."
+        return f"[FAIL] SISTR QC status: {qc_status}. Please check for failures manually."
 
 def main():
     args = parse_args()
@@ -149,7 +149,7 @@ def main():
     output_path = Path(f"{args.sample_id}_sistrQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
+        writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
         writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
 
 if __name__ == "__main__":
