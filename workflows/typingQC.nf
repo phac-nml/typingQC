@@ -31,7 +31,8 @@ WorkflowTypingQC.initialise(params, log)
 include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
 include { SISTRQC            } from '../modules/local/sistrqc/main'
 include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
-include { EXCLUSIONS        } from '../modules/local/exclusions/main'
+include { EXCLUSIONS         } from '../modules/local/exclusions/main'
+include { CSVTK              } from '../modules/local/csvtk/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,15 +97,30 @@ workflow TYPINGQC {
     // Create channel for reportable serovars file
     ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
 
-    // Create channel for validated toxin genes
-    ch_validated_toxins = Channel.value(file(params.validated_toxins))
-    ch_validated_stxsubtypes = Channel.value(file(params.validated_stxsubtypes))
-
     // Process execution for typing and sequencing results
     sistr_results = SISTRQC(sistrqc_input, ch_reportable_serovars)
-    ectyper_results = ECTYPERQC(ectyperqc_input, ch_validated_toxins, ch_validated_stxsubtypes)
+    ectyper_results = ECTYPERQC(ectyperqc_input)
     failed_qc_results = SEQUENCEQC(sequenceqc_input)
     untypable_exclusions = EXCLUSIONS(input.fallthrough)
+
+    // Create final consolidated RDS typing report
+    report_files = sistr_results.results
+        .mix(
+            ectyper_results.results,
+            failed_qc_results.results,
+            untypable_exclusions.results
+        )
+        .map { meta, csv -> csv }
+        .collect()
+        .map { csvs ->
+        [ [id: "RDS_report", irida_id: "sample"], csvs]
+        }
+        
+    CSVTK(
+        report_files,
+        "csv",
+        "csv"
+    )
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
