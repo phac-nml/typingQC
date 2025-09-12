@@ -109,7 +109,7 @@ def main():
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
-        writer.writerow([args.sample_id, "; ".join(failed_messages) if failed_messages else "No QC failures", rds_qc_message])
+        writer.writerow([args.sample_id, rds_qc_message, "; ".join(failed_messages) if failed_messages else "No QC failures"])
 
 if __name__ == "__main__":
     main()

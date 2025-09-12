@@ -45,14 +45,14 @@ def main():
     rds_qc_message = determine_failure_reason(args.species, args.has_mikro_file)
 
     # Quality analysis provides the QC Status of the sequencing results from mikrokondo
-    quality_analysis = f"Overall QC status: {args.qc_status}"
+    quality_analysis = f"Overall sequence QC status: {args.qc_status}"
 
     # Write output CSV
     output_path = Path(f"{args.sample_id}_exclusions.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
-        writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
+        writer.writerow([args.sample_id, rds_qc_message, quality_analysis])
 
 if __name__ == "__main__":
     main()

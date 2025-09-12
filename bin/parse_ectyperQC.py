@@ -130,9 +130,9 @@ def main():
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
         writer.writerow([
-            args.sample_id,
-            quality_analysis,
+            args.sample_id,            
             rds_qc_message,
+            quality_analysis
         ])
 
 if __name__ == "__main__":

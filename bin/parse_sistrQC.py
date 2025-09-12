@@ -150,7 +150,7 @@ def main():
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
-        writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
+        writer.writerow([args.sample_id, rds_qc_message, quality_analysis])
 
 if __name__ == "__main__":
     main()
