@@ -10,8 +10,8 @@ process EXCLUSIONS {
     tuple val(meta), path(mikro_file)
 
     output:
-    path "${meta.id}_exclusions.csv",   emit: results
-    path "versions.yml",               emit: versions
+    tuple val(meta), path("${meta.id}_exclusions.csv"),   emit: results
+    path "versions.yml",                                  emit: versions
 
     script:
     def args = task.ext.args ?: ''

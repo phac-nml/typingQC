@@ -8,21 +8,17 @@ process ECTYPERQC {
 
     input:
     tuple val(meta), path(mikro_file)
-    path(validated_toxins)
-    path(validated_stx)
 
     output:
-    path "${meta.id}_ectyperQC.csv",     emit: serotype_results
-    path "versions.yml",                 emit: versions
+    tuple val(meta), path("${meta.id}_ectyperQC.csv"),     emit: results
+    path "versions.yml",                                   emit: versions
 
     script:
     """
     parse_ectyperQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
-    --species "${meta.Species}" \\
-    --validated_toxins ${validated_toxins} \\
-    --validated_stx ${validated_stx}
+    --species "${meta.Species}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

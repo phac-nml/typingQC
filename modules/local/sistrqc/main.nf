@@ -11,8 +11,8 @@ process SISTRQC {
     path(reportable_serovars)
 
     output:
-    path "${meta.id}_sistrQC.csv",      emit: results
-    path "versions.yml",                emit: versions
+    tuple val(meta), path("${meta.id}_sistrQC.csv"),      emit: results
+    path "versions.yml",                                  emit: versions
 
     script:
     """
