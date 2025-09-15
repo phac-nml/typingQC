@@ -113,7 +113,7 @@ workflow TYPINGQC {
         .map { meta, csv -> csv }
         .collect()
         .map { csvs ->
-        [ [id: "RDS_report", irida_id: "sample"], csvs]
+        [ [id: "RDS_report", irida_id: "SAMPLE"], csvs]
         }
         
     CSVTK(
