@@ -19,6 +19,10 @@ def parse_args():
         help="Sample ID to use in the output filename"
     )
     parser.add_argument(
+        "-n", "--irida_id", required=True,
+        help="IRIDA Next sample identifier to populate the CSV output file"
+    )
+    parser.add_argument(
         "--species", required=True,
         help="Predicted species from mikrokondo"
     )
@@ -128,8 +132,9 @@ def main():
     serotype_output_path = Path(f"{args.sample_id}_ectyperQC.csv")
     with serotype_output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
+        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
         writer.writerow([
+            args.irida_id,
             args.sample_id,            
             rds_qc_message,
             quality_analysis

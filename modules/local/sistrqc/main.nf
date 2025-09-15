@@ -19,6 +19,7 @@ process SISTRQC {
     parse_sistrQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
+    --irida_id ${meta.irida_id} \\
     --species "${meta.Species}" \\
     --reportables ${reportable_serovars}
 

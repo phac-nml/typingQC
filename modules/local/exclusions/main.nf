@@ -21,6 +21,7 @@ process EXCLUSIONS {
     """
     parse_untypable.py \\
     --sample_id ${meta.id} \\
+    --irida_id ${meta.irida_id} \\
     --species "${species}" \\
     --qc_status "${qc_status}" \\
     ${has_file} \\

@@ -21,6 +21,7 @@ process SEQUENCEQC {
     parse_sequenceQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
+    --irida_id ${meta.irida_id} \\
     --species "${species}" \\
     ${args}
 

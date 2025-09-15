@@ -18,6 +18,7 @@ process ECTYPERQC {
     parse_ectyperQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
+    --irida_id ${meta.irida_id} \\
     --species "${meta.Species}"
 
     cat <<-END_VERSIONS > versions.yml

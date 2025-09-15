@@ -16,6 +16,10 @@ def parse_args():
         "--species", required=True, help="Species from mikrokondo prediction"
     )
     parser.add_argument(
+        "-n", "--irida_id", required=True,
+        help="IRIDA Next sample identifier to populate the CSV output file"
+    )
+    parser.add_argument(
         "--qc_status", required=True, help="Overall sequencing status from mikrokondo analysis, e.g. PASS or FAIL"
     )
     parser.add_argument(
@@ -51,8 +55,8 @@ def main():
     output_path = Path(f"{args.sample_id}_exclusions.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "RDS_QC_MESSAGE", "QUALITY_METRICS"])
-        writer.writerow([args.sample_id, rds_qc_message, quality_analysis])
+        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
+        writer.writerow([args.irida_id, args.sample_id, rds_qc_message, quality_analysis])
 
 if __name__ == "__main__":
     main()

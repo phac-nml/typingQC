@@ -35,20 +35,20 @@ process CSVTK {
 
     # Create separate files for each field to merge
     csvtk fold \\
-        --fields SAMPLE \\
-        --vfield RDS_QC_MESSAGE \\
+        --fields sample \\
+        --vfield rds_qc_message \\
         --separater "; " \\
         temp_concat.csv > quality_merged.csv
 
     csvtk fold \\
-        --fields SAMPLE \\
-        --vfield QUALITY_METRICS \\
+        --fields sample \\
+        --vfield quality_metrics \\
         --separater "; " \\
         temp_concat.csv > message_merged.csv
 
     # Join the two merged files back together
     csvtk join \\
-        --fields SAMPLE \\
+        --fields sample \\
         quality_merged.csv message_merged.csv > ${prefix}.${out_extension} 
 
     cat <<-END_VERSIONS > versions.yml
