@@ -104,16 +104,20 @@ workflow TYPINGQC {
     untypable_exclusions = EXCLUSIONS(input.fallthrough)
 
     // Create final consolidated RDS typing report
-    report_files = sistr_results.results
+    // Collect all results
+    all_results = sistr_results.results
         .mix(
             ectyper_results.results,
             failed_qc_results.results,
             untypable_exclusions.results
         )
+
+    // Collect CSV files for CSVTK
+    report_files = all_results
         .map { meta, csv -> csv }
         .collect()
         .map { csvs ->
-        [ [id: "RDS_report", irida_id: "SAMPLE"], csvs]
+            [ [id: "RDS_report", irida_id: "sample"], csvs ]
         }
         
     CSVTK(
