@@ -12,7 +12,7 @@ process CSVTK {
     val out_format
 
     output:
-    path("*.${out_extension}"),          emit: csv
+    path("RDS_report.${out_extension}"),          emit: csv
     path "versions.yml",                 emit: versions
 
     when:
