@@ -116,9 +116,6 @@ workflow TYPINGQC {
     report_files = all_results
         .map { meta, csv -> csv }
         .collect()
-        .map { csvs ->
-            [ [id: "RDS_report", irida_id: "sample"], csvs ]
-        }
 
     CSVTK(
         report_files,

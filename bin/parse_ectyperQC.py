@@ -135,7 +135,7 @@ def main():
         writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
         writer.writerow([
             args.irida_id,
-            args.sample_id, 
+            args.sample_id,
             rds_qc_message,
             quality_analysis
         ])
