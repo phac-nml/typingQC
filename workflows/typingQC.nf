@@ -119,7 +119,7 @@ workflow TYPINGQC {
         .map { csvs ->
             [ [id: "RDS_report", irida_id: "sample"], csvs ]
         }
-        
+
     CSVTK(
         report_files,
         "csv",
