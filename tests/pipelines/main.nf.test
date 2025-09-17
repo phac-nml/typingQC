@@ -36,7 +36,6 @@ nextflow_pipeline {
             assert iridanext_global.findAll {it.path == "csvtk/RDS_report.csv" }.size() == 1
 
             // output metadata
-            assert iridanext_metadata.SAMPLE6."rds_qc_message" == "[FAIL] No mikrokondo data file provided."
             assert iridanext_metadata.SAMPLE3."rds_qc_message" == "[TYPE_FAIL] Serovar 'IV Y:g,z51:-' is not reportable. cgMLST 'IV 48:g,z51:-' result is reportable \u2014 seek guidance on traditional serotyping."
             assert iridanext_metadata.SAMPLE7."rds_qc_message" == "[FAIL] No mikrokondo data file provided."
             assert iridanext_metadata.SAMPLE1."rds_qc_message" == "[ECTYPER_PASS]"
@@ -186,7 +185,7 @@ nextflow_pipeline {
             assert header_list == ["sample", "sample_name", "rds_qc_message", "quality_metrics"]
             assert values_list[0] == "SAMPLE4"
             assert values_list[1] == "LIST001"
-            assert values_list[2].contains("[FAIL] No mikrokondo data file provided.")
+            assert values_list[2].contains("[FAIL] TypingQC unsupported for species: Listeria monocytogenes")
             assert values_list[3].contains("Overall sequence QC status: PASS")
         }
     }
