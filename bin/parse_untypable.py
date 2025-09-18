@@ -16,6 +16,10 @@ def parse_args():
         "--species", required=True, help="Species from mikrokondo prediction"
     )
     parser.add_argument(
+        "-n", "--irida_id", required=True,
+        help="IRIDA Next sample identifier to populate the CSV output file"
+    )
+    parser.add_argument(
         "--qc_status", required=True, help="Overall sequencing status from mikrokondo analysis, e.g. PASS or FAIL"
     )
     parser.add_argument(
@@ -27,12 +31,12 @@ def determine_failure_reason(species, has_mikro_file):
 
     # Check if mikrokondo file is missing
     if not has_mikro_file:
-        return f"[WARNING] No mikrokondo data file provided."
+        return f"[FAIL] No mikrokondo data file provided."
 
     # Check for supported species (case-insensitive)
     species_lower = species.lower()
     if "salmonella" not in species_lower and "escherichia" not in species_lower:
-        return f"[WARNING] Typing unsupported for species: {species}"
+        return f"[FAIL] TypingQC unsupported for species: {species}"
 
     # Catch all for unexpected cases
     else:
@@ -45,14 +49,14 @@ def main():
     rds_qc_message = determine_failure_reason(args.species, args.has_mikro_file)
 
     # Quality analysis provides the QC Status of the sequencing results from mikrokondo
-    quality_analysis = f"Overall QC status: {args.qc_status}"
+    quality_analysis = f"Overall sequence QC status: {args.qc_status}"
 
     # Write output CSV
     output_path = Path(f"{args.sample_id}_exclusions.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["SAMPLE", "QUALITY_METRICS", "RDS_QC_MESSAGE"])
-        writer.writerow([args.sample_id, quality_analysis, rds_qc_message])
+        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
+        writer.writerow([args.irida_id, args.sample_id, rds_qc_message, quality_analysis])
 
 if __name__ == "__main__":
     main()

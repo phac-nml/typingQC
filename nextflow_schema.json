@@ -38,24 +38,6 @@
                     "help_txt": "This file contains the list of validated and reportable Salmonella serovars for QC validation",
                     "fa_icon": "fas fa-file-csv"
                 },
-                "validated_toxins": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "pattern": "^\\S+$",
-                    "description": "Path to file containing validated Escherichia toxin genes",
-                    "help_txt": "This file contains the list of validated Escherichia toxin genes for QC validation",
-                    "fa_icon": "fas fa-file-csv"
-                },
-                "validated_stxsubtypes": {
-                    "type": "string",
-                    "format": "file-path",
-                    "exists": true,
-                    "pattern": "^\\S+$",
-                    "description": "Path to file containing validated Escherihcia STX subtyping genes",
-                    "help_txt": "This file contains the list of validated Escherichia STX subtyping genes for QC validation",
-                    "fa_icon": "fas fa-file-csv"
-                },
                 "email": {
                     "type": "string",
                     "description": "Email address for completion summary.",

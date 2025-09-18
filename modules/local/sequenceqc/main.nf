@@ -10,8 +10,8 @@ process SEQUENCEQC {
     tuple val(meta), path(mikro_file)
 
     output:
-    path "${meta.id}_sequenceQC.csv",   emit: results
-    path "versions.yml",                emit: versions
+    tuple val(meta), path("${meta.id}_sequenceQC.csv"),   emit: results
+    path "versions.yml",                                  emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -21,6 +21,7 @@ process SEQUENCEQC {
     parse_sequenceQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
+    --irida_id ${meta.irida_id} \\
     --species "${species}" \\
     ${args}
 

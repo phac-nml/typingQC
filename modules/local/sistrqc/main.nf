@@ -11,14 +11,15 @@ process SISTRQC {
     path(reportable_serovars)
 
     output:
-    path "${meta.id}_sistrQC.csv",      emit: results
-    path "versions.yml",                emit: versions
+    tuple val(meta), path("${meta.id}_sistrQC.csv"),      emit: results
+    path "versions.yml",                                  emit: versions
 
     script:
     """
     parse_sistrQC.py \\
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
+    --irida_id ${meta.irida_id} \\
     --species "${meta.Species}" \\
     --reportables ${reportable_serovars}
 
