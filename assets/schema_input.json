@@ -32,7 +32,7 @@
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
             },
-            "QC_status_overall": {
+            "qc_status_overall": {
                 "type": "string",
                 "meta": ["QCStatus"],
                 "errorMessage": "Sequencing QC Status - mikrokondo.",
@@ -40,6 +40,6 @@
                 "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample", "predicted_identification_name", "QC_status_overall"]
+        "required": ["sample", "predicted_identification_name", "qc_status_overall"]
     }
 }
