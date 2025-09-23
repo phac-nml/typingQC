@@ -40,6 +40,6 @@
                 "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample"]
+        "required": ["sample", "predicted_identification_name", "qc_status_overall"]
     }
 }

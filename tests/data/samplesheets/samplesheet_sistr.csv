@@ -1,4 +1,4 @@
-sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
+sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall
 SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASS
 SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAIL
 SAMPLE3,SALM005,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM005.flat_sample.json.gz,Salmonella_enterica,PASS
