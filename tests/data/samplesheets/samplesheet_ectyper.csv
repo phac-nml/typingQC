@@ -1,4 +1,4 @@
-sample,sample_name,mikrokondo_data,predicted_identification_name,QC_status_overall
+sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall
 SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASS
 SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASS
 SAMPLE3,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAIL
