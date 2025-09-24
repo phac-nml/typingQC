@@ -79,13 +79,13 @@ workflow TYPINGQC {
             tuple(meta, mikro_file ? [file(mikro_file)] : [])
         }
         .branch {
-            salmonella_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAIL' && (it[0].Species ?: "").contains('Salmonella')
-            escherichia_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAIL' && (it[0].Species ?: "").contains('Escherichia')
+            salmonella_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Salmonella')
+            escherichia_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Escherichia')
 
-            salmonella_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Salmonella')
-            escherichia_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASS' && (it[0].Species ?: "").contains('Escherichia')
+            salmonella_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASSED' && (it[0].Species ?: "").contains('Salmonella')
+            escherichia_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASSED' && (it[0].Species ?: "").contains('Escherichia')
 
-            sequence_FAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAIL'
+            sequence_FAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED'
 
             fallthrough: true
         }
