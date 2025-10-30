@@ -8,6 +8,8 @@ process ECTYPERQC {
 
     input:
     tuple val(meta), path(mikro_file)
+    path(validated_toxins)
+    path(validated_stx)
 
     output:
     tuple val(meta), path("${meta.id}_ectyperQC.csv"),     emit: results
@@ -19,7 +21,9 @@ process ECTYPERQC {
     --input ${mikro_file} \\
     --sample_id ${meta.id} \\
     --irida_id ${meta.irida_id} \\
-    --species "${meta.Species}"
+    --species "${meta.Species}" \\
+    --validated_toxins ${validated_toxins} \\
+    --validated_stx ${validated_stx}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

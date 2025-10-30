@@ -97,9 +97,13 @@ workflow TYPINGQC {
     // Create channel for reportable serovars file
     ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
 
+    // Create channel for validated toxin genes
+    ch_validated_toxins = Channel.value(file(params.validated_toxins))
+    ch_validated_stxsubtypes = Channel.value(file(params.validated_stxsubtypes))
+
     // Process execution for typing and sequencing results
     sistr_results = SISTRQC(sistrqc_input, ch_reportable_serovars)
-    ectyper_results = ECTYPERQC(ectyperqc_input)
+    ectyper_results = ECTYPERQC(ectyperqc_input, ch_validated_toxins, ch_validated_stxsubtypes)
     failed_qc_results = SEQUENCEQC(sequenceqc_input)
     untypable_exclusions = EXCLUSIONS(input.fallthrough)
 
