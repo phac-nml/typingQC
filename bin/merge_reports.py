@@ -54,7 +54,7 @@ def main():
     headers = [
         "sample",
         "sample_name",
-        "rds_qc_message",
+        "typingQC_message",
         "quality_metrics",
         "Validated_Toxins",
         "Validated_STXSubtypes"

@@ -93,7 +93,7 @@ def extract_ectyper_serotype_qc(sample_data):
         # For any other QC warnings/failures, record the QC message from the mikrokondo-generated JSON file
         return qc_status
 
-def build_serotype_rds_qc_message(sample_data):
+def build_serotype_typingQC_message(sample_data):
     """Build RDS QC message based on ECTyper serotyping results"""
     qc_status = sample_data.get(QC_KEY, "")
     serotype = sample_data.get(SEROTYPE_KEY, "")
@@ -104,7 +104,7 @@ def build_serotype_rds_qc_message(sample_data):
         return "[ECTYPER_FAIL] No serotype found in ECTyper results."
 
     # Define all RDS QC message mappings
-    rds_qc_messages = {
+    typingQC_messages = {
         "FAIL (-:- TYPING)": "[ECTYPER_FAIL] RESEQUENCING or TRADITIONAL SEROTYPING is advised.",
         "WARNING (-:H TYPING)": "[ECTYPER_FAIL] RESEQUENCING or TRADITIONAL SEROTYPING is advised.",
         "WARNING (O:- TYPING)": "[ECTYPER_FAIL] RESEQUENCING or TRADITIONAL SEROTYPING is advised.",
@@ -119,8 +119,8 @@ def build_serotype_rds_qc_message(sample_data):
     # Handle all conditions for the RDS QC message
     if not qc_status or qc_status.upper() == "PASS (REPORTABLE)":
         return f"[ECTYPER_PASS]"
-    elif qc_status in rds_qc_messages:
-        return rds_qc_messages[qc_status]
+    elif qc_status in typingQC_messages:
+        return typingQC_messages[qc_status]
     else:
         return f"[ECTYPER_FAIL] Serotyping issues detected: {qc_status}. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
 
@@ -183,13 +183,13 @@ def main():
     if SEROTYPE_KEY not in sample_data and TOXIN_GENES_KEY not in sample_data:
         # No ECTyper data found
         quality_analysis = f"Sample predicted to be {args.species} but no ECTyper data found."
-        rds_qc_message = "[FAIL] Re-run mikrokondo to generate ECTyper data."
+        typingQC_message = "[FAIL] Re-run mikrokondo to generate ECTyper data."
         validated_toxins_found = []
         validated_stx_found = []
     else:
         # Process serotyping data
         quality_analysis = extract_ectyper_serotype_qc(sample_data)
-        rds_qc_message = build_serotype_rds_qc_message(sample_data)
+        typingQC_message = build_serotype_typingQC_message(sample_data)
         # Process toxin data
         validated_toxins_found, validated_stx_found = extract_validated_toxins(sample_data, validated_genes, validated_stx)
 
@@ -197,11 +197,11 @@ def main():
     serotype_output_path = Path(f"{args.sample_id}_ectyperQC.csv")
     with serotype_output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics", "Validated_Toxins", "Validated_STXSubtypes"])
+        writer.writerow(["sample", "sample_name", "typingQC_message", "quality_metrics", "Validated_Toxins", "Validated_STXSubtypes"])
         writer.writerow([
             args.irida_id,
             args.sample_id,
-            rds_qc_message,
+            typingQC_message,
             quality_analysis,
             ",".join(validated_toxins_found) if validated_toxins_found else "n/a",
             ",".join(validated_stx_found) if validated_stx_found else "n/a"

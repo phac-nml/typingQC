@@ -70,7 +70,7 @@ def is_typing_supported(species):
 
 # Build RDS QC message depending on test results
 # Note: Needs to be updated if new species are added to genome typing capabilities
-def build_rds_qc_message(sample_data, species, failed_tests, checkm_failed):
+def build_typingQC_message(sample_data, species, failed_tests, checkm_failed):
     num_failed = len(failed_tests)
 
     # Check for checkM contamination failure first
@@ -107,13 +107,13 @@ def main():
     sample_data = data[sample_key]
 
     failed_messages, failed_tests, checkm_failed = extract_failed_messages(sample_data)
-    rds_qc_message = build_rds_qc_message(sample_data, args.species, failed_tests, checkm_failed)
+    typingQC_message = build_typingQC_message(sample_data, args.species, failed_tests, checkm_failed)
 
     output_path = Path(f"{args.sample_id}_sequenceQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
-        writer.writerow([args.irida_id, args.sample_id, rds_qc_message, "; ".join(failed_messages) if failed_messages else "No QC failures"])
+        writer.writerow(["sample", "sample_name", "typingQC_message", "quality_metrics"])
+        writer.writerow([args.irida_id, args.sample_id, typingQC_message, "; ".join(failed_messages) if failed_messages else "No QC failures"])
 
 if __name__ == "__main__":
     main()
