@@ -10,20 +10,23 @@ process MERGE_REPORTS {
     path(csv)
 
     output:
-    path("TypingQC_report.${out_extension}"),          emit: csv
-    path "versions.yml",                               emit: versions
+    path("TypingQC_report.csv"), emit: csv
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     """
+    # Merge all CSV files into one TypingQC report
     merge_reports.py \\
-    --input ${csv}
+        --input ${csv} \\
+        --output TypingQC_report.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        csvtk: \$(echo \$( csvtk version | sed -e "s/csvtk v//g" ))
+        python: \$(python --version | sed 's/Python //g')
     END_VERSIONS
     """
 }
+

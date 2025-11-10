@@ -32,7 +32,7 @@ include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
 include { SISTRQC            } from '../modules/local/sistrqc/main'
 include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
 include { EXCLUSIONS         } from '../modules/local/exclusions/main'
-include { CSVTK              } from '../modules/local/csvtk/main'
+include { MERGE_REPORTS      } from '../modules/local/merge_reports/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,10 +121,8 @@ workflow TYPINGQC {
         .map { meta, csv -> csv }
         .collect()
 
-    CSVTK(
-        report_files,
-        "csv",
-        "csv"
+    MERGE_REPORTS(
+        report_files
     )
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
