@@ -148,7 +148,7 @@ def main():
 
     if not args.input.exists():
         raise FileNotFoundError(f"Input file {args.input} not found.")
-    
+
     if not args.validated_toxins.exists():
         raise FileNotFoundError(f"Validated genes file {args.validated_toxins} not found.")
 
@@ -159,7 +159,7 @@ def main():
     data = load_json(args.input)
     if not isinstance(data, dict) or len(data) != 1:
         raise ValueError("Expected mikrokondo-generated JSON input file to contain a single top-level sample key.")
-    
+
     # Load validated toxin genes and STX subtypes from separate files
     validated_genes = load_validated_list(args.validated_toxins)
     validated_stx = load_validated_list(args.validated_stx)

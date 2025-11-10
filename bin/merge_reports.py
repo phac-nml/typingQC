@@ -3,7 +3,6 @@
 import csv
 import argparse
 from pathlib import Path
-from collections import defaultdict
 
 def parse_args():
     parser = argparse.ArgumentParser(
