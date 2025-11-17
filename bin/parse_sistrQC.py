@@ -105,12 +105,7 @@ def build_typingQC_message(sample_data, reportable_serovars):
         if serovar in reportable_serovars:
             return "[SISTR_PASS]"
         else:
-            # Predicted overall serovar is not reportable, but check cgMLST serovar as alternative
-            if serovar_cgmlst != serovar and serovar_cgmlst in reportable_serovars:
-                return f"[TYPE_FAIL] Serovar '{serovar}' is not reportable. cgMLST '{serovar_cgmlst}' result is reportable — seek guidance on traditional serotyping."
-            else:
-                # Serovar not reportable
-                return f"[TYPE_FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
+            return f"[TYPE_FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
 
     elif qc_status.upper() == "FAIL":
         # SISTR analysis failed or has warnings
