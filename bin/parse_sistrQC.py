@@ -84,7 +84,7 @@ def extract_sistr_qc(sample_data):
         # For samples that FAIL SISTR QC_STATUS: include the qc_messages in report file
         return qc_messages if qc_messages else "No QC messages in mikrokondo-generated JSON file. Please check for failures manually."
 
-def build_rds_qc_message(sample_data, reportable_serovars):
+def build_typingQC_message(sample_data, reportable_serovars):
     qc_status = sample_data.get(QC_STATUS_KEY, "Unknown")
     qc_messages = sample_data.get(QC_MESSAGES_KEY, "")
 
@@ -105,12 +105,7 @@ def build_rds_qc_message(sample_data, reportable_serovars):
         if serovar in reportable_serovars:
             return "[SISTR_PASS]"
         else:
-            # Predicted overall serovar is not reportable, but check cgMLST serovar as alternative
-            if serovar_cgmlst != serovar and serovar_cgmlst in reportable_serovars:
-                return f"[TYPE_FAIL] Serovar '{serovar}' is not reportable. cgMLST '{serovar_cgmlst}' result is reportable — seek guidance on traditional serotyping."
-            else:
-                # Serovar not reportable
-                return f"[TYPE_FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
+            return f"[TYPE_FAIL] Serovar '{serovar}' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
 
     elif qc_status.upper() == "FAIL":
         # SISTR analysis failed or has warnings
@@ -144,17 +139,17 @@ def main():
     #Check if SISTR data exists in the JSON file and process accordingly
     if QC_STATUS_KEY not in sample_data:
         quality_analysis = f"Sample predicted to be {args.species} but no SISTR data found."
-        rds_qc_message = "[FAIL] Re-run mikrokondo to generate SISTR data."
+        typingQC_message = "[FAIL] Re-run mikrokondo to generate SISTR data."
     else:
         quality_analysis = extract_sistr_qc(sample_data)
-        rds_qc_message = build_rds_qc_message(sample_data, reportable_serovars)
+        typingQC_message = build_typingQC_message(sample_data, reportable_serovars)
 
     #Write output CSV file with results
     output_path = Path(f"{args.sample_id}_sistrQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
-        writer.writerow([args.irida_id, args.sample_id, rds_qc_message, quality_analysis])
+        writer.writerow(["sample", "sample_name", "typingQC_message", "quality_metrics"])
+        writer.writerow([args.irida_id, args.sample_id, typingQC_message, quality_analysis])
 
 if __name__ == "__main__":
     main()

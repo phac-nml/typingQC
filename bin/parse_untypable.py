@@ -46,7 +46,7 @@ def main():
     args = parse_args()
 
     # Determine the failure reason
-    rds_qc_message = determine_failure_reason(args.species, args.has_mikro_file)
+    typingQC_message = determine_failure_reason(args.species, args.has_mikro_file)
 
     # Quality analysis provides the QC Status of the sequencing results from mikrokondo
     quality_analysis = f"Overall sequence QC status: {args.qc_status}"
@@ -55,8 +55,8 @@ def main():
     output_path = Path(f"{args.sample_id}_exclusions.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["sample", "sample_name", "rds_qc_message", "quality_metrics"])
-        writer.writerow([args.irida_id, args.sample_id, rds_qc_message, quality_analysis])
+        writer.writerow(["sample", "sample_name", "typingQC_message", "quality_metrics"])
+        writer.writerow([args.irida_id, args.sample_id, typingQC_message, quality_analysis])
 
 if __name__ == "__main__":
     main()
