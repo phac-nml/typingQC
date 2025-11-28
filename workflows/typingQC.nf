@@ -33,6 +33,7 @@ include { SISTRQC            } from '../modules/local/sistrqc/main'
 include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
 include { EXCLUSIONS         } from '../modules/local/exclusions/main'
 include { MERGE_REPORTS      } from '../modules/local/merge_reports/main'
+include { SEROTYPE           } from '../modules/local/serotype/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -78,7 +79,7 @@ workflow TYPINGQC {
             // Return structured tuple, using a placeholder if input_file is null
             tuple(meta, mikro_file ? [file(mikro_file)] : [])
         }
-        .branch {
+    input2 = input.branch {
             salmonella_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Salmonella')
             escherichia_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Escherichia')
 
@@ -90,9 +91,9 @@ workflow TYPINGQC {
             fallthrough: true
         }
 
-        sistrqc_input = input.salmonella_PASS.mix(input.salmonella_qcFAIL)
-        ectyperqc_input = input.escherichia_PASS.mix(input.escherichia_qcFAIL)
-        sequenceqc_input = input.salmonella_qcFAIL.mix(input.escherichia_qcFAIL).mix(input.sequence_FAIL)
+        sistrqc_input = input2.salmonella_PASS.mix(input2.salmonella_qcFAIL)
+        ectyperqc_input = input2.escherichia_PASS.mix(input2.escherichia_qcFAIL)
+        sequenceqc_input = input2.salmonella_qcFAIL.mix(input2.escherichia_qcFAIL).mix(input2.sequence_FAIL)
 
     // Create channel for reportable serovars file
     ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
@@ -105,7 +106,7 @@ workflow TYPINGQC {
     sistr_results = SISTRQC(sistrqc_input, ch_reportable_serovars)
     ectyper_results = ECTYPERQC(ectyperqc_input, ch_validated_toxins, ch_validated_stxsubtypes)
     failed_qc_results = SEQUENCEQC(sequenceqc_input)
-    untypable_exclusions = EXCLUSIONS(input.fallthrough)
+    untypable_exclusions = EXCLUSIONS(input2.fallthrough)
 
     // Create final consolidated RDS typing report
     // Collect all results
@@ -124,6 +125,13 @@ workflow TYPINGQC {
     MERGE_REPORTS(
         report_files
     )
+    
+    // Create the input data for serotype validation
+    all_metadata = input.map {meta, mikro_file -> meta}
+        .collect()
+
+    // Run SEROTYPE process to validate the serotype from mikrokondo
+    SEROTYPE (all_metadata, MERGE_REPORTS.out.csv)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
