@@ -125,11 +125,11 @@ workflow TYPINGQC {
     MERGE_REPORTS(
         report_files
     )
-    
+
     // Create the input data for serotype validation
     all_metadata = input.map {meta, mikro_file -> meta}
         .collect()
-    
+
     // Create channel to provide verification on QC outcomes for serotype validation
     ch_approve_verification = Channel.value(params.approve_verification)
 

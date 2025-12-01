@@ -264,6 +264,9 @@
             "$ref": "#/definitions/ectyper_toxin_files"
         },
         {
+            "$ref": "#/definitions/serotype_verification"
+        },
+        {
             "$ref": "#/definitions/institutional_config_options"
         },
         {
