@@ -83,6 +83,21 @@
                 }
             }
         },
+        "serotype_verification": {
+            "title": "User initiated boolen value to ignore WARNING messages and proceed to validate serotype",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "An option to ignore warning messages from the pipeline after user has verified the samples quality metrics",
+            "properties": {
+                "approve_verification": {
+                    "type": "boolean",
+                    "exists": true,
+                    "description": "Sample quality metrics have been verified: Ignore WARNING messages in typingQC and use predicted serotype from mikrokondo",
+                    "default": false,
+                    "help_text": "When set to true, samples with WARNING in typingQC_message will use the predicted serotype instead of 'verification needed'"
+                }
+            }
+        },
         "institutional_config_options": {
             "title": "Institutional config options",
             "type": "object",

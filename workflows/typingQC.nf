@@ -129,9 +129,12 @@ workflow TYPINGQC {
     // Create the input data for serotype validation
     all_metadata = input.map {meta, mikro_file -> meta}
         .collect()
+    
+    // Create channel to provide verification on QC outcomes for serotype validation
+    ch_approve_verification = Channel.value(params.approve_verification)
 
-    // Run SEROTYPE process to validate the serotype from mikrokondo
-    SEROTYPE (all_metadata, MERGE_REPORTS.out.csv)
+    // Run SEROTYPE process to validate the serotype from mikrokondo using the typingQC messages
+    SEROTYPE (all_metadata, MERGE_REPORTS.out.csv, ch_approve_verification)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')

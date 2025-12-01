@@ -19,18 +19,14 @@ def parse_args():
     parser.add_argument(
         "--output", required=True, help="Output CSV file with validated serotypes"
     )
+    parser.add_argument(
+        "--approve_verification", action='store_true',
+        help="Approve samples with WARNING messages and use predicted serotype instead of 'verification needed'"
+    )
     return parser.parse_args()
 
 def create_serotype_lookup(sample_data_list):
-    """
-    Create a lookup dictionary for serotypes by sample ID.
-    
-    Args:
-        sample_data_list (list): List of strings in format 'sample_id:serotype'
-    
-    Returns:
-        dict: Dictionary mapping sample IDs to serotypes
-    """
+# Create a lookup dictionary for serotypes by sample ID.
     serotype_lookup = {}
     
     for sample_data in sample_data_list:
@@ -43,23 +39,21 @@ def create_serotype_lookup(sample_data_list):
     
     return serotype_lookup
 
-def determine_validated_serotype(typingqc_message, sample_serotype):
-    """
-    Determine the validated serotype based on typingQC message and sample serotype.
-    
-    Args:
-        typingqc_message (str): The typingQC message from the CSV
-        sample_serotype (str): The serotype from sample metadata
-    
-    Returns:
-        str: The validated serotype value
-    """
+def determine_validated_serotype(typingqc_message, sample_serotype, approve_verification=False):
+# Determine the validated serotype based on typingQC message and sample serotype.
     typingqc_upper = str(typingqc_message).upper()
     
     if 'FAIL' in typingqc_upper:
         return 'pending'
     elif 'WARNING' in typingqc_upper:
-        return 'verification needed'
+        if approve_verification:
+            # If approving verification, treat like PASS
+            if not sample_serotype or sample_serotype.strip() == '':
+                return ''
+            return sample_serotype
+        else:
+            # Default behavior for warnings
+            return 'verification needed'
     elif 'PASS' in typingqc_upper:
         # If no serotype provided, leave blank
         if not sample_serotype or sample_serotype.strip() == '':
@@ -69,15 +63,7 @@ def determine_validated_serotype(typingqc_message, sample_serotype):
         return 'unknown'
 
 def find_column_indices(header):
-    """
-    Find the indices of important columns in the CSV header.
-    
-    Args:
-        header (list): List of column names
-    
-    Returns:
-        dict: Dictionary with column indices
-    """
+# Find the indices of important columns in the CSV header.
     indices = {
         'sample': None,
         'sample_name': None,
@@ -98,15 +84,8 @@ def find_column_indices(header):
     
     return indices
 
-def process_csv_file(input_path, serotype_lookup, output_path):
-    """
-    Process the CSV file and add validated serotype column.
-    
-    Args:
-        input_path (Path): Path to input CSV file
-        serotype_lookup (dict): Dictionary mapping sample IDs to serotypes
-        output_path (Path): Path to output CSV file
-    """
+def process_csv_file(input_path, serotype_lookup, output_path, approve_verification=False):
+# Process the CSV file and add validated serotype column.
     rows = []
     
     with input_path.open('r', newline='', encoding='utf-8') as csvfile:
@@ -148,7 +127,11 @@ def process_csv_file(input_path, serotype_lookup, output_path):
             sample_serotype = serotype_lookup.get(sample_id, '')
             
             # Determine validated serotype
-            validated_serotype = determine_validated_serotype(typingqc_message, sample_serotype)
+            validated_serotype = determine_validated_serotype(
+                typingqc_message, 
+                sample_serotype, 
+                approve_verification
+            )
             
             # Set the validated serotype in the appropriate column
             if col_indices['validated_serotype'] is not None:
@@ -179,8 +162,15 @@ def main():
     # Process the CSV file
     output_path = Path(args.output)
     try:
-        num_samples = process_csv_file(input_path, serotype_lookup, output_path)
+        num_samples = process_csv_file(
+            input_path, 
+            serotype_lookup, 
+            output_path, 
+            args.approve_verification
+        )
         print(f"Successfully processed {num_samples} samples")
+        if args.approve_verification:
+            print("WARNING samples were approved - using predicted serotypes")
         print(f"Output written to: {args.output}")
     except Exception as e:
         print(f"Error processing file: {str(e)}", file=sys.stderr)
