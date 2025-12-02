@@ -1,2 +1,2 @@
-sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall
-SAMPLE1,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASSED
+sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall,predicted_primary_type_name
+SAMPLE1,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASSED,Souza|Madjorio|Liverpool
