@@ -10,7 +10,7 @@ process MERGE_REPORTS {
     path(csv)
 
     output:
-    path("TypingQC_report.csv"), emit: csv
+    path("TypingQC_inputs.csv"), emit: csv
     path "versions.yml", emit: versions
 
     when:
@@ -21,7 +21,7 @@ process MERGE_REPORTS {
     # Merge all CSV files into one TypingQC report
     merge_reports.py \\
         --input ${csv} \\
-        --output TypingQC_report.csv
+        --output TypingQC_inputs.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
