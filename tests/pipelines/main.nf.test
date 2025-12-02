@@ -17,7 +17,7 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC001_ectyperQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM003_sistrQC.csv").exists()
@@ -26,6 +26,23 @@ nextflow_pipeline {
             assert path("$launchDir/results/exclusions/EC002_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_SAMPLE7_exclusions.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+
+            // check TypingQC_report csv file
+
+            def outputFile = path("$launchDir/results/serotype/TypingQC_report.csv")
+            assert outputFile.exists()
+
+            // Read CSV into rows
+            def csv = outputFile.readLines()
+            def header = csv[0].split(",")
+            def values = csv[1].split(",", 7)
+
+            assert header == ["sample", "sample_name", "typingQC_message", "quality_metrics", "Validated_Toxins", "Validated_STXSubtypes", "Validated_Serotype"]
+            assert values[0] == "SAMPLE1"
+            assert values[1] == "EC001"
+            assert values[2].contains("[ECTYPER_PASS]")
+            assert values[3].isEmpty()
 
             // check IRIDA Next JSON output
             def iridanext_json = path("$launchDir/results/iridanext.output.json").json
@@ -33,7 +50,7 @@ nextflow_pipeline {
             def iridanext_metadata = iridanext_json.metadata.samples
 
             // global output file
-            assert iridanext_global.findAll {it.path == "merge/TypingQC_report.csv" }.size() == 1
+            assert iridanext_global.findAll {it.path == "serotype/TypingQC_report.csv" }.size() == 1
 
             // output metadata
             assert iridanext_metadata.SAMPLE3."typingQC_message" == "[TYPE_FAIL] Serovar 'IV Y:g,z51:-' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
@@ -57,7 +74,8 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC004_ectyperQC.csv").exists()
             assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
@@ -143,7 +161,8 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
 
@@ -203,7 +222,8 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/exclusions/SALM013_exclusions.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM012_sistrQC.csv").exists()
@@ -402,7 +422,8 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/exclusions/EC008_exclusions.csv").exists()
             assert path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv").exists()
 
