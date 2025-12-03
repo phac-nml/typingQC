@@ -1,9 +1,8 @@
-sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall
-SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASSED
-SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASSED
-SAMPLE3,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAILED
-SAMPLE4,EC005,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC005.flat_sample.json.gz,Escherichia coli,PASSED
-SAMPLE5,EC006,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC006.flat_sample.json.gz,Escherichia coli,PASSED
-SAMPLE6,EC007,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC007.flat_sample.json.gz,Escherichia coli,PASSED
-SAMPLE7,EC008,,Escherichia coli,PASSED
-SAMPLE8,EA001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EA001.flat_sample.json.gz,Escherichia coli,PASSED
+sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall,predicted_primary_type_name
+SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASSED,O157:H7
+SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASSED,O55:H7
+SAMPLE3,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC004.flat_sample.json.gz,Escherichia coli,FAILED,O103:H2
+SAMPLE4,EC005,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC005.flat_sample.json.gz,Escherichia coli,PASSED,O2/O137:H41
+SAMPLE5,EC006,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC006.flat_sample.json.gz,Escherichia coli,PASSED,-:H21
+SAMPLE6,EC007,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC007.flat_sample.json.gz,Escherichia coli,PASSED,O111:H8
+SAMPLE8,EA001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EA001.flat_sample.json.gz,Escherichia coli,PASSED,

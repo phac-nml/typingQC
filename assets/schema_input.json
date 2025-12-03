@@ -38,8 +38,15 @@
                 "errorMessage": "Sequencing QC Status - mikrokondo.",
                 "default": "",
                 "pattern": "^[^\\n\\t\"]+$"
+            },
+            "predicted_primary_type_name": {
+                "type": "string",
+                "meta": ["Serotype"],
+                "errorMessage": "Predicted serotypes determined using typing tools (e.g. ECTyper, SISTR) from mikrokondo.",
+                "default": "",
+                "pattern": "^[^\\n\\t\"]+$"
             }
         },
-        "required": ["sample", "predicted_identification_name", "qc_status_overall"]
+        "required": ["sample", "mikrokondo_data", "predicted_identification_name", "qc_status_overall"]
     }
 }

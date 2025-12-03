@@ -17,15 +17,32 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC001_ectyperQC.csv").exists()
+            assert path("$launchDir/results/ectyperqc/EC002_ectyperQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM003_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM004_sistrQC.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM003_sequenceQC.csv").exists()
-            assert path("$launchDir/results/exclusions/EC002_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_exclusions.csv").exists()
             assert path("$launchDir/results/exclusions/LIST001_SAMPLE7_exclusions.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+
+            // check TypingQC_report csv file
+
+            def outputFile = path("$launchDir/results/serotype/TypingQC_report.csv")
+            assert outputFile.exists()
+
+            // Read CSV into rows
+            def csv = outputFile.readLines()
+            def header = csv[0].split(",")
+            def values = csv[1].split(",", 7)
+
+            assert header == ["sample", "sample_name", "typingQC_message", "quality_metrics", "Validated_Toxins", "Validated_STXSubtypes", "Validated_Serotype"]
+            assert values[0] == "SAMPLE1"
+            assert values[1] == "EC001"
+            assert values[2].contains("[ECTYPER_PASS]")
+            assert values[3].isEmpty()
 
             // check IRIDA Next JSON output
             def iridanext_json = path("$launchDir/results/iridanext.output.json").json
@@ -33,14 +50,14 @@ nextflow_pipeline {
             def iridanext_metadata = iridanext_json.metadata.samples
 
             // global output file
-            assert iridanext_global.findAll {it.path == "merge/TypingQC_report.csv" }.size() == 1
+            assert iridanext_global.findAll {it.path == "serotype/TypingQC_report.csv" }.size() == 1
 
             // output metadata
             assert iridanext_metadata.SAMPLE3."typingQC_message" == "[TYPE_FAIL] Serovar 'IV Y:g,z51:-' is NOT REPORTABLE. Perform TRADITIONAL SEROTYPING."
-            assert iridanext_metadata.SAMPLE7."typingQC_message" == "[FAIL] No mikrokondo data file provided."
+            assert iridanext_metadata.SAMPLE7."typingQC_message" == "[FAIL] TypingQC unsupported for species: Listeria monocytogenes"
             assert iridanext_metadata.SAMPLE1."typingQC_message" == "[ECTYPER_PASS]"
             assert iridanext_metadata.SAMPLE4."typingQC_message" == "[SISTR_PASS]"
-            assert iridanext_metadata.SAMPLE2."typingQC_message" == "[FAIL] No mikrokondo data file provided."
+            assert iridanext_metadata.SAMPLE2."typingQC_message" == "[ECTYPER_PASS]"
         }
     }
 
@@ -57,9 +74,9 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC004_ectyperQC.csv").exists()
-            assert path("$launchDir/results/exclusions/SALM005_exclusions.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM002_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM013_sistrQC.csv").exists()
@@ -143,36 +160,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
-
-            def outputFile_salm = path("$launchDir/results/exclusions/SALM005_exclusions.csv")
-            assert outputFile_salm.exists()
-
-            // Read CSV into rows
-            def csv_salm = outputFile_salm.readLines()
-            def header_salm = csv_salm[0].split(",")
-            def values_salm = csv_salm[1].split(",", 4) // Only split first 3 commas (4 columns)
-
-            assert header_salm == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
-            assert values_salm[0] == "SAMPLE3"
-            assert values_salm[1] == "SALM005"
-            assert values_salm[2].contains("[FAIL] No mikrokondo data file provided")
-            assert values_salm[3].contains("Overall sequence QC status: FAIL")
-
-            def outputFile_salm2 = path("$launchDir/results/exclusions/SALM004_exclusions.csv")
-            assert outputFile_salm2.exists()
-
-            def csv_salm2 = outputFile_salm2.readLines()
-            def header_salm2 = csv_salm2[0].split(",")
-            def values_salm2 = csv_salm2[1].split(",", 4) // Only split first 3 commas (4 columns)
-
-            assert header_salm2 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
-            assert values_salm2[0] == "SAMPLE2"
-            assert values_salm2[1] == "SALM004"
-            assert values_salm2[2].contains("[FAIL] No mikrokondo data file provided")
-            assert values_salm2[3].contains("Overall sequence QC status: PASS")
+            assert path("$launchDir/results/sistrqc/SALM004_sistrQC.csv").exists()
 
             def outputFile_list = path("$launchDir/results/exclusions/LIST001_exclusions.csv")
             assert outputFile_list.exists()
@@ -203,10 +195,11 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
-            assert path("$launchDir/results/exclusions/SALM013_exclusions.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM012_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM013_sistrQC.csv").exists()
 
             def outputFile_salm = path("$launchDir/results/sistrqc/SALM001_sistrQC.csv")
             assert outputFile_salm.exists()
@@ -402,8 +395,8 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
-            assert path("$launchDir/results/merge/TypingQC_report.csv").exists()
-            assert path("$launchDir/results/exclusions/EC008_exclusions.csv").exists()
+            assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
+            assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv").exists()
 
             def outputFile_ec1 = path("$launchDir/results/ectyperqc/EC001_ectyperQC.csv")
