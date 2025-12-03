@@ -79,7 +79,7 @@ workflow TYPINGQC {
             // Return structured tuple, using a placeholder if input_file is null
             tuple(meta, mikro_file ? [file(mikro_file)] : [])
         }
-    input2 = input.branch {
+    input_branched = input.branch {
             salmonella_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Salmonella')
             escherichia_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Escherichia')
 
@@ -91,9 +91,9 @@ workflow TYPINGQC {
             fallthrough: true
         }
 
-        sistrqc_input = input2.salmonella_PASS.mix(input2.salmonella_qcFAIL)
-        ectyperqc_input = input2.escherichia_PASS.mix(input2.escherichia_qcFAIL)
-        sequenceqc_input = input2.salmonella_qcFAIL.mix(input2.escherichia_qcFAIL).mix(input2.sequence_FAIL)
+        sistrqc_input = input_branched.salmonella_PASS.mix(input_branched.salmonella_qcFAIL)
+        ectyperqc_input = input_branched.escherichia_PASS.mix(input_branched.escherichia_qcFAIL)
+        sequenceqc_input = input_branched.salmonella_qcFAIL.mix(input_branched.escherichia_qcFAIL).mix(input_branched.sequence_FAIL)
 
     // Create channel for reportable serovars file
     ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
@@ -106,7 +106,7 @@ workflow TYPINGQC {
     sistr_results = SISTRQC(sistrqc_input, ch_reportable_serovars)
     ectyper_results = ECTYPERQC(ectyperqc_input, ch_validated_toxins, ch_validated_stxsubtypes)
     failed_qc_results = SEQUENCEQC(sequenceqc_input)
-    untypable_exclusions = EXCLUSIONS(input2.fallthrough)
+    untypable_exclusions = EXCLUSIONS(input_branched.fallthrough)
 
     // Create final consolidated RDS typing report
     // Collect all results
