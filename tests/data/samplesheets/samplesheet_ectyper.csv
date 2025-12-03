@@ -5,5 +5,4 @@ SAMPLE3,EC004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data
 SAMPLE4,EC005,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC005.flat_sample.json.gz,Escherichia coli,PASSED,O2/O137:H41
 SAMPLE5,EC006,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC006.flat_sample.json.gz,Escherichia coli,PASSED,-:H21
 SAMPLE6,EC007,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC007.flat_sample.json.gz,Escherichia coli,PASSED,O111:H8
-SAMPLE7,EC008,,Escherichia coli,PASSED,
 SAMPLE8,EA001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EA001.flat_sample.json.gz,Escherichia coli,PASSED,
