@@ -9,7 +9,6 @@ process SEROTYPE {
     input:
     val(meta_list)
     path(merged_csv)
-    val(approve_verification)
 
     output:
     path("TypingQC_report.csv"),    emit: final_report
@@ -22,7 +21,7 @@ process SEROTYPE {
         def sample_id = meta.irida_id
         "--sample_data '${sample_id}:${serotype}'"
     }.join(' ')
-    def approve_verification_flag = approve_verification ? '--approve_verification' : ''
+    def approve_verification_flag = params.approve_verification ? '--approve_verification' : ''
     """
     validate_serotypes.py \\
         --input ${merged_csv} \\
