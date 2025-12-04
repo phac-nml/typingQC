@@ -1,0 +1,5 @@
+sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall,predicted_primary_type_name
+SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASSED,"IV Y:g,z51:-"
+SAMPLE2,SALM004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM004.flat_sample.json.gz,Salmonella enterica,PASSED,Gallinarum
+SAMPLE4,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASSED,
+SAMPLE5,CAMP001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/CAMP001.flat_sample.json.gz,Campylobacter_coli,FAILED,

@@ -5,6 +5,7 @@
 */
 
 include { paramsSummaryLog; paramsSummaryMap; fromSamplesheet  } from 'plugin/nf-validation'
+include { loadIridaSampleIds                                   } from 'plugin/nf-iridanext'
 
 def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
 def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
@@ -27,15 +28,12 @@ WorkflowTypingQC.initialise(params, log)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
-//
-include { INPUT_CHECK          } from '../subworkflows/local/input_check'
-include { GENERATE_SAMPLE_JSON } from '../modules/local/generatesamplejson/main'
-include { SIMPLIFY_IRIDA_JSON  } from '../modules/local/simplifyiridajson/main'
-include { IRIDA_NEXT_OUTPUT    } from '../modules/local/iridanextoutput/main'
-include { ASSEMBLY_STUB        } from '../modules/local/assemblystub/main'
-include { GENERATE_SUMMARY     } from '../modules/local/generatesummary/main'
+include { SEQUENCEQC         } from '../modules/local/sequenceqc/main'
+include { SISTRQC            } from '../modules/local/sistrqc/main'
+include { ECTYPERQC          } from '../modules/local/ectyperqc/main'
+include { EXCLUSIONS         } from '../modules/local/exclusions/main'
+include { MERGE_REPORTS      } from '../modules/local/merge_reports/main'
+include { SEROTYPE           } from '../modules/local/serotype/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,47 +52,86 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow IRIDANEXT {
+workflow TYPINGQC {
 
     ch_versions = Channel.empty()
+
+    // Track processed IDS
+    def processedIDs = [] as Set
 
     // Create a new channel of metadata from a sample sheet
     // NB: `input` corresponds to `params.input` and associated sample sheet schema
     input = Channel.fromSamplesheet("input")
-        // Map the inputs so that they conform to the nf-core-expected "reads" format.
-        // Either [meta, [fastq_1]] or [meta, [fastq_1, fastq_2]] if fastq_2 exists
-        .map { meta, fastq_1, fastq_2 ->
-                fastq_2 ? tuple(meta, [ file(fastq_1), file(fastq_2) ]) :
-                tuple(meta, [ file(fastq_1) ])}
+        .map { meta, mikro_file ->
+            if (!meta.id) {
+                meta.id = meta.irida_id
+            } else {
+                // Non-alphanumeric characters (excluding _,-,.) will be replaced with "_"
+                meta.id = meta.id.replaceAll(/[^A-Za-z0-9_.\-]/, '_')
+            }
+            // Ensure ID is unique by appending meta.irida_id if needed
+            while (processedIDs.contains(meta.id)) {
+                meta.id = "${meta.id}_${meta.irida_id}"
+            }
+            // Add the ID to the set of processed IDs
+            processedIDs << meta.id
 
-    ASSEMBLY_STUB (
-        input
+            // Return structured tuple, using a placeholder if input_file is null
+            tuple(meta, mikro_file ? [file(mikro_file)] : [])
+        }
+    input_branched = input.branch {
+            salmonella_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Salmonella')
+            escherichia_qcFAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED' && (it[0].Species ?: "").contains('Escherichia')
+
+            salmonella_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASSED' && (it[0].Species ?: "").contains('Salmonella')
+            escherichia_PASS: !it[1].isEmpty() && it[0].QCStatus == 'PASSED' && (it[0].Species ?: "").contains('Escherichia')
+
+            sequence_FAIL: !it[1].isEmpty() && it[0].QCStatus == 'FAILED'
+
+            fallthrough: true
+        }
+
+        sistrqc_input = input_branched.salmonella_PASS.mix(input_branched.salmonella_qcFAIL)
+        ectyperqc_input = input_branched.escherichia_PASS.mix(input_branched.escherichia_qcFAIL)
+        sequenceqc_input = input_branched.salmonella_qcFAIL.mix(input_branched.escherichia_qcFAIL).mix(input_branched.sequence_FAIL)
+
+    // Create channel for reportable serovars file
+    ch_reportable_serovars = Channel.value(file(params.reportable_serovars))
+
+    // Create channel for validated toxin genes
+    ch_validated_toxins = Channel.value(file(params.validated_toxins))
+    ch_validated_stxsubtypes = Channel.value(file(params.validated_stxsubtypes))
+
+    // Process execution for typing and sequencing results
+    sistr_results = SISTRQC(sistrqc_input, ch_reportable_serovars)
+    ectyper_results = ECTYPERQC(ectyperqc_input, ch_validated_toxins, ch_validated_stxsubtypes)
+    failed_qc_results = SEQUENCEQC(sequenceqc_input)
+    untypable_exclusions = EXCLUSIONS(input_branched.fallthrough)
+
+    // Create final consolidated RDS typing report
+    // Collect all results
+    all_results = sistr_results.results
+        .mix(
+            ectyper_results.results,
+            failed_qc_results.results,
+            untypable_exclusions.results
+        )
+
+    // Collect CSV files for CSVTK
+    report_files = all_results
+        .map { meta, csv -> csv }
+        .collect()
+
+    MERGE_REPORTS(
+        report_files
     )
-    ch_versions = ch_versions.mix(ASSEMBLY_STUB.out.versions)
 
-    // A channel of tuples of ({meta}, [read[0], read[1]], assembly)
-    ch_tuple_read_assembly = input.join(ASSEMBLY_STUB.out.assembly)
+    // Create the input data for serotype validation
+    all_metadata = input.map {meta, mikro_file -> meta}
+        .collect()
 
-    GENERATE_SAMPLE_JSON (
-        ch_tuple_read_assembly
-    )
-    ch_versions = ch_versions.mix(GENERATE_SAMPLE_JSON.out.versions)
-
-    GENERATE_SUMMARY (
-        ch_tuple_read_assembly.collect{ [it] }
-    )
-    ch_versions = ch_versions.mix(GENERATE_SUMMARY.out.versions)
-
-    SIMPLIFY_IRIDA_JSON (
-        GENERATE_SAMPLE_JSON.out.json
-    )
-    ch_versions = ch_versions.mix(SIMPLIFY_IRIDA_JSON.out.versions)
-    ch_simplified_jsons = SIMPLIFY_IRIDA_JSON.out.simple_json.map { meta, data -> data }.collect() // Collect JSONs
-
-    IRIDA_NEXT_OUTPUT (
-        samples_data=ch_simplified_jsons
-    )
-    ch_versions = ch_versions.mix(IRIDA_NEXT_OUTPUT.out.versions)
+    // Run SEROTYPE process to validate the serotype from mikrokondo using the typingQC messages
+    SEROTYPE (all_metadata, MERGE_REPORTS.out.csv)
 
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
