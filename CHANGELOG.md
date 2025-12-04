@@ -15,5 +15,6 @@ Initial release of phac-nml/typingQC, created with the [iridanextexample](https:
 
 ### `Deprecated`
 
+[1.0.0]: https://github.com/phac-nml/typingQC/releases/tag/1.0.0
 [Overriding container registries with the container directive]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
 [phac-nml pipeline standards software requirements]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
