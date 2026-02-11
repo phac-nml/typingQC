@@ -106,26 +106,40 @@ For more information see [output doc](docs/output.md)
 
 ### Purpose
 
-Evaluates sequecning and assembly quality metrics generate by **mikrokondo** and summarizes sequencing-related issues that may impact genome typing confidence. Based on PulseNet Canada Guidelines for assessing the quality of sequence data.
+Evaluates sequencing and assembly quality metrics generate by **mikrokondo** and summarizes sequencing-related issues that may impact genome typing confidence. Based on PulseNet Canada Guidelines for assessing the quality of sequence data.
 
 This module reports **PASS**, **WARNING**, or **FAIL** outcomes and captures detailed QC messages for reporting and IRIDA Next ingestion.
 
 ### Decision Matrix
 
-The module counts the number of failed QC tests from **mikrokondo** and applies the following rules:
+Sequencing QC evaluation follows a prioritized decision model:
 
-| Condition                     | Outcome | typingQC_message                                                                          |
-| ----------------------------- | ------- | ----------------------------------------------------------------------------------------- |
-| No failed QC tests            | PASS    |                                                                                           |
-| 1–2 failed QC tests           | WARNING | `[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.` |
-| 3–5 failed QC tests           | FAIL    | `[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS.` |
-| `checkm_contamination` failed | FAIL    | `[SEQ_FAIL] Sample may be contaminated. Re-isolation and resequencing is recommended.`    |
+| Condition                                 | Outcome                                            |
+|-------------------------------------------|----------------------------------------------------|
+| **CheckM contamination failure**          | `FAIL` – re-isolation and resequencing recommended |
+| Failure of **absolute QC metrics**        | `FAIL` – resequencing recommended                  |
+| Failure of **warning-level metrics only** | `WARNING` – review required                        |
+| No QC failures detected                   | PASS or pass-through QC message                    |
 
-If genome typing is **not supported** for the predicted species:
+#### Absolute QC Failure Metrics (FAIL)
 
-| Condition                                    | Additional Message                        |
-| -------------------------------------------- | ----------------------------------------- |
-| Species is not _Salmonella_ or _Escherichia_ | `[FAIL] Typing unsupported for <species>` |
+Failure of any of the following metrics results in an immediate sequencing **FAIL**:
+- `raw_average_quality`
+- `average_coverage`
+
+These indicate that the sequencing data does not meet PulseNet Canada minimum requirements. Typing results may or may not be affected.
+
+#### Warning-Level Metrics (WARNING)
+
+Failure of these metrics *in the absence of absolute failures* results in a sequencing **WARNING**:
+- `n50_value`
+- `nr_contigs`
+- `length`
+
+Warnings indicate potential quality concerns that may still allow downstream typing, depending on context.
+
+#### Contamination Check
+- `checkm_contamination` failures result in a sequencing **FAIL** with a recommendation for re-isolation and resequencing.
 
 ### SEQUENCEQC Notes
 
