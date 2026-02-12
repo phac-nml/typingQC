@@ -21,12 +21,12 @@ You will need to create a samplesheet with information about the samples you wou
 
 ### Full samplesheet
 
-The input samplesheet must contain five columns: `sample`, `mikrokondo_data`, `predicted_identification_name`, `QC_status_overall`, `predicted_primary_type_name`. The `sample`'s within a samplesheet should be unique. All other columns will be ignored.
+The input samplesheet must contain five columns: `sample`, `mikrokondo_data`, `predicted_identification_name`, `qc_status_overall`, `predicted_primary_type_name`. The `sample`'s within a samplesheet should be unique. All other columns will be ignored.
 
 A final samplesheet file may look something like the one below.
 
 ```csv title="samplesheet.csv"
-SAMPLE,MIKROKONDO_DATA,PREDICTED_IDENTIFICATION_NAME,QC_STATUS_OVERALL,PREDICTED_PRIMARY_TYPE_NAME
+sample,mikrokondo_data,predicted_identification_name,qc_status_overall,predicted_primary_type_name
 SampleA,sampleA.flat_sample.json.gz,Salmonella,PASS,Typhimurium
 SampleB,sampleB.flat_sample.json.gz,Escherichia,PASS,O157:H7
 SampleC,sampleC.flat_sample.json.gz,Bacillus,FAIL,
