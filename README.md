@@ -115,7 +115,7 @@ This module reports **PASS**, **WARNING**, or **FAIL** outcomes and captures det
 Sequencing QC evaluation follows a prioritized decision model:
 
 | Condition                                 | Outcome                                            |
-|-------------------------------------------|----------------------------------------------------|
+| ----------------------------------------- | -------------------------------------------------- |
 | **CheckM contamination failure**          | `FAIL` – re-isolation and resequencing recommended |
 | Failure of **absolute QC metrics**        | `FAIL` – resequencing recommended                  |
 | Failure of **warning-level metrics only** | `WARNING` – review required                        |
@@ -124,6 +124,7 @@ Sequencing QC evaluation follows a prioritized decision model:
 #### Absolute QC Failure Metrics (FAIL)
 
 Failure of any of the following metrics results in an immediate sequencing **FAIL**:
+
 - `raw_average_quality`
 - `average_coverage`
 
@@ -131,7 +132,8 @@ These indicate that the sequencing data does not meet PulseNet Canada minimum re
 
 #### Warning-Level Metrics (WARNING)
 
-Failure of these metrics *in the absence of absolute failures* results in a sequencing **WARNING**:
+Failure of these metrics _in the absence of absolute failures_ results in a sequencing **WARNING**:
+
 - `n50_value`
 - `nr_contigs`
 - `length`
@@ -139,6 +141,7 @@ Failure of these metrics *in the absence of absolute failures* results in a sequ
 Warnings indicate potential quality concerns that may still allow downstream typing, depending on context.
 
 #### Contamination Check
+
 - `checkm_contamination` failures result in a sequencing **FAIL** with a recommendation for re-isolation and resequencing.
 
 ### SEQUENCEQC Notes
