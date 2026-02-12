@@ -77,7 +77,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes d
 
 ### IRIDA Next Output
 
-<details markdown="1"> 
+<details markdown="1">
 <summary>Output files</summary>
 
 - `/`
