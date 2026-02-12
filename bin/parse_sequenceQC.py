@@ -8,7 +8,7 @@ import gzip
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Extract sequence QC assessment from mikrokondo-generated JSON output file"
+        description="Extract sequence QC assessment from a mikrokondo-generated JSON output file"
     )
     parser.add_argument(
         "-i", "--input", required=True, type=Path,
@@ -24,7 +24,7 @@ def parse_args():
     )
     parser.add_argument(
         "--species", required=True,
-        help="Predicted species (meta.Species)"
+        help="Predicted species from mikrokondo"
     )
     return parser.parse_args()
 
@@ -33,10 +33,11 @@ def load_json(path):
     with open_func(path, "rt") as f:
         return json.load(f)
 
-#Constants for JSON field structure and failure messages
+#Constants for JSON field structure and failed test info
 QUALITY_PREFIX = "QualityAnalysis."
 QC_STATUS_SUFFIX = ".qc_status"
 MESSAGE_SUFFIX = ".message"
+QC_MESSAGE_KEY = "QCMessage"
 
 ABSOLUTE_FAIL_TESTS = {
     "raw_average_quality",
@@ -63,6 +64,15 @@ WARNING_MESSAGE = (
     "[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary."
 )
 
+# Check is typing is supported for given species.
+# Note: Needs to be updated if new species are added to genome typing capabilities
+def is_typing_supported(species):
+    species_lower = species.lower()
+    return (
+        "salmonella" in species_lower
+        or "escherichia" in species_lower
+    )
+
 #Extract failed QC messages and return both messages and failed test info
 def extract_failed_messages(sample_data):
     messages = []
@@ -81,22 +91,22 @@ def extract_failed_messages(sample_data):
 
 # Build RDS QC message depending on test results
 # Note: Needs to be updated if new species are added to genome typing capabilities
-def build_typingQC_message(sample_data, failed_tests):
-    # Highest priority: contamination
+def build_typingQC_message(sample_data, species, failed_tests):
     if CHECKM_TEST in failed_tests:
-        return CHECKM_FAIL_MESSAGE
+        base_message = CHECKM_FAIL_MESSAGE
+    elif failed_tests.intersection(ABSOLUTE_FAIL_TESTS):
+        base_message = PNC_FAIL_MESSAGE
+    elif failed_tests.intersection(WARNING_TESTS):
+        base_message = WARNING_MESSAGE
+    else:
+        qc_msg = sample_data.get(QC_MESSAGE_KEY, "")
+        base_message = qc_msg.splitlines()[0] if qc_msg else ""
 
-    # Absolute QC failures
-    if failed_tests.intersection(ABSOLUTE_FAIL_TESTS):
-        return PNC_FAIL_MESSAGE
+    # Add species typing warning if not supported
+    if not is_typing_supported(species):
+        return f"{base_message}; [FAIL] Typing unsupported for {species}."
 
-    # Warning-only failures
-    if failed_tests.intersection(WARNING_TESTS):
-        return WARNING_MESSAGE
-
-    # Otherwise, pass through QCMessage if present
-    qc_msg = sample_data.get("QCMessage", "")
-    return qc_msg.splitlines()[0] if qc_msg else ""
+    return base_message
 
 def main():
     args = parse_args()
@@ -114,16 +124,14 @@ def main():
     sample_key = next(iter(data))
     sample_data = data[sample_key]
 
-    # Collect QC failures
     failed_messages, failed_tests = extract_failed_messages(sample_data)
 
-    # Build final typingQC message
     typingQC_message = build_typingQC_message(
         sample_data=sample_data,
+        species=args.species,
         failed_tests=failed_tests,
     )
 
-    # Write CSV
     output_path = Path(f"{args.sample_id}_sequenceQC.csv")
     with output_path.open("w", newline="") as f:
         writer = csv.writer(f)
@@ -141,3 +149,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
