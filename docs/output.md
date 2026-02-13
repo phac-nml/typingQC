@@ -2,15 +2,9 @@
 
 ## Introduction
 
-This document describes the output produced by the pipeline.
+This document describes the outputs produced by the **typingQC** pipeline.
 
-The directories listed below will be created in the results directory after the pipeline has finished. All paths are relative to the top-level results directory.
-
-- assembly: very small mock assembly files for each sample
-- generate: intermediate files used in generating the IRIDA Next JSON output
-- pipeline_info: information about the pipeline's execution
-- simplify: simplified intermediate files used in generating the IRIDA Next JSON output
-- summary: summary report about the pipeline's execution and results
+All paths are relative to the top-level results directory created by the pipeline. The pipeline generates per-sample reports, module-specific outputs, summary files, and a final IRIDA Next-compliant JSON output.
 
 The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.gz` and will be written to the top-level of the results directory. This file is compressed using GZIP and conforms to the [IRIDA Next JSON output specifications](https://github.com/phac-nml/pipeline-standards#42-irida-next-json).
 
@@ -18,50 +12,66 @@ The IRIDA Next-compliant JSON output file will be named `iridanext.output.json.g
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [Assembly stub](#assembly-stub) - Performs a stub assembly by generating a mock assembly
-- [Generate sample JSON](#generate-sample-json) - Generates a JSON file for each sample
-- [Generate summary](#generate-summary) - Generates a summary text file describing the samples and assemblies
-- [Simplify IRIDA JSON](#simplify-irida-json) - Simplifies the sample JSONs by limiting nesting depth
-- [IRIDA Next Output](#irida-next-output) - Generates a JSON output file that is compliant with IRIDA Next
-- [Pipeline information](#pipeline-information) - Report metrics generated during the workflow execution
+- `SEQUENCEQC` – Evaluates sequencing and assembly quality metrics.
+- `SISTRQC` – Validates Salmonella serotype predictions.
+- `ECTYPERQC` – Validates Escherichia serotype, toxin genes, and STX subtypes.
+- `EXCLUSIONS` – Identifies why samples could not be typed.
+- `SEROTYPE` – Generates final validated serotype assignments.
+- `Pipeline Information` – Records pipeline execution metrics, versions, and reports.
 
-### Assembly stub
+### SEQUENCEQC
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `assembly/`
-  - Mock assembly files: `ID.assembly.fa.gz`
+- `sequenceqc/`
+  - Per-sample CSV: `ID_sequenceQC.csv`
+    - Contains sequencing QC metrics, PASS/WARNING/FAIL status, and detailed QC messages.
 
 </details>
 
-### Generate sample JSON
+### SISTRQC
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `generate/`
-  - JSON files: `ID.json.gz`
+- `sistrqc/`
+  - Per-sample CSV: `ID_sistrQC.csv`
+    - Contains Salmonella serovar predictions, QC status, and relevant warnings/errors.
 
 </details>
 
-### Generate summary
+### ECTYPERQC
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `summary/`
-  - Text summary describing samples and assemblies: `summary.txt.gz`
+- `ectyperqc/`
+  - Per-sample CSV: `ID_ectyperQC.csv`
+    - Contains validated O/H serotypes, toxin genes, STX subtypes, and typingQC messages.
 
 </details>
 
-### Simplify IRIDA JSON
+### EXCLUSIONS
 
 <details markdown="1">
 <summary>Output files</summary>
 
-- `simplify/`
-  - Simplified JSON files: `ID.simple.json.gz`
+- `exclusions/`
+  - Per-sample CSV: `ID_exclusions.csv`
+    - Lists samples that could not be typed, along with the reason (e.g., unsupported species, missing mikrokondo file).
+
+</details>
+
+### SEROTYPE
+
+<details markdown="1">
+<summary>Output files</summary>
+
+- `serotype/`
+  - `TypingQC_report.csv`
+    - Consolidates per-sample TypingQC results from all modules.
+    - Contains final validated serotype, overall typingQC_message, and any manual verification approvals.
 
 </details>
 

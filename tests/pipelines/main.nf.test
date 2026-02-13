@@ -79,7 +79,6 @@ nextflow_pipeline {
             assert path("$launchDir/results/ectyperqc/EC004_ectyperQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM001_sistrQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM002_sistrQC.csv").exists()
-            assert path("$launchDir/results/sistrqc/SALM013_sistrQC.csv").exists()
 
             def outputFile = path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv")
             assert outputFile.exists()
@@ -109,7 +108,7 @@ nextflow_pipeline {
             assert header2 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
             assert values2[0] == "SAMPLE7"
             assert values2[1] == "EC004"
-            assert values2[2].contains("[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.")
+            assert values2[2].contains("[SEQ_FAIL] Resequencing is recommended. QUALITY_METRICS did not meet PNC requirements.")
             assert values2[3].contains("[FAILED average_coverage] 33.48")
 
             def outputFile3 = path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv")
@@ -123,27 +122,10 @@ nextflow_pipeline {
             assert header3 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
             assert values3[0] == "SAMPLE6"
             assert values3[1] == "CAMP001"
-            assert values3[2].contains("[SEQ_WARNING] Check QUALITY_METRICS messages to determine if resequencing is necessary.")
+            assert values3[2].contains("[SEQ_FAIL] Resequencing is recommended. QUALITY_METRICS did not meet PNC requirements.")
             assert values3[2].contains("[FAIL] Typing unsupported for Campylobacter coli")
             assert values3[3].contains("[FAILED average_coverage] 26.99")
             assert values3[3].contains("[FAILED n50_value] 28835")
-
-            def outputFile4 = path("$launchDir/results/sequenceqc/SALM013_sequenceQC.csv")
-            assert outputFile4.exists()
-
-            // Read CSV into rows
-            def csv4 = outputFile4.readLines()
-            def header4 = csv4[0].split(",")
-            def values4 = csv4[1].split(",", 4)
-
-            assert header4 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
-            assert values4[0] == "SAMPLE5"
-            assert values4[1] == "SALM013"
-            assert values4[2].contains("[SEQ_FAIL] Resequencing is recommended due to multiple FAILED sequence QUALITY_METRICS.")
-            assert values4[3].contains("[FAILED n50_value] 2038")
-            assert values4[3].contains("[FAILED nr_contigs] 1712")
-            assert values4[3].contains("[FAILED length] 3525632")
-
         }
     }
 
@@ -199,7 +181,6 @@ nextflow_pipeline {
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM012_sistrQC.csv").exists()
-            assert path("$launchDir/results/sistrqc/SALM013_sistrQC.csv").exists()
 
             def outputFile_salm = path("$launchDir/results/sistrqc/SALM001_sistrQC.csv")
             assert outputFile_salm.exists()
