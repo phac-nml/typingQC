@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `CHANGED`
 
 - Updated the `SEQUENCEQC` logic to align with revised PNC sequencing quality requirements, including new FAIL and WARNING criteria for read quality, coverage, and assembly metrics.
-- Updated the README to reflect the revised sequenceQC behavior and decision rules.
+- Updated the README to reflect the revised sequenceQC behavior and module decision rules.
+- For more details see [PR 18](https://github.com/phac-nml/typingQC/pull/18)
 
 ## [1.0.0] - 2025/12/04
 
