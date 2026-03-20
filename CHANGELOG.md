@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.2] - 2026/03/20
 
 ### `CHANGED`
+
 - Updated pipeline to include compatibility of nextflow version 25.10.4. [PR 19](https://github.com/phac-nml/typingQC/pull/19)
 - Updated the .github/workflows/ci.yml to run specific versions of nextflow (23.04.0, 24.10.3 and 25.10.4) for nf-test. [PR 19](https://github.com/phac-nml/typingQC/pull/19)
 
