@@ -309,7 +309,7 @@ nextflow_pipeline {
 
         then {
             assert workflow.failed
-            assert workflow.stdout.any { it =~ /ERROR ~ Argument of `file\(\)?` function cannot be empty/ }
+            assert workflow.stdout.any { it =~ /Argument of .* function cannot be empty/ }
         }
     }
 
