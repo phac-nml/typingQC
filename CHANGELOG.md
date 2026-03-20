@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026/03/20
+
+### `CHANGED`
+
+- Updated pipeline to include compatibility of nextflow version 25.10.4. [PR 19](https://github.com/phac-nml/typingQC/pull/19)
+- Updated the .github/workflows/ci.yml to run specific versions of nextflow (23.04.0, 24.10.3 and 25.10.4) for nf-test. [PR 19](https://github.com/phac-nml/typingQC/pull/19)
+
 ## [1.0.1] - 2026/02/13
 
 ### `CHANGED`
@@ -23,6 +30,7 @@ Initial release of phac-nml/typingQC, created with the [iridanextexample](https:
 
 ### `Deprecated`
 
+[1.0.2]: https://github.com/phac-nml/typingQC/releases/tag/1.0.2
 [1.0.1]: https://github.com/phac-nml/typingQC/releases/tag/1.0.1
 [1.0.0]: https://github.com/phac-nml/typingQC/releases/tag/1.0.0
 [Overriding container registries with the container directive]: https://github.com/phac-nml/pipeline-standards?tab=readme-ov-file#521-module-software-requirements
