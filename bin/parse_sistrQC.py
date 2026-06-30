@@ -56,6 +56,18 @@ QC_MESSAGES_KEY = f"{SISTR_PREFIX}qc_messages"
 SEROVAR_KEY = f"{SISTR_PREFIX}serovar"
 SEROVAR_CGMLST = f"{SISTR_PREFIX}serovar_cgmlst"
 
+#Matches the non-actionable cgMLST loci found INFO message and strips it from qc_messages
+CGMLST_LOCI_INFO_PATTERN = re.complile(r"INFO: Number of cgMLST\d+ loci found \(n=\d+\)")
+def filter_qc_message(qc_messages):
+    if not qc_messages:
+        return qc_messages
+    cleaned = CGMLST_LOCI_INFO_PATTERN.sub("", qc_messages)
+    # Collapse leftover separators/whitespace left behind by the removal
+    cleaned = re.sub(r"\s*\|\s*", " | ", cleaned)
+    cleaned = re.sub(r"^\s*\|\s*|\s*\|\s*$", "", cleaned)
+    cleaned = re.sub(r"\n\s*\n", "\n", cleaned)
+    return cleaned.strip()
+
 def H1_warning(qc_messages):
     # Check if SISTR WARNING contains identification of the inability to identify H1 antigens, and therefore, unable to predict serovar repliably
     if not qc_messages:
