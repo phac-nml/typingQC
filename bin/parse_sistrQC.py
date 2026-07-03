@@ -3,6 +3,7 @@
 import json
 import csv
 import argparse
+import re
 from pathlib import Path
 import gzip
 
@@ -56,9 +57,11 @@ QC_MESSAGES_KEY = f"{SISTR_PREFIX}qc_messages"
 SEROVAR_KEY = f"{SISTR_PREFIX}serovar"
 SEROVAR_CGMLST = f"{SISTR_PREFIX}serovar_cgmlst"
 
+
+#QC_MESSAGES Updates
 #Matches the non-actionable cgMLST loci found INFO message and strips it from qc_messages
-CGMLST_LOCI_INFO_PATTERN = re.complile(r"INFO: Number of cgMLST\d+ loci found \(n=\d+\)")
-def filter_qc_message(qc_messages):
+CGMLST_LOCI_INFO_PATTERN = re.compile(r"INFO: Number of cgMLST\d+ loci found \(n=\d+\)")
+def filter_qc_messages(qc_messages):
     if not qc_messages:
         return qc_messages
     cleaned = CGMLST_LOCI_INFO_PATTERN.sub("", qc_messages)
@@ -67,6 +70,15 @@ def filter_qc_message(qc_messages):
     cleaned = re.sub(r"^\s*\|\s*|\s*\|\s*$", "", cleaned)
     cleaned = re.sub(r"\n\s*\n", "\n", cleaned)
     return cleaned.strip()
+
+WZX_WZY_PATTERN = "Wzx/Wzy genes missing"
+WZX_WZY_WARNING_MESSAGE = "WARNING: Wzx/Wzy genes missing. Cannot determine O-antigen serogroup."
+
+def wzx_wzy_only_failure(qc_messages):
+    #Checks if a SISTR FAIL is solely due to missing Wzx/Wzy genes: does not affect serovar prediction and should not result in FAIL for typingQC
+    if not qc_messages:
+        return False
+    return WZX_WZY_PATTERN in qc_messages
 
 def H1_warning(qc_messages):
     # Check if SISTR WARNING contains identification of the inability to identify H1 antigens, and therefore, unable to predict serovar repliably
@@ -82,11 +94,15 @@ def H1_warning(qc_messages):
 
 def extract_sistr_qc(sample_data):
     qc_status = sample_data.get(QC_STATUS_KEY, "Unknown")
-    qc_messages = sample_data.get(QC_MESSAGES_KEY, "")
+    qc_messages = filter_qc_messages(sample_data.get(QC_MESSAGES_KEY, ""))
 
     if qc_status.upper() == "PASS":
         # For PASS samples, leave QUALITY_ANALYSIS column blank
         return ""
+
+    if qc_status.upper() == "FAIL" and wzx_wzy_only_failure(qc_messages):
+        # O-antigen serogroup couldn't be determined, but this doesn't block typingQC and reports it as a warning rather than the raw FAIL message.
+        return WZX_WZY_WARNING_MESSAGE
 
     elif qc_status.upper() == "WARNING":
         # If sample raises a WARNING in qc_status record the QC_message
@@ -98,13 +114,16 @@ def extract_sistr_qc(sample_data):
 
 def build_typingQC_message(sample_data, reportable_serovars):
     qc_status = sample_data.get(QC_STATUS_KEY, "Unknown")
-    qc_messages = sample_data.get(QC_MESSAGES_KEY, "")
+    qc_messages = filter_qc_messages(sample_data.get(QC_MESSAGES_KEY, ""))
 
     # Check for H1 antigen warning from SISTR and treat it as an RDS [FAIL]
     if qc_status.upper() == "WARNING" and H1_warning(qc_messages):
         return "[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised."
 
-    if qc_status.upper() in ["PASS", "WARNING"]:
+    # A FAIL solely due to missing Wzx/Wzy genes: fall through to the serovar reportability check below and prepend a warning instead of SISTR_FAIL
+    is_wzx_wzy_fail = qc_status.upper() == "FAIL" and wzx_wzy_only_failure(qc_messages)
+
+    if qc_status.upper() in ["PASS", "WARNING"] or is_wzx_wzy_fail:
         # Extract serovar predictions
         serovar = sample_data.get(SEROVAR_KEY, "")
         serovar_cgmlst = sample_data.get(SEROVAR_CGMLST, "")
