@@ -92,10 +92,10 @@ nextflow_pipeline {
             assert values[0] == "SAMPLE2"
             assert values[1] == "SALM002"
             assert values[2].contains("[SEQ_FAIL] Sample may be contaminated.")
-            assert values[3].contains("[FAILED n50_value] 2038")
-            assert values[3].contains("[FAILED nr_contigs] 1712")
-            assert values[3].contains("[FAILED length] 3525632")
-            assert values[3].contains("[FAILED checkm_contamination] 4.2")
+            assert values[3].contains("[FAILED n50_value] 87033")
+            assert values[3].contains("[FAILED nr_contigs] 257")
+            assert values[3].contains("[FAILED length] 6443773")
+            assert values[3].contains("[FAILED checkm2_contamination] 6.35")
 
             def outputFile2 = path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv")
             assert outputFile2.exists()
@@ -181,6 +181,7 @@ nextflow_pipeline {
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
             assert path("$launchDir/results/sistrqc/SALM012_sistrQC.csv").exists()
+            assert path("$launchDir/results/sistrqc/SALM014_sistrQC.csv").exists()
 
             def outputFile_salm = path("$launchDir/results/sistrqc/SALM001_sistrQC.csv")
             assert outputFile_salm.exists()
@@ -291,9 +292,60 @@ nextflow_pipeline {
             assert header_salm8 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
             assert values_salm8[0] == "SAMPLE2"
             assert values_salm8[1] == "SALM002"
-            assert values_salm8[2].contains("[SISTR_FAIL] Serotyping unsuccessful. RESEQUENCING or TRADITIONAL SEROTYPING is advised.")
-            assert values_salm8[3].contains("FAIL: Large number of cgMLST330 loci missing (n=149 > 30)")
-        }
+            assert values_salm8[2].contains("[TYPE_FAIL]")
+            assert values_salm8[3].contains("WARNING: Input genome size (6443773 bp) not within expected range of 4000000-6000000 (bp) for Salmonella")
+
+            def outputFile_salm9 = path("$launchDir/results/sistrqc/SALM013_sistrQC.csv")
+            assert outputFile_salm9.exists()
+
+            // Read CSV into rows
+            def csv_salm9 = outputFile_salm9.readLines()
+            def header_salm9 = csv_salm9[0].split(",")
+            def values_salm9 = csv_salm9[1].split(",",4) // Only split first 3 commas (4 columns)
+
+            assert header_salm9 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
+            assert values_salm9[0] == "SAMPLE10"
+            assert values_salm9[1] == "SALM013"
+            assert values_salm9[2].contains("[SISTR_PASS]")
+
+            def outputFile_salm10 = path("$launchDir/results/sistrqc/SALM014_sistrQC.csv")
+            assert outputFile_salm10.exists()
+
+            // Read CSV into rows
+            def csv_salm10 = outputFile_salm10.readLines()
+            def header_salm10 = csv_salm10[0].split(",")
+            def values_salm10 = csv_salm10[1].split(",",4) // Only split first 3 commas (4 columns)
+
+            assert header_salm10 == ["sample", "sample_name", "typingQC_message", "quality_metrics"]
+            assert values_salm10[0] == "SAMPLE11"
+            assert values_salm10[1] == "SALM014"
+            assert values_salm10[2].contains("[SISTR_PASS]")
+            assert values_salm10[3].contains("WARNING: Wzx/Wzy genes missing. Cannot determine O-antigen serogroup.")
+
+            // check TypingQC_report csv file to ensure serovar updates are successful for sistrQC
+
+            def outputFileQC = path("$launchDir/results/serotype/TypingQC_report.csv")
+            assert outputFileQC.exists()
+
+            // Read CSV into rows
+            def csvQC = outputFileQC.readLines()
+            def headerQC = csvQC[0].split(",")
+            def valuesQC = csvQC[2].split(",", 7)
+            def valuesQC2 = csvQC[3].split(",", 7)
+
+            assert headerQC == ["sample", "sample_name", "typingQC_message", "quality_metrics", "Validated_Toxins", "Validated_STXSubtypes", "Validated_Serotype"]
+            assert valuesQC[0] == "SAMPLE10"
+            assert valuesQC[1] == "SALM013"
+            assert valuesQC[2].contains("[SISTR_PASS]")
+            assert valuesQC[3].isEmpty()
+            assert valuesQC[6].contains("Panama/Houston")
+            assert valuesQC2[0] == "SAMPLE11"
+            assert valuesQC2[1] == "SALM014"
+            assert valuesQC2[2].contains("[SISTR_PASS]")
+            assert valuesQC2[3].contains("WARNING: Wzx/Wzy genes missing. Cannot determine O-antigen serogroup.; WARNING: Predicted serovar Sendai has been reported as Miami to conform with current CDC serovar nomenclature.")
+            assert valuesQC2[4].isEmpty()
+            assert valuesQC2[6].contains("Miami")
+            }
     }
 
     test("SISTR module without reportable serovar input"){
