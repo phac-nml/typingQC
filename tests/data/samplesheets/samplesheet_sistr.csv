@@ -8,5 +8,5 @@ SAMPLE6,SALM010,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests
 SAMPLE7,SALM007,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM007.flat_sample.json.gz,Salmonella_enterica,PASSED,
 SAMPLE8,SALM011,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM011.flat_sample.json.gz,Salmonella enterica,PASSED,Adelaide|Agodi
 SAMPLE9,SALM012,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM012.flat_sample.json.gz,Salmonella_enterica,PASSED,Ibadan|Mississippi
-SAMPLE10,SALM013,/root/working_directory/pipeline_dev/typingQC/tests/data/SALM013.flat_sample.json.gz,Salmonella enterica,PASSED,Panama
+SAMPLE10,SALM013,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM013.flat_sample.json.gz,Salmonella enterica,PASSED,Panama
 SAMPLE11,SALM014,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM014.flat_sample.json.gz,Salmonella enterica,PASSED,Sendai
