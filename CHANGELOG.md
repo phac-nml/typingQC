@@ -3,6 +3,22 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026/08/??
+
+### `ADDED`
+
+- Added support for the 'wgmlst_loci_count' QA metric.
+- Added CDC serovar rename mappings with nomenclature warning.
+
+### `CHANGED`
+
+- Filtered non-actionable cgMLST INFO messages from SISTR QC output.
+- Treated wzx/wzy-only SISTR failures as warnings while continuing serovar reportability checks.
+
+### `FIXED`
+
+- Corrected the CheckM field name to match the current mikrokondo JSON schema and use the 'checkm2_contamination' field.
+
 ## [1.0.2] - 2026/03/20
 
 ### `CHANGED`

@@ -119,7 +119,7 @@ Sequencing QC evaluation follows a prioritized decision model:
 
 | Condition                                 | Outcome                                            |
 | ----------------------------------------- | -------------------------------------------------- |
-| **CheckM contamination failure**          | `FAIL` – re-isolation and resequencing recommended |
+| **CheckM2 contamination failure**         | `FAIL` – re-isolation and resequencing recommended |
 | Failure of **absolute QC metrics**        | `FAIL` – resequencing recommended                  |
 | Failure of **warning-level metrics only** | `WARNING` – review required                        |
 | No QC failures detected                   | PASS or pass-through QC message                    |
@@ -158,12 +158,19 @@ Failure of these metrics _in the absence of absolute failures_ results in a sequ
   - _Shigella_ : ~4,300,000 - 5,000,000
   - _Campylobacter_ : ~1,400,000 - 2,000,000
   - _Vibrio_ : ~3,800,000 - 4,300,000
+- `wgMLST loci count`
+  - _Salmonella_ : ~3800
+  - _Escherichia_ : ~3800
+  - _Listeria_ : ~2500
+  - _Shigella_ : ~3300
+  - _Campylobacter_ : n/a
+  - _Vibrio_ : n/a
 
 Warnings indicate potential quality concerns that may still allow downstream typing, depending on context.
 
 #### Contamination Check
 
-- `checkm_contamination` failures result in a sequencing **FAIL** with a recommendation for re-isolation and resequencing.
+- `checkm2_contamination` failures result in a sequencing **FAIL** with a recommendation for re-isolation and resequencing.
 
 ### SEQUENCEQC Notes
 
