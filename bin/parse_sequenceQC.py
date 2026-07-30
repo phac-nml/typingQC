@@ -48,9 +48,12 @@ WARNING_TESTS = {
     "n50_value",
     "nr_contigs",
     "length",
+    "wgmlst_loci_count",
 }
 
-CHECKM_TEST = "checkm_contamination"
+CHECKM_TEST = "checkm2_contamination"
+
+WGMLST_TEST = "wgmlst_loci_count"
 
 PNC_FAIL_MESSAGE = (
     "[SEQ_FAIL] Resequencing is recommended. QUALITY_METRICS did not meet PNC requirements."
@@ -95,6 +98,8 @@ def build_typingQC_message(sample_data, species, failed_tests):
     if CHECKM_TEST in failed_tests:
         base_message = CHECKM_FAIL_MESSAGE
     elif failed_tests.intersection(ABSOLUTE_FAIL_TESTS):
+        base_message = PNC_FAIL_MESSAGE
+    elif WGMLST_TEST in failed_tests:
         base_message = PNC_FAIL_MESSAGE
     elif failed_tests.intersection(WARNING_TESTS):
         base_message = WARNING_MESSAGE
