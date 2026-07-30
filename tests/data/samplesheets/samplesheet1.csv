@@ -1,8 +1,8 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall,predicted_primary_type_name
-SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASSED,O157:H7
-SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASSED,O55:H7
-SAMPLE3,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASSED,IV Y:gz51:-
-SAMPLE4,SALM004,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM004.flat_sample.json.gz,Salmonella enterica,PASSED,Gallinarum
-SAMPLE5,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/SALM003.flat_sample.json.gz,Salmonella enterica,FAILED,Kentucky
-SAMPLE6,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASSED,
-SAMPLE7,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/update/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASSED,
+SAMPLE1,EC001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC001.flat_sample.json.gz,Escherichia coli,PASSED,O157:H7
+SAMPLE2,EC002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/EC002.flat_sample.json.gz,Escherichia coli,PASSED,O55:H7
+SAMPLE3,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella houtenae,PASSED,IV Y:gz51:-
+SAMPLE4,SALM004,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM004.flat_sample.json.gz,Salmonella enterica,PASSED,Gallinarum
+SAMPLE5,SALM003,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM003.flat_sample.json.gz,Salmonella enterica,FAILED,Kentucky
+SAMPLE6,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASSED,
+SAMPLE7,LIST001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/LIST001.flat_sample.json.gz,Listeria monocytogenes,PASSED,
