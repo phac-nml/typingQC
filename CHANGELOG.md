@@ -3,6 +3,24 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026/09/07
+
+### `ADDED`
+
+- Added support for the 'wgmlst_loci_count' QA metric.
+- Added CDC serovar rename mappings with nomenclature warning.
+- See [PR 21](https://github.com/phac-nml/typingQC/pull/21).
+
+### `CHANGED`
+
+- Filtered non-actionable cgMLST INFO messages from SISTR QC output. [PR 21](https://github.com/phac-nml/typingQC/pull/21)
+- Treated wzx/wzy-only SISTR failures as warnings while continuing serovar reportability checks. [PR 21](https://github.com/phac-nml/typingQC/pull/21)
+- Updated the SISTR reportable list to most recent quality controlled version. [PR 22](https://github.com/phac-nml/typingQC/pull/22)
+
+### `FIXED`
+
+- Corrected the CheckM field name to match the current mikrokondo JSON schema and use the 'checkm2_contamination' field. [PR 21](https://github.com/phac-nml/typingQC/pull/21)
+
 ## [1.0.2] - 2026/03/20
 
 ### `CHANGED`
@@ -30,6 +48,7 @@ Initial release of phac-nml/typingQC, created with the [iridanextexample](https:
 
 ### `Deprecated`
 
+[1.0.3]: https://github.com/phac-nml/typingQC/releases/tag/1.0.3
 [1.0.2]: https://github.com/phac-nml/typingQC/releases/tag/1.0.2
 [1.0.1]: https://github.com/phac-nml/typingQC/releases/tag/1.0.1
 [1.0.0]: https://github.com/phac-nml/typingQC/releases/tag/1.0.0

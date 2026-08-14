@@ -1,6 +1,6 @@
 sample,sample_name,mikrokondo_data,predicted_identification_name,qc_status_overall,predicted_primary_type_name
 SAMPLE1,SALM001,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM001.flat_sample.json.gz,Salmonella_houtenae,PASSED,"IV Y:g,z51:-"
-SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM002.flat_sample.json.gz,Salmonella_enterica,FAILED,Souza|Madjorio|Liverpool
+SAMPLE2,SALM002,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM002.flat_sample.json.gz,Salmonella_diarizonae,FAILED,"IIIb T:z35:z35"
 SAMPLE3,SALM005,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM005.flat_sample.json.gz,Salmonella_enterica,PASSED,Paratyphi A
 SAMPLE4,SALM008,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM008.flat_sample.json.gz,Salmonella enterica,PASSED,IIIb Y:z52:z
 SAMPLE5,SALM009,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM009.flat_sample.json.gz,Salmonella_enterica,PASSED,Senftenberg
@@ -8,3 +8,5 @@ SAMPLE6,SALM010,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/da
 SAMPLE7,SALM007,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM007.flat_sample.json.gz,Salmonella_enterica,PASSED,
 SAMPLE8,SALM011,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM011.flat_sample.json.gz,Salmonella enterica,PASSED,Adelaide|Agodi
 SAMPLE9,SALM012,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM012.flat_sample.json.gz,Salmonella_enterica,PASSED,Ibadan|Mississippi
+SAMPLE10,SALM013,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM013.flat_sample.json.gz,Salmonella enterica,PASSED,Panama
+SAMPLE11,SALM014,https://raw.githubusercontent.com/phac-nml/typingQC/dev/tests/data/SALM014.flat_sample.json.gz,Salmonella enterica,PASSED,Sendai
