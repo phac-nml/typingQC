@@ -17,6 +17,9 @@ nextflow_pipeline {
             assert workflow.success
             assert path("$launchDir/results").exists()
 
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC001_ectyperQC.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC002_ectyperQC.csv").exists()
@@ -74,6 +77,10 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/ectyperqc/EC004_ectyperQC.csv").exists()
@@ -142,6 +149,10 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/CAMP001_sequenceQC.csv").exists()
@@ -177,6 +188,10 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/SALM002_sequenceQC.csv").exists()
@@ -428,6 +443,10 @@ nextflow_pipeline {
         then {
             assert workflow.success
             assert path("$launchDir/results").exists()
+
+            def combined_stdout = workflow.stdout.join(",")
+            assert combined_stdout.contains("JSON did not match schema") == false
+
             assert path("$launchDir/results/serotype/TypingQC_report.csv").exists()
             assert path("$launchDir/results/merge/TypingQC_inputs.csv").exists()
             assert path("$launchDir/results/sequenceqc/EC004_sequenceQC.csv").exists()
