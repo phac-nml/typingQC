@@ -1,0 +1,80 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/phac-nml/typingQC/main/assets/schema_output.json",
+    "title": "TypingQC Output Schema",
+    "description": "The TypingQC-specific schema used for validating IRIDA Next JSON output data",
+    "type": "object",
+    "properties": {
+        "files": {
+            "type": "object",
+            "properties": {
+                "global": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "path": {
+                                "anyOf": [
+                                    {
+                                        "pattern": "^.*serotype/.*TypingQC_report.csv$",
+                                        "description": "Consolidates per-sample TypingQC results from all modules. Contains final validated serotype, overall typingQC_message, and any manual verification approvals."
+                                    }
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "uniqueItems": true
+                },
+                "samples": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^.*$": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "path": {}
+                                },
+                                "additionalProperties": false
+                            },
+                            "uniqueItems": true
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "samples": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^.*$": {
+                            "type": "object",
+                            "properties": {
+                                "sample_name": {
+                                    "description": "The name of the sample."
+                                },
+                                "typingQC_message": {
+                                    "description":  "A standardized QC message reporting PASS, WARN, or FAILURE and the reason for the assigned QC status."
+                                },
+                                "quality_metrics": {
+                                    "description": "Details on the sample QC metrics relevant to the overall assigned QC status."
+                                },
+                                "Validated_Toxins": {
+                                    "description": "A list of validated toxins identified."
+                                },
+                                "Validated_STXSubtypes": {
+                                    "description": "A list of Shiga toxin subtypes identified."
+                                },
+                                "Validated_Serotype": {
+                                    "description": "The validated serotype identified."
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

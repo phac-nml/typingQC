@@ -1,0 +1,27 @@
+nextflow_pipeline {
+
+    name "TypingQC JSON Output Schema Integration Testing"
+    script "main.nf"
+
+    test("Schema - Bad File") {
+        tag "fail"
+        tag "schema_bad_file"
+        config "${projectDir}/tests/data/configs/iridanext_bad_file.config"
+
+        when{
+            params {
+                input = "$baseDir/tests/data/samplesheets/samplesheet1.csv"
+                outdir = "results"
+            }
+        }
+
+        then {
+            assert workflow.success
+
+            def combined_stdout = workflow.stdout.join(",")
+
+            assert combined_stdout.contains("JSON did not match schema")
+            assert combined_stdout.contains('Validation errors: "merge/TypingQC_inputs.csv"')
+        }
+    }
+}
