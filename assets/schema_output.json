@@ -52,13 +52,13 @@
                             "type": "object",
                             "properties": {
                                 "sample_name": {
-                                    "description": ""
+                                    "description": "The name of the sample."
                                 },
                                 "typingQC_message": {
-                                    "description": "A standardized QC message reporting the combined evaluations of SISTR QC status and serovar predictions."
+                                    "description":  "A standardized QC message reporting PASS, WARN, or FAILURE and the reason for the assigned QC status."
                                 },
                                 "quality_metrics": {
-                                    "description": "?"
+                                    "description": "Details on the sample QC metrics relevant to the overall assigned QC status."
                                 },
                                 "Validated_Toxins": {
                                     "description": "A list of validated toxins identified."
